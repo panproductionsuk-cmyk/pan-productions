@@ -79,21 +79,25 @@ const About = () => {
               <h2 className="font-heading text-3xl font-bold mb-6">Our Story</h2>
               <div className="space-y-4 text-muted-foreground">
                 <p>
-                  Pan Productions was born from a shared passion for theatre and a 
-                  vision to create meaningful artistic experiences. Founded in 2016, 
-                  we began as a small collective of theatre enthusiasts who believed 
-                  in the transformative power of live performance.
+                  Pan Productions is an independent arts production company based in London, founded by theatre 
+                  producer Zeynep Dalkiran. With her experience in the theatre industry since 1998, she launched 
+                  Pan Productions to connect Turkish-speaking artists and stories with international audiences.
                 </p>
                 <p>
-                  Over the years, we have grown into one of London's most respected 
-                  independent theatre companies, known for our innovative approach 
-                  to classic works and our commitment to developing new talent through 
+                  Theatre being its core, Pan Productions produces both Turkish and English plays, staging original 
+                  works and adaptations for local and international audiences. Its first production in English, 
+                  The Importance of Being Earnest (played by immigrants), received praise from critics, marking a 
+                  bold step in its multilingual vision.
+                </p>
+                <p>
+                  Knowing that art goes far beyond the stage, Pan Productions also produces multidisciplinary art 
+                  such as music, exhibitions, cultural events and workshops. It also provides publicity, media and 
+                  communication services to external projects, and offers executive producing support to theatre 
+                  companies and manages promotion campaigns with care and creativity.
+                </p>
+                <p>
+                  Alongside this, Pan Productions regularly develops and hosts acting and theatre workshops within 
                   Pan Academy.
-                </p>
-                <p>
-                  Today, we continue to push boundaries, create memorable experiences, 
-                  and provide a platform for artists to grow and flourish in the 
-                  world of theatre.
                 </p>
               </div>
             </div>
@@ -113,126 +117,66 @@ const About = () => {
             <Card className="p-8 bg-primary/5 border-primary/20">
               <CardContent className="p-0">
                 <h3 className="font-heading text-2xl font-bold mb-4 text-primary">
-                  Our Mission
+                  Our Vision
                 </h3>
-                <p className="text-muted-foreground">
-                  To create exceptional theatrical experiences that inspire, educate, 
-                  and bring communities together while providing opportunities for 
-                  artists to develop their craft and share their talents.
-                </p>
+                <ul className="space-y-3 text-muted-foreground">
+                  <li>• To be the leading producer of Turkish-speaking cultural events in London.</li>
+                  <li>• To engage with theatre as a space for transformation by embracing a collaborative and inclusive approach in conjoining artists, creatives and audiences from diverse cultural backgrounds within the creative process.</li>
+                  <li>• To create space for new artistic forms through a spirit of curiosity, innovation and collaboration as a supporter of bold, high-quality, contemporary work.</li>
+                </ul>
               </CardContent>
             </Card>
 
             <Card className="p-8 bg-accent/5 border-accent/20">
               <CardContent className="p-0">
                 <h3 className="font-heading text-2xl font-bold mb-4 text-accent">
-                  Our Vision
+                  Our Mission
                 </h3>
-                <p className="text-muted-foreground">
-                  To be a leading force in London's theatre scene, recognized for 
-                  our artistic excellence, innovative productions, and commitment 
-                  to developing the next generation of theatre professionals.
-                </p>
+                <ul className="space-y-3 text-muted-foreground">
+                  <li>• To bring Turkish-speaking artists, their stories and cultural richness to London's multilingual and multicultural arts scene.</li>
+                  <li>• To prioritise originality, quality and collaboration across every stage of the creative process whilst producing first and foremost theatre, but also concerts, exhibitions, sight specific projects and workshops that connect with the audience.</li>
+                  <li>• To support various arts organisations with consulting, creative production and communications, building a more inclusive and sustainable artistic environment.</li>
+                </ul>
               </CardContent>
             </Card>
           </div>
         </div>
 
-        {/* Values */}
+        {/* Endorsements */}
         <div className="mb-20">
           <div className="text-center mb-12">
             <h2 className="font-heading text-3xl md:text-4xl font-bold mb-4">
-              Our Values
+              What People Say
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              These core principles guide everything we do, from our productions 
-              to our educational programs.
+              Reviews and testimonials from our audiences and workshop participants
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {values.map((value, index) => (
-              <Card key={index} className="production-card text-center p-6">
-                <CardContent className="p-0">
-                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                    <value.icon className="w-8 h-8 text-primary" />
-                  </div>
-                  <h3 className="font-heading text-lg font-semibold mb-2">
-                    {value.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground">
-                    {value.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-        {/* Timeline */}
-        <div className="mb-16">
-          <div className="text-center mb-12">
-            <h2 className="font-heading text-3xl md:text-4xl font-bold mb-4">
-              Our Journey
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              From our humble beginnings to where we are today, here are the 
-              key milestones in our story.
-            </p>
-          </div>
-
-          <div className="relative">
-            {/* Timeline line */}
-            <div className="absolute left-1/2 transform -translate-x-px h-full w-0.5 bg-border"></div>
+          <div className="grid md:grid-cols-3 gap-8">
+            <Card className="p-8 hover:shadow-lg transition-shadow">
+              <p className="text-muted-foreground italic mb-4">
+                "…after so many 'traditional' versions of the play, a fresh take is more than welcome."
+              </p>
+              <p className="text-sm font-semibold text-primary">— Theatre Things</p>
+            </Card>
             
-            <div className="space-y-12">
-              {timeline.map((item, index) => (
-                <div key={index} className="relative">
-                  <div className="flex items-center">
-                    <div className={`flex-1 ${index % 2 === 0 ? 'pr-8 text-right' : 'pl-8'}`}>
-                      {index % 2 === 0 && (
-                        <Card className="production-card">
-                          <CardContent className="p-6">
-                            <div className="text-2xl font-bold text-primary mb-2">
-                              {item.year}
-                            </div>
-                            <h3 className="font-heading text-lg font-semibold mb-2">
-                              {item.title}
-                            </h3>
-                            <p className="text-muted-foreground text-sm">
-                              {item.description}
-                            </p>
-                          </CardContent>
-                        </Card>
-                      )}
-                    </div>
-                    
-                    {/* Timeline dot */}
-                    <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-primary rounded-full border-4 border-background"></div>
-                    
-                    <div className={`flex-1 ${index % 2 !== 0 ? 'pl-8' : 'pr-8'}`}>
-                      {index % 2 !== 0 && (
-                        <Card className="production-card">
-                          <CardContent className="p-6">
-                            <div className="text-2xl font-bold text-primary mb-2">
-                              {item.year}
-                            </div>
-                            <h3 className="font-heading text-lg font-semibold mb-2">
-                              {item.title}
-                            </h3>
-                            <p className="text-muted-foreground text-sm">
-                              {item.description}
-                            </p>
-                          </CardContent>
-                        </Card>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <Card className="p-8 hover:shadow-lg transition-shadow">
+              <p className="text-muted-foreground italic mb-4">
+                "It was awesome! I found everything I was looking for."
+              </p>
+              <p className="text-sm font-semibold text-primary">— Devised Theatre Workshop Participant</p>
+            </Card>
+            
+            <Card className="p-8 hover:shadow-lg transition-shadow">
+              <p className="text-muted-foreground italic mb-4">
+                "…it reinvigorated it and it felt like it had been written yesterday. So inventive and clever."
+              </p>
+              <p className="text-sm font-semibold text-primary">— The Importance of Being Earnest Audience Review</p>
+            </Card>
           </div>
         </div>
+
       </div>
     </div>
   );

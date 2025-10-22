@@ -149,15 +149,11 @@ const Productions = () => {
             Want to be part of our next production?
           </h2>
           <p className="text-muted-foreground mb-6">
-            Join our talented cast and crew for upcoming productions. 
-            Check out our workshops and audition opportunities.
+            Send us your acting CV and get notified when we have an audition that fits your casting.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button variant="spotlight" size="lg">
-              View Workshops
-            </Button>
-            <Button variant="outline" size="lg">
-              Get Involved
+              Submit Your CV
             </Button>
           </div>
         </div>

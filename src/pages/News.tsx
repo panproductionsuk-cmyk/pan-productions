@@ -13,69 +13,42 @@ import {
 
 const News = () => {
   const featuredNews = {
-    title: "Pan Productions Wins Best Independent Theatre Award",
-    excerpt: "We are thrilled to announce that Pan Productions has been recognized with the Best Independent Theatre Award at the London Theatre Awards 2024.",
-    date: "February 28, 2024",
-    readTime: "3 min read",
-    source: "London Theatre Awards",
-    image: "https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=800&h=400&fit=crop",
-    category: "Awards"
+    title: "The Importance of Being Earnest – Played by Immigrants at Tower Theatre",
+    excerpt: "A quintessentially English play is being given a fascinating and refreshingly cosmopolitan spin at the Tower Theatre with Pan Productions' new take on the Oscar Wilde classic.",
+    date: "January 2024",
+    readTime: "5 min read",
+    source: "RevNew",
+    image: "https://www.panproductions.co.uk/file/2019/11/earnest-tower.jpg",
+    category: "Reviews"
   };
 
   const newsArticles = [
     {
-      title: "Pan Academy Launches New Musical Theatre Program",
-      excerpt: "Our expanded curriculum now includes comprehensive musical theatre training with industry professionals.",
-      date: "February 15, 2024",
-      readTime: "2 min read",
-      source: "Theatre Weekly",
-      image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=250&fit=crop",
-      category: "Education"
-    },
-    {
-      title: "Sold-Out Success: 'Voices of Istanbul' Production Review",
-      excerpt: "Critics praise our latest production for its powerful storytelling and exceptional performances.",
-      date: "February 10, 2024", 
+      title: "The Importance Of Being Earnest – Played By Immigrants",
+      excerpt: "...after so many 'traditional' versions of the play, a fresh take is more than welcome.",
+      date: "January 2024",
       readTime: "4 min read",
-      source: "The Stage Review",
-      image: "https://images.unsplash.com/photo-1503095396549-807759245b35?w=400&h=250&fit=crop",
+      source: "Aylin Bozok - Theatre Things",
+      image: "https://www.panproductions.co.uk/file/2019/11/earnest-tower.jpg",
       category: "Reviews"
     },
     {
-      title: "Community Outreach: Free Theatre Workshops for Local Schools",
-      excerpt: "Pan Productions partners with three local schools to bring theatre education to underserved communities.",
-      date: "January 28, 2024",
-      readTime: "3 min read", 
-      source: "Community Arts Daily",
-      image: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=400&h=250&fit=crop",
-      category: "Community"
-    },
-    {
-      title: "Behind the Scenes: Creating Authentic Period Costumes",
-      excerpt: "Meet our costume design team and learn about the meticulous process of creating historically accurate theatrical costumes.",
-      date: "January 20, 2024",
-      readTime: "5 min read",
-      source: "Costume Design Magazine", 
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=250&fit=crop",
-      category: "Behind the Scenes"
-    },
-    {
-      title: "Pan Productions Announces 2024 Season Lineup",
-      excerpt: "Five new productions including two world premieres and three contemporary adaptations of classic works.",
-      date: "January 15, 2024",
+      title: "In London's (OE) West End 2020: The Importance of Being Earnest",
+      excerpt: "Preview of The Importance of Being Earnest (played by immigrants) at Tower Theatre",
+      date: "January 2020",
       readTime: "3 min read",
-      source: "Theatre News London",
-      image: "https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=400&h=250&fit=crop", 
-      category: "Announcements"
+      source: "In London's West End",
+      image: "https://www.panproductions.co.uk/file/2019/11/earnest-tower.jpg",
+      category: "Reviews"
     },
     {
-      title: "Director Spotlight: Interview with Artistic Director Mehmet Ergen",
-      excerpt: "An in-depth conversation about the vision, challenges, and future of Pan Productions.",
-      date: "December 18, 2023",
-      readTime: "6 min read",
-      source: "Arts & Culture Weekly",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=250&fit=crop",
-      category: "Interviews"
+      title: "About 'The Importance Of Being Earnest'",
+      excerpt: "...it reinvigorated it and it felt like it had been written yesterday. So inventive and clever.",
+      date: "January 2024",
+      readTime: "4 min read",
+      source: "Audience Review",
+      image: "https://www.panproductions.co.uk/file/2019/11/earnest-tower.jpg",
+      category: "Reviews"
     }
   ];
 

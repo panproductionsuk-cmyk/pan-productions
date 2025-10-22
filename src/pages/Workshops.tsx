@@ -110,8 +110,22 @@ const Workshops = () => {
               Elevate Your <span className="text-primary">Performance Skills</span>
             </h1>
             <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-              Intensive workshops designed to develop your acting, singing, and performance abilities. 
-              Learn from industry professionals in our state-of-the-art facilities.
+              Pan Academy is a leading acting school in North London. We offer a varied range of acting classes 
+              and courses designed to suit all experience levels. Whether you're looking to challenge yourself, 
+              develop new skills, or take the next step in your acting journey, we have a course for you. 
+              Our evening, weekend, and part-time programs are structured to fit around your busy schedule.
+            </p>
+            <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
+              If you're new to acting, our Beginners Courses provide a fun and supportive environment to help you 
+              get started before progressing to Improvers and Advanced levels. For those aspiring to a professional 
+              career, our Industry Courses offer expert training to prepare you for the demands of the acting industry. 
+              If you're seeking an intensive experience covering a range of techniques, our Foundation in Acting course 
+              is the perfect choice.
+            </p>
+            <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
+              We offer a variety of acting courses for adults, including Acting Classes, Voice and Movement Training, 
+              along with specialized workshops such as playwriting and alongside specialised methods of acting such as 
+              Meisner, Stanislavski and Method Acting.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="px-8">

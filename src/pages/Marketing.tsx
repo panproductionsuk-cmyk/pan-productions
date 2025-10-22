@@ -70,23 +70,19 @@ const Marketing = () => {
       <section className="relative py-20 bg-gradient-to-br from-primary/10 via-background to-secondary/5">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
-            <Badge variant="outline" className="mb-6 text-primary border-primary/20">
-              PR & Marketing Excellence
-            </Badge>
             <h1 className="text-5xl font-heading font-bold mb-6 text-foreground">
-              Amplify Your <span className="text-primary">Creative Vision</span>
+              PR & Marketing Excellence
             </h1>
+            <h2 className="text-3xl font-heading font-semibold mb-6 text-primary">
+              Amplify Your Creative Vision
+            </h2>
             <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
               Professional marketing and PR services designed specifically for theatre, arts, and cultural productions. 
               We help you connect with your audience and maximize your impact.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="px-8">
-                <Megaphone className="mr-2 h-5 w-5" />
-                Start Your Campaign
-              </Button>
-              <Button variant="outline" size="lg" className="px-8">
-                View Our Portfolio
+                Get in Touch
               </Button>
             </div>
           </div>
@@ -97,9 +93,9 @@ const Marketing = () => {
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-heading font-bold mb-4 text-foreground">Our Marketing Services</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Comprehensive marketing solutions tailored for the arts and entertainment industry
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+              Pan Productions provides bespoke PR & Marketing strategies and support on a project basis 
+              in theatre, music and exhibitions.
             </p>
           </div>
 
@@ -222,8 +218,7 @@ const Marketing = () => {
             Let's work together to create a marketing campaign that gets your production the attention it deserves.
           </p>
           <Button size="lg" className="px-8">
-            <Target className="mr-2 h-5 w-5" />
-            Get Started Today
+            Get in Touch
           </Button>
         </div>
       </section>
