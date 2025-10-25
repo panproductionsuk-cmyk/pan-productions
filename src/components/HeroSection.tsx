@@ -98,76 +98,113 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Main Hero Image Section */}
-      <div className="relative flex-1 min-h-[600px]">
-        {/* Background Images */}
-        {slides.map((slide, index) => (
-          <div
-            key={slide.id}
-            className={`absolute inset-0 transition-opacity duration-1000 ${
-              index === currentSlide ? 'opacity-100' : 'opacity-0'
-            }`}
-          >
-            <img
-              src={slide.image}
-              alt={slide.title}
-              className="w-full h-full object-cover grayscale"
-            />
-            <div className="absolute inset-0 bg-black/50" />
-          </div>
-        ))}
-
-        {/* Navigation Arrows */}
-        <div className="absolute inset-y-0 left-0 flex items-center z-10">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={prevSlide}
-            className="ml-4 bg-primary/90 hover:bg-primary text-primary-foreground border-2 border-foreground"
-          >
-            <ChevronLeft className="w-6 h-6" />
-          </Button>
-        </div>
-        
-        <div className="absolute inset-y-0 right-0 flex items-center z-10">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={nextSlide}
-            className="mr-4 bg-primary/90 hover:bg-primary text-primary-foreground border-2 border-foreground"
-          >
-            <ChevronRight className="w-6 h-6" />
-          </Button>
-        </div>
-
-        {/* Slide Indicators */}
-        <div className="absolute bottom-8 left-0 right-0 flex justify-center space-x-3 z-10">
-          {slides.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentSlide(index)}
-              className={`w-4 h-4 border-2 border-primary transition-all duration-300 ${
-                index === currentSlide 
-                  ? 'bg-primary scale-125' 
-                  : 'bg-transparent hover:bg-primary/50'
+      {/* Main Hero Image Section with Rounded Corner */}
+      <div className="relative flex-1 min-h-[600px] bg-background px-8 py-8">
+        <div className="relative h-full border-4 border-foreground overflow-hidden" style={{ borderBottomRightRadius: '120px' }}>
+          {/* Background Images - Carousel */}
+          {slides.map((slide, index) => (
+            <div
+              key={slide.id}
+              className={`absolute inset-0 transition-opacity duration-1000 ${
+                index === currentSlide ? 'opacity-100' : 'opacity-0'
               }`}
-            />
+            >
+              <img
+                src={slide.image}
+                alt={slide.title}
+                className="w-full h-full object-cover grayscale"
+              />
+              <div className="absolute inset-0 bg-black/50" />
+            </div>
           ))}
+
+          {/* Slide Content Overlay */}
+          <div className="absolute inset-0 flex items-center justify-center z-10">
+            <div className="text-center max-w-4xl mx-auto px-8">
+              <div className="mb-6">
+                <span className="inline-block px-6 py-2 bg-primary text-primary-foreground text-sm font-bold uppercase tracking-wider">
+                  {slides[currentSlide].subtitle}
+                </span>
+              </div>
+              
+              <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold text-primary mb-6 uppercase tracking-tight leading-none">
+                {slides[currentSlide].title}
+              </h2>
+              
+              <p className="text-xl md:text-2xl text-foreground/90 mb-8 max-w-2xl mx-auto font-light leading-relaxed">
+                {slides[currentSlide].description}
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <Link to={slides[currentSlide].ctaLink}>
+                  <Button 
+                    size="lg" 
+                    className="px-10 py-6 bg-primary text-primary-foreground hover:bg-primary/90 border-2 border-foreground font-bold uppercase tracking-wider text-lg"
+                  >
+                    {slides[currentSlide].ctaText}
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* Navigation Arrows */}
+          <div className="absolute inset-y-0 left-0 flex items-center z-10">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={prevSlide}
+              className="ml-4 bg-primary/90 hover:bg-primary text-primary-foreground border-2 border-foreground"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </Button>
+          </div>
+          
+          <div className="absolute inset-y-0 right-0 flex items-center z-10">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={nextSlide}
+              className="mr-4 bg-primary/90 hover:bg-primary text-primary-foreground border-2 border-foreground"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </Button>
+          </div>
+
+          {/* Slide Indicators */}
+          <div className="absolute bottom-8 left-0 right-0 flex justify-center space-x-3 z-10">
+            {slides.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentSlide(index)}
+                className={`w-4 h-4 border-2 border-primary transition-all duration-300 ${
+                  index === currentSlide 
+                    ? 'bg-primary scale-125' 
+                    : 'bg-transparent hover:bg-primary/50'
+                }`}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Bottom Statement Section */}
       <div className="relative z-20 bg-background border-t-4 border-foreground py-12 px-4">
-        <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-          {/* Barcode Graphic */}
-          <div className="barcode">
-            <span></span><span></span><span></span><span></span><span></span>
-            <span></span><span></span><span></span><span></span><span></span>
-            <span></span><span></span><span></span><span></span><span></span>
+        <div className="container mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+          {/* Left Section - Label and Barcode */}
+          <div className="flex flex-col gap-4">
+            <h3 className="font-heading text-2xl uppercase tracking-wider text-primary">
+              ABOUT US
+            </h3>
+            <div className="barcode">
+              <span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
           </div>
 
           {/* Statement Text */}
-          <div className="statement-text text-right max-w-3xl">
+          <div className="statement-text text-left md:text-right max-w-3xl">
             <span className="muted">We are passionate </span>
             <span className="highlight">storytellers </span>
             <span className="muted">and </span>
