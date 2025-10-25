@@ -52,20 +52,20 @@ const Index = () => {
       <HeroSection />
 
       {/* Stats Section */}
-      <section className="py-16 bg-card/20">
+      <section className="py-20 border-b-4 border-foreground">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
                 <div className="mb-4 flex justify-center">
-                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center">
-                    <stat.icon className="w-8 h-8 text-primary" />
+                  <div className="w-20 h-20 border-4 border-primary flex items-center justify-center bg-card">
+                    <stat.icon className="w-10 h-10 text-primary" />
                   </div>
                 </div>
-                <div className="font-heading text-3xl font-bold text-primary mb-2">
+                <div className="font-heading text-5xl font-bold text-primary mb-2 tracking-tight">
                   {stat.value}
                 </div>
-                <div className="text-muted-foreground">
+                <div className="text-muted-foreground uppercase text-sm tracking-wider font-medium">
                   {stat.label}
                 </div>
               </div>
@@ -75,13 +75,13 @@ const Index = () => {
       </section>
 
       {/* Highlights Section */}
-      <section className="py-20">
+      <section className="py-24 border-b-4 border-foreground">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="font-heading text-4xl md:text-5xl font-bold mb-4">
-              Discover Pan Productions
+          <div className="text-center mb-20">
+            <h2 className="section-heading mb-6">
+              OUR PORTFOLIO
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-light leading-relaxed">
               From professional theatre productions to comprehensive drama education, 
               we bring stories to life and nurture the next generation of performers.
             </p>
@@ -89,30 +89,33 @@ const Index = () => {
 
           <div className="grid lg:grid-cols-3 gap-8">
             {highlights.map((item, index) => (
-              <Card key={index} className="production-card group cursor-pointer">
-                <div className="relative h-64 overflow-hidden rounded-t-lg">
+              <Card key={index} className="production-card group cursor-pointer bg-card">
+                <div className="relative h-80 overflow-hidden">
                   <img
                     src={item.image}
                     alt={item.title}
-                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
                   />
-                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors" />
-                  <div className="absolute top-4 left-4">
-                    <div className="w-12 h-12 rounded-full bg-primary/20 backdrop-blur-md flex items-center justify-center">
-                      <item.icon className="w-6 h-6 text-primary" />
+                  <div className="absolute inset-0 bg-black/60 group-hover:bg-black/30 transition-colors" />
+                  <div className="absolute top-6 left-6">
+                    <div className="w-16 h-16 border-4 border-primary bg-background flex items-center justify-center">
+                      <item.icon className="w-8 h-8 text-primary" />
                     </div>
                   </div>
                 </div>
                 
-                <CardContent className="p-6">
-                  <h3 className="font-heading text-xl font-semibold mb-3">
+                <CardContent className="p-8">
+                  <h3 className="font-heading text-2xl font-bold mb-4 uppercase tracking-tight">
                     {item.title}
                   </h3>
-                  <p className="text-muted-foreground mb-4">
+                  <p className="text-muted-foreground mb-6 leading-relaxed">
                     {item.description}
                   </p>
                   <Link to={item.link}>
-                    <Button variant="outline" className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                    <Button 
+                      variant="outline" 
+                      className="w-full border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground font-bold uppercase tracking-wider"
+                    >
                       Explore More
                     </Button>
                   </Link>

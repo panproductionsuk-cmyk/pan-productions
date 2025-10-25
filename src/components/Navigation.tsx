@@ -34,23 +34,11 @@ const Navigation = () => {
   ];
 
   return (
-    <header className="sticky top-0 z-50 nav-backdrop">
+    <header className="sticky top-0 z-50 nav-bar">
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <img 
-              src="https://www.panproductions.co.uk/file/2017/02/PAN_LOGO-01.png" 
-              alt="Pan Productions"
-              className="h-8 w-auto"
-            />
-            <span className="font-heading font-bold text-xl text-primary">
-              Pan Productions
-            </span>
-          </Link>
-
+        <div className="flex items-center justify-center h-14">
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-8">
+          <nav className="hidden lg:flex items-center space-x-1">
             {navItems.map((item) => (
               <div key={item.label} className="relative">
                 {item.children ? (
@@ -58,7 +46,7 @@ const Navigation = () => {
                     <DropdownMenuTrigger asChild>
                       <Button 
                         variant="ghost" 
-                        className="flex items-center space-x-1 text-foreground hover:text-primary transition-colors"
+                        className="flex items-center space-x-1 text-secondary-foreground hover:bg-foreground/10 font-medium uppercase text-sm tracking-wide"
                       >
                         <span>{item.label}</span>
                         <ChevronDown className="h-4 w-4" />
@@ -83,50 +71,21 @@ const Navigation = () => {
                     </DropdownMenuContent>
                   </DropdownMenu>
                 ) : (
-                  <Link 
-                    to={item.path}
-                    className={`text-sm font-medium transition-colors hover:text-primary ${
-                      isActive(item.path) ? 'text-primary' : 'text-foreground'
-                    }`}
-                  >
-                    {item.label}
-                  </Link>
+                  <Button variant="ghost" asChild>
+                    <Link 
+                      to={item.path}
+                      className={`text-sm font-medium uppercase tracking-wide transition-colors ${
+                        isActive(item.path) ? 'bg-foreground/10' : ''
+                      }`}
+                    >
+                      {item.label}
+                    </Link>
+                  </Button>
                 )}
               </div>
             ))}
           </nav>
 
-          {/* CTA and Language Toggle */}
-          <div className="hidden lg:flex items-center space-x-4">
-            {/* Language Toggle */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="flex items-center space-x-1">
-                  <Globe className="h-4 w-4" />
-                  <span>{language}</span>
-                  <ChevronDown className="h-3 w-3" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent 
-                align="end" 
-                className="bg-card/95 backdrop-blur-md border-border/50"
-              >
-                <DropdownMenuItem onClick={() => setLanguage('EN')}>
-                  English
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setLanguage('TR')}>
-                  Türkçe
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            {/* Get Involved CTA */}
-            <Link to="/get-involved">
-              <Button variant="spotlight" className="px-6">
-                Get Involved
-              </Button>
-            </Link>
-          </div>
 
           {/* Mobile Menu */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
