@@ -80,7 +80,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative h-screen flex items-center overflow-hidden bg-gradient-to-br from-background to-card">
       {/* Background Images */}
       {slides.map((slide, index) => (
         <div
@@ -92,20 +92,15 @@ const HeroSection = () => {
           <img
             src={slide.image}
             alt={slide.title}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover opacity-20"
           />
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
         </div>
       ))}
 
-      {/* Content */}
-      <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
+      {/* Left Content Section */}
+      <div className="relative z-10 w-full lg:w-1/2 px-8 lg:px-16">
         <div className="mb-6">
-          <span 
-            className={`inline-block px-4 py-2 rounded-full text-sm font-medium mb-4 ${
-              getTypeColor(slides[currentSlide].type)
-            }`}
-          >
+          <span className="inline-block px-5 py-2 rounded-full text-xs font-semibold tracking-wider uppercase bg-primary/20 text-primary border border-primary/30 mb-4">
             {slides[currentSlide].subtitle}
           </span>
         </div>
@@ -114,61 +109,65 @@ const HeroSection = () => {
           {slides[currentSlide].title}
         </h1>
         
-        <p className="hero-subtitle mb-8 max-w-2xl mx-auto">
+        <p className="hero-subtitle mb-10 max-w-xl text-lg leading-relaxed">
           {slides[currentSlide].description}
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <div className="flex gap-4">
           <Link to={slides[currentSlide].ctaLink}>
-            <Button variant="spotlight" size="lg" className="px-8 py-3">
+            <Button size="lg" className="btn-spotlight px-10 py-6 text-base font-semibold">
               {slides[currentSlide].ctaText}
             </Button>
           </Link>
           
-          <Button variant="outline" size="lg" className="px-8 py-3 bg-white/10 border-white/20 text-white hover:bg-white/20">
-            <Play className="w-4 h-4 mr-2" />
+          <Button variant="outline" size="lg" className="px-10 py-6 text-base bg-white/5 border-white/20 text-white hover:bg-white/10 backdrop-blur-sm rounded-full">
+            <Play className="w-5 h-5 mr-2" />
             Watch Trailer
           </Button>
         </div>
 
         {/* Slide Indicators */}
-        <div className="flex justify-center space-x-2 mt-12">
+        <div className="flex space-x-3 mt-16">
           {slides.map((_, index) => (
             <button
               key={index}
               onClick={() => setCurrentSlide(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              className={`h-1 rounded-full transition-all duration-300 ${
                 index === currentSlide 
-                  ? 'bg-primary scale-125' 
-                  : 'bg-white/30 hover:bg-white/50'
+                  ? 'w-12 bg-primary' 
+                  : 'w-8 bg-white/30 hover:bg-white/50'
               }`}
             />
           ))}
         </div>
       </div>
 
+      {/* Right Image Section */}
+      <div className="hidden lg:flex relative z-10 w-1/2 h-full items-center justify-center px-8">
+        <div className="relative w-full max-w-2xl">
+          <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-accent/20 rounded-3xl blur-3xl" />
+          <img
+            src={slides[currentSlide].image}
+            alt={slides[currentSlide].title}
+            className="relative w-full h-auto object-contain rounded-2xl shadow-2xl"
+          />
+        </div>
+      </div>
+
       {/* Navigation Arrows */}
-      <div className="absolute inset-y-0 left-0 flex items-center">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={prevSlide}
-          className="ml-4 bg-black/20 hover:bg-black/40 text-white border-0"
-        >
-          <ChevronLeft className="w-6 h-6" />
-        </Button>
-      </div>
+      <button
+        onClick={prevSlide}
+        className="absolute left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white transition-all"
+      >
+        <ChevronLeft className="w-6 h-6" />
+      </button>
       
-      <div className="absolute inset-y-0 right-0 flex items-center">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={nextSlide}
-          className="mr-4 bg-black/20 hover:bg-black/40 text-white border-0"
-        >
-          <ChevronRight className="w-6 h-6" />
-        </Button>
-      </div>
+      <button
+        onClick={nextSlide}
+        className="absolute right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white transition-all"
+      >
+        <ChevronRight className="w-6 h-6" />
+      </button>
     </section>
   );
 };

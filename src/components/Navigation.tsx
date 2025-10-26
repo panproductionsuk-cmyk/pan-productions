@@ -35,22 +35,17 @@ const Navigation = () => {
 
   return (
     <header className="sticky top-0 z-50 nav-backdrop">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+      <div className="container mx-auto px-4 lg:px-8">
+        <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <img 
-              src="https://www.panproductions.co.uk/file/2017/02/PAN_LOGO-01.png" 
-              alt="Pan Productions"
-              className="h-8 w-auto"
-            />
-            <span className="font-heading font-bold text-xl text-primary">
+          <Link to="/" className="flex items-center space-x-3">
+            <span className="font-heading text-2xl font-bold tracking-tight text-white">
               Pan Productions
             </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-8">
+          <nav className="hidden lg:flex items-center space-x-1">
             {navItems.map((item) => (
               <div key={item.label} className="relative">
                 {item.children ? (
@@ -58,22 +53,22 @@ const Navigation = () => {
                     <DropdownMenuTrigger asChild>
                       <Button 
                         variant="ghost" 
-                        className="flex items-center space-x-1 text-foreground hover:text-primary transition-colors"
+                        className="flex items-center space-x-1 text-white hover:text-primary transition-colors px-4"
                       >
-                        <span>{item.label}</span>
+                        <span className="font-medium">{item.label}</span>
                         <ChevronDown className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent 
                       align="start" 
-                      className="bg-card/95 backdrop-blur-md border-border/50"
+                      className="bg-card/95 backdrop-blur-md border-white/10"
                     >
                       {item.children.map((child) => (
                         <DropdownMenuItem key={child.path} asChild>
                           <Link 
                             to={child.path}
                             className={`w-full cursor-pointer transition-colors ${
-                              isActive(child.path) ? 'text-primary font-medium' : 'text-foreground hover:text-primary'
+                              isActive(child.path) ? 'text-primary font-semibold' : 'text-white hover:text-primary'
                             }`}
                           >
                             {child.label}
@@ -85,8 +80,8 @@ const Navigation = () => {
                 ) : (
                   <Link 
                     to={item.path}
-                    className={`text-sm font-medium transition-colors hover:text-primary ${
-                      isActive(item.path) ? 'text-primary' : 'text-foreground'
+                    className={`px-4 py-2 text-sm font-medium transition-colors hover:text-primary ${
+                      isActive(item.path) ? 'text-primary' : 'text-white'
                     }`}
                   >
                     {item.label}
@@ -97,24 +92,24 @@ const Navigation = () => {
           </nav>
 
           {/* CTA and Language Toggle */}
-          <div className="hidden lg:flex items-center space-x-4">
+          <div className="hidden lg:flex items-center space-x-3">
             {/* Language Toggle */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="flex items-center space-x-1">
+                <Button variant="ghost" size="sm" className="flex items-center space-x-1 text-white hover:text-primary">
                   <Globe className="h-4 w-4" />
-                  <span>{language}</span>
+                  <span className="font-medium">{language}</span>
                   <ChevronDown className="h-3 w-3" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent 
                 align="end" 
-                className="bg-card/95 backdrop-blur-md border-border/50"
+                className="bg-card/95 backdrop-blur-md border-white/10"
               >
-                <DropdownMenuItem onClick={() => setLanguage('EN')}>
+                <DropdownMenuItem onClick={() => setLanguage('EN')} className="text-white hover:text-primary">
                   English
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setLanguage('TR')}>
+                <DropdownMenuItem onClick={() => setLanguage('TR')} className="text-white hover:text-primary">
                   Türkçe
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -122,7 +117,7 @@ const Navigation = () => {
 
             {/* Get Involved CTA */}
             <Link to="/get-involved">
-              <Button variant="spotlight" className="px-6">
+              <Button variant="spotlight" className="px-8 py-2.5">
                 Get Involved
               </Button>
             </Link>
