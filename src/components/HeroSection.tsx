@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, ChevronRight, Play } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 interface Slide {
@@ -119,11 +119,6 @@ const HeroSection = () => {
               {slides[currentSlide].ctaText}
             </Button>
           </Link>
-          
-          <Button variant="outline" size="lg" className="px-10 py-6 text-base bg-white/5 border-white/20 text-white hover:bg-white/10 backdrop-blur-sm">
-            <Play className="w-5 h-5 mr-2" />
-            Watch Trailer
-          </Button>
         </div>
 
         {/* Slide Indicators */}
@@ -135,7 +130,7 @@ const HeroSection = () => {
               className={`h-1 rounded transition-all duration-300 ${
                 index === currentSlide 
                   ? 'w-12 bg-primary' 
-                  : 'w-8 bg-white/30 hover:bg-white/50'
+                  : 'w-8 bg-muted hover:bg-muted/60'
               }`}
             />
           ))}
@@ -157,14 +152,14 @@ const HeroSection = () => {
       {/* Navigation Arrows */}
       <button
         onClick={prevSlide}
-        className="absolute left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white transition-all"
+        className="absolute left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded bg-muted/40 hover:bg-muted/60 border border-border flex items-center justify-center text-foreground transition-all"
       >
         <ChevronLeft className="w-6 h-6" />
       </button>
       
       <button
         onClick={nextSlide}
-        className="absolute right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white transition-all"
+        className="absolute right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded bg-muted/40 hover:bg-muted/60 border border-border flex items-center justify-center text-foreground transition-all"
       >
         <ChevronRight className="w-6 h-6" />
       </button>

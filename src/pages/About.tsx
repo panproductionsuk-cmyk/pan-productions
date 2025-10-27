@@ -103,9 +103,9 @@ const About = () => {
             </div>
             <div className="relative">
               <img
-                src="https://www.panproductions.co.uk/file/2017/02/PAN_LOGO-01.png"
-                alt="Pan Productions Team"
-                className="w-full h-auto rounded-lg"
+                src="/images/pan-logo.svg"
+                alt="Pan Productions"
+                className="w-full h-auto"
               />
             </div>
           </div>

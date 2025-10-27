@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger 
 } from '@/components/ui/dropdown-menu';
 import { ChevronDown, Menu, Globe } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,62 +37,78 @@ const Navigation = () => {
   return (
     <header className="sticky top-0 z-50 nav-backdrop">
       <div className="container mx-auto px-4 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-32">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded bg-primary flex items-center justify-center">
-              <span className="font-heading text-lg font-bold text-white">P</span>
-            </div>
-            <span className="font-heading text-2xl font-bold tracking-tight text-white">
-              Pan Productions
-            </span>
+          <Link to="/" className="flex items-center">
+            <img
+              src="/images/pan-logo.svg"
+              alt="Pan Productions"
+              className="h-28 w-auto drop-shadow-2xl transition-transform hover:scale-105"
+            />
           </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-1">
-            {navItems.map((item) => (
-              <div key={item.label} className="relative">
-                {item.children ? (
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button 
-                        variant="ghost" 
-                        className="flex items-center space-x-1 text-white hover:text-primary transition-colors px-4"
+            {navItems.map((item) => {
+              const isParentActive = item.children
+                ? item.children.some((child) => isActive(child.path)) || isActive(item.path)
+                : isActive(item.path);
+
+              return (
+                <div key={item.label} className="relative">
+                  {item.children ? (
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button 
+                          variant="ghost" 
+                          className={cn(
+                            'flex items-center space-x-1 rounded-md px-4 py-2 uppercase font-semibold text-xs tracking-[0.1em] transition-colors',
+                            isParentActive
+                              ? 'bg-primary text-primary-foreground shadow-sm'
+                              : 'text-muted-foreground hover:bg-muted/30 hover:text-primary'
+                          )}
+                        >
+                          <span>{item.label}</span>
+                          <ChevronDown className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent 
+                        align="start" 
+                        className="bg-card/95 backdrop-blur-md border border-border/60"
                       >
-                        <span className="font-medium">{item.label}</span>
-                        <ChevronDown className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent 
-                      align="start" 
-                      className="bg-card/95 backdrop-blur-md border-white/10"
+                        {item.children.map((child) => (
+                          <DropdownMenuItem key={child.path} asChild>
+                            <Link 
+                              to={child.path}
+                              className={cn(
+                                'w-full rounded-md px-3 py-2 uppercase font-semibold text-xs tracking-[0.16em] transition-colors',
+                                isActive(child.path)
+                                  ? 'bg-primary text-primary-foreground shadow-sm'
+                                  : 'text-muted-foreground hover:bg-muted/30 hover:text-primary'
+                              )}
+                            >
+                              {child.label}
+                            </Link>
+                          </DropdownMenuItem>
+                        ))}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  ) : (
+                    <Link 
+                      to={item.path}
+                      className={cn(
+                        'px-4 py-2 uppercase font-semibold text-xs tracking-[0.16em] rounded-md transition-colors',
+                        isParentActive
+                          ? 'bg-primary text-primary-foreground shadow-sm'
+                          : 'text-muted-foreground hover:bg-muted/30 hover:text-primary'
+                      )}
                     >
-                      {item.children.map((child) => (
-                        <DropdownMenuItem key={child.path} asChild>
-                          <Link 
-                            to={child.path}
-                            className={`w-full cursor-pointer transition-colors ${
-                              isActive(child.path) ? 'text-primary font-semibold' : 'text-white hover:text-primary'
-                            }`}
-                          >
-                            {child.label}
-                          </Link>
-                        </DropdownMenuItem>
-                      ))}
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                ) : (
-                  <Link 
-                    to={item.path}
-                    className={`px-4 py-2 text-sm font-medium transition-colors hover:text-primary ${
-                      isActive(item.path) ? 'text-primary' : 'text-white'
-                    }`}
-                  >
-                    {item.label}
-                  </Link>
-                )}
-              </div>
-            ))}
+                      {item.label}
+                    </Link>
+                  )}
+                </div>
+              );
+            })}
           </nav>
 
           {/* CTA and Language Toggle */}
@@ -99,7 +116,7 @@ const Navigation = () => {
             {/* Language Toggle */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="flex items-center space-x-1 text-white hover:text-primary">
+                <Button variant="ghost" size="sm" className="flex items-center space-x-1 text-muted-foreground hover:text-primary">
                   <Globe className="h-4 w-4" />
                   <span className="font-medium">{language}</span>
                   <ChevronDown className="h-3 w-3" />
@@ -107,12 +124,12 @@ const Navigation = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent 
                 align="end" 
-                className="bg-card/95 backdrop-blur-md border-white/10"
+                className="bg-card/95 backdrop-blur-md border border-border/60"
               >
-                <DropdownMenuItem onClick={() => setLanguage('EN')} className="text-white hover:text-primary">
+                <DropdownMenuItem onClick={() => setLanguage('EN')} className="text-muted-foreground hover:text-primary">
                   English
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setLanguage('TR')} className="text-white hover:text-primary">
+                <DropdownMenuItem onClick={() => setLanguage('TR')} className="text-muted-foreground hover:text-primary">
                   Türkçe
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -135,39 +152,56 @@ const Navigation = () => {
             </SheetTrigger>
             <SheetContent side="right" className="w-80 bg-card/95 backdrop-blur-md">
               <div className="flex flex-col space-y-4 mt-8">
-                {navItems.map((item) => (
-                  <div key={item.label}>
-                    {item.children ? (
-                      <div className="space-y-2">
-                        <span className="font-medium text-foreground">{item.label}</span>
-                        <div className="ml-4 space-y-2">
-                          {item.children.map((child) => (
-                            <Link
-                              key={child.path}
-                              to={child.path}
-                              onClick={() => setIsOpen(false)}
-                              className={`block text-sm transition-colors ${
-                                isActive(child.path) ? 'text-primary font-medium' : 'text-muted-foreground hover:text-primary'
-                              }`}
-                            >
-                              {child.label}
-                            </Link>
-                          ))}
+                {navItems.map((item) => {
+                  const isParentActive = item.children
+                    ? item.children.some((child) => isActive(child.path)) || isActive(item.path)
+                    : isActive(item.path);
+
+                  return (
+                    <div key={item.label}>
+                      {item.children ? (
+                        <div className="space-y-2">
+                          <span className={cn(
+                            'block uppercase font-semibold text-xs tracking-[0.16em]',
+                            isParentActive ? 'text-primary' : 'text-foreground'
+                          )}>
+                            {item.label}
+                          </span>
+                          <div className="ml-4 space-y-2">
+                            {item.children.map((child) => (
+                              <Link
+                                key={child.path}
+                                to={child.path}
+                                onClick={() => setIsOpen(false)}
+                                className={cn(
+                                  'block uppercase font-semibold text-xs tracking-[0.16em] rounded-md px-3 py-2 transition-colors',
+                                  isActive(child.path)
+                                    ? 'bg-primary text-primary-foreground'
+                                    : 'text-muted-foreground hover:bg-muted/30 hover:text-primary'
+                                )}
+                              >
+                                {child.label}
+                              </Link>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    ) : (
-                      <Link
-                        to={item.path}
-                        onClick={() => setIsOpen(false)}
-                        className={`block font-medium transition-colors ${
-                          isActive(item.path) ? 'text-primary' : 'text-foreground hover:text-primary'
-                        }`}
-                      >
-                        {item.label}
-                      </Link>
-                    )}
-                  </div>
-                ))}
+                      ) : (
+                        <Link
+                          to={item.path}
+                          onClick={() => setIsOpen(false)}
+                          className={cn(
+                            'block uppercase font-semibold text-xs tracking-[0.16em] rounded-md px-3 py-2 transition-colors',
+                            isParentActive
+                              ? 'bg-primary text-primary-foreground'
+                              : 'text-foreground hover:bg-muted/30 hover:text-primary'
+                          )}
+                        >
+                          {item.label}
+                        </Link>
+                      )}
+                    </div>
+                  );
+                })}
                 
                 <div className="pt-4 border-t border-border/50 space-y-4">
                   <Link to="/get-involved" onClick={() => setIsOpen(false)}>
