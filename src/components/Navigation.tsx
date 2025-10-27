@@ -10,45 +10,45 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { ChevronDown, Menu, Globe } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [language, setLanguage] = useState('EN');
+  const { language, setLanguage, t } = useLanguage();
   const location = useLocation();
 
   const isActive = (path: string) => location.pathname === path;
 
   const navItems = [
-    { label: 'Productions', path: '/productions' },
-    { label: 'PR & Marketing', path: '/marketing' },
+    { label: t('nav.productions'), path: '/productions' },
+    { label: t('nav.marketing'), path: '/marketing' },
     { 
-      label: 'Pan Academy', 
+      label: t('nav.academy'), 
       path: '/academy',
       children: [
-        { label: 'Workshops', path: '/academy/workshops' },
-        { label: 'Lessons', path: '/academy/lessons' }
+        { label: t('nav.workshops'), path: '/academy/workshops' }
       ]
     },
-    { label: 'About Us', path: '/about' },
-    { label: 'News & Press', path: '/news' },
-    { label: 'Contact Us', path: '/contact' }
+    { label: t('nav.about'), path: '/about' },
+    { label: t('nav.news'), path: '/news' },
+    { label: t('nav.contact'), path: '/contact' }
   ];
 
   return (
     <header className="sticky top-0 z-50 nav-backdrop">
-      <div className="container mx-auto px-4 lg:px-8">
+      <div className="container mx-auto px-0">
         <div className="flex items-center justify-between h-32">
           {/* Logo */}
           <Link to="/" className="flex items-center">
             <img
               src="/images/pan-logo.svg"
               alt="Pan Productions"
-              className="h-28 w-auto drop-shadow-2xl transition-transform hover:scale-105"
+              className="h-28 w-auto transition-transform hover:scale-105"
             />
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-1">
+          <nav className="hidden lg:flex items-center space-x-0">
             {navItems.map((item) => {
               const isParentActive = item.children
                 ? item.children.some((child) => isActive(child.path)) || isActive(item.path)
@@ -62,11 +62,12 @@ const Navigation = () => {
                         <Button 
                           variant="ghost" 
                           className={cn(
-                            'flex items-center space-x-1 rounded-md px-4 py-2 uppercase font-semibold text-xs tracking-[0.1em] transition-colors',
+                            'flex items-center space-x-1 rounded-md px-2 py-2 uppercase font-semibold text-s tracking-[0.1em] transition-colors',
                             isParentActive
                               ? 'bg-primary text-primary-foreground shadow-sm'
-                              : 'text-muted-foreground hover:bg-muted/30 hover:text-primary'
+                              : 'hover:bg-muted/30 hover:text-primary'
                           )}
+                          style={{ color: isParentActive ? undefined : '#dae45f' }}
                         >
                           <span>{item.label}</span>
                           <ChevronDown className="h-4 w-4" />
@@ -81,11 +82,12 @@ const Navigation = () => {
                             <Link 
                               to={child.path}
                               className={cn(
-                                'w-full rounded-md px-3 py-2 uppercase font-semibold text-xs tracking-[0.16em] transition-colors',
+                                'w-full rounded-md px-3 py-2 uppercase font-semibold text-sm tracking-[0.16em] transition-colors',
                                 isActive(child.path)
                                   ? 'bg-primary text-primary-foreground shadow-sm'
-                                  : 'text-muted-foreground hover:bg-muted/30 hover:text-primary'
+                                  : 'hover:bg-muted/30 hover:text-primary'
                               )}
+                              style={{ color: isActive(child.path) ? undefined : '#dae45f' }}
                             >
                               {child.label}
                             </Link>
@@ -97,11 +99,12 @@ const Navigation = () => {
                     <Link 
                       to={item.path}
                       className={cn(
-                        'px-4 py-2 uppercase font-semibold text-xs tracking-[0.16em] rounded-md transition-colors',
+                        'px-3 py-2 uppercase font-semibold text-sm tracking-[0.16em] rounded-md transition-colors',
                         isParentActive
                           ? 'bg-primary text-primary-foreground shadow-sm'
-                          : 'text-muted-foreground hover:bg-muted/30 hover:text-primary'
+                          : 'hover:bg-muted/30 hover:text-primary'
                       )}
+                      style={{ color: isParentActive ? undefined : '#dae45f' }}
                     >
                       {item.label}
                     </Link>
@@ -112,7 +115,7 @@ const Navigation = () => {
           </nav>
 
           {/* CTA and Language Toggle */}
-          <div className="hidden lg:flex items-center space-x-3">
+          <div className="hidden lg:flex items-center space-x-3 pr-8">
             {/* Language Toggle */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -138,7 +141,7 @@ const Navigation = () => {
             {/* Get Involved CTA */}
             <Link to="/get-involved">
               <Button variant="spotlight" className="px-8 py-2.5">
-                Get Involved
+                {t('nav.getInvolved')}
               </Button>
             </Link>
           </div>
@@ -146,7 +149,7 @@ const Navigation = () => {
           {/* Mobile Menu */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="lg:hidden">
+              <Button variant="ghost" size="icon" className="lg:hidden mr-4">
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>
@@ -161,10 +164,13 @@ const Navigation = () => {
                     <div key={item.label}>
                       {item.children ? (
                         <div className="space-y-2">
-                          <span className={cn(
-                            'block uppercase font-semibold text-xs tracking-[0.16em]',
-                            isParentActive ? 'text-primary' : 'text-foreground'
-                          )}>
+                          <span 
+                            className={cn(
+                              'block uppercase font-semibold text-sm tracking-[0.16em]',
+                              isParentActive ? 'text-primary' : ''
+                            )}
+                            style={{ color: isParentActive ? undefined : '#dae45f' }}
+                          >
                             {item.label}
                           </span>
                           <div className="ml-4 space-y-2">
@@ -174,11 +180,12 @@ const Navigation = () => {
                                 to={child.path}
                                 onClick={() => setIsOpen(false)}
                                 className={cn(
-                                  'block uppercase font-semibold text-xs tracking-[0.16em] rounded-md px-3 py-2 transition-colors',
+                                  'block uppercase font-semibold text-sm tracking-[0.16em] rounded-md px-3 py-2 transition-colors',
                                   isActive(child.path)
                                     ? 'bg-primary text-primary-foreground'
-                                    : 'text-muted-foreground hover:bg-muted/30 hover:text-primary'
+                                    : 'hover:bg-muted/30 hover:text-primary'
                                 )}
+                                style={{ color: isActive(child.path) ? undefined : '#dae45f' }}
                               >
                                 {child.label}
                               </Link>
@@ -190,11 +197,12 @@ const Navigation = () => {
                           to={item.path}
                           onClick={() => setIsOpen(false)}
                           className={cn(
-                            'block uppercase font-semibold text-xs tracking-[0.16em] rounded-md px-3 py-2 transition-colors',
+                            'block uppercase font-semibold text-sm tracking-[0.16em] rounded-md px-3 py-2 transition-colors',
                             isParentActive
                               ? 'bg-primary text-primary-foreground'
-                              : 'text-foreground hover:bg-muted/30 hover:text-primary'
+                              : 'hover:bg-muted/30 hover:text-primary'
                           )}
+                          style={{ color: isParentActive ? undefined : '#dae45f' }}
                         >
                           {item.label}
                         </Link>
@@ -206,7 +214,7 @@ const Navigation = () => {
                 <div className="pt-4 border-t border-border/50 space-y-4">
                   <Link to="/get-involved" onClick={() => setIsOpen(false)}>
                     <Button variant="spotlight" className="w-full">
-                      Get Involved
+                      {t('nav.getInvolved')}
                     </Button>
                   </Link>
                   

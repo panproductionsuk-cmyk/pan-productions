@@ -3,11 +3,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 import { Mail, CheckCircle } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const NewsletterSection = () => {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const { t } = useLanguage();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -16,8 +18,8 @@ const NewsletterSection = () => {
     // Simulate newsletter signup
     setTimeout(() => {
       toast({
-        title: "Welcome to Pan Productions!",
-        description: "You've successfully subscribed to our newsletter.",
+        title: t('newsletter.success'),
+        description: t('newsletter.successMessage'),
         duration: 5000,
       });
       setEmail('');
@@ -30,20 +32,19 @@ const NewsletterSection = () => {
       <div className="container mx-auto px-4">
         <div className="max-w-2xl mx-auto text-center">
           <div className="mb-8">
-            <Mail className="w-12 h-12 mx-auto mb-4 text-primary" />
+            <Mail className="w-12 h-12 mx-auto mb-4" style={{ color: '#dae45f' }} />
             <h2 className="font-heading text-3xl md:text-4xl font-bold mb-4">
-              Stay in the Spotlight
+              {t('newsletter.title')}
             </h2>
             <p className="text-muted-foreground text-lg">
-              Get exclusive updates on upcoming productions, workshop announcements, 
-              and behind-the-scenes content delivered straight to your inbox.
+              {t('newsletter.description')}
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
             <Input
               type="email"
-              placeholder="Enter your email address"
+              placeholder={t('newsletter.placeholder')}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -55,13 +56,13 @@ const NewsletterSection = () => {
               variant="spotlight"
               className="px-6"
             >
-              {isLoading ? 'Subscribing...' : 'Subscribe'}
+              {isLoading ? t('newsletter.subscribing') : t('newsletter.subscribe')}
             </Button>
           </form>
 
           <div className="mt-6 flex items-center justify-center text-sm text-muted-foreground">
             <CheckCircle className="w-4 h-4 mr-2 text-primary" />
-            <span>No spam. Unsubscribe anytime.</span>
+            <span>{t('newsletter.noSpam')}</span>
           </div>
         </div>
       </div>

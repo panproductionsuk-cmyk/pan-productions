@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface Slide {
   id: string;
@@ -16,36 +17,37 @@ interface Slide {
 
 const HeroSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const { t, language } = useLanguage();
 
   const slides: Slide[] = [
     {
-      id: 'earnest',
-      title: 'The Importance of Being Earnest',
-      subtitle: 'Current Production',
-      description: 'Oscar Wilde\'s brilliant comedy of manners returns to the stage with Pan Productions\' acclaimed cast.',
-      image: 'https://www.panproductions.co.uk/file/2019/11/earnest-tower.jpg',
-      ctaText: 'Buy Tickets',
-      ctaLink: '/productions/earnest',
+      id: 'productions',
+      title: t('hero.slide1.title'),
+      subtitle: t('hero.slide1.subtitle'),
+      description: t('hero.slide1.description'),
+      image: '/images/hero-slide-1.jpg',
+      ctaText: t('hero.slide1.cta'),
+      ctaLink: '/productions',
       type: 'current'
     },
     {
-      id: 'workshop',
-      title: 'Pan Academy Workshops',
-      subtitle: 'Learn with the Professionals',
-      description: 'Join our intensive drama workshops and lessons with experienced industry professionals.',
-      image: 'https://www.panproductions.co.uk/file/2019/10/PAN-WORKSHOPArtboard-0-1.jpg',
-      ctaText: 'Explore Workshops',
-      ctaLink: '/academy/workshops',
+      id: 'pr-marketing',
+      title: t('hero.slide2.title'),
+      subtitle: t('hero.slide2.subtitle'),
+      description: t('hero.slide2.description'),
+      image: '/images/hero-slide-2.jpg',
+      ctaText: t('hero.slide2.cta'),
+      ctaLink: '/marketing',
       type: 'upcoming'
     },
     {
-      id: 'company',
-      title: 'Pan Productions Story',
-      subtitle: 'Founded in 2016',
-      description: 'Discover our journey from a small theatre group to London\'s premier independent production company.',
-      image: 'https://www.panproductions.co.uk/file/2019/10/cocuk.jpg',
-      ctaText: 'Learn More',
-      ctaLink: '/about',
+      id: 'academy',
+      title: t('hero.slide3.title'),
+      subtitle: t('hero.slide3.subtitle'),
+      description: t('hero.slide3.description'),
+      image: '/images/hero-slide-3.jpg',
+      ctaText: t('hero.slide3.cta'),
+      ctaLink: '/academy/workshops',
       type: 'past'
     }
   ];
@@ -104,7 +106,7 @@ const HeroSection = () => {
           </span>
         </div>
         
-        <h1 className="hero-text mb-6">
+        <h1 className={`hero-text mb-6 ${language === 'TR' ? 'text-3xl md:text-4xl lg:text-5xl' : ''}`}>
           {slides[currentSlide].title}
         </h1>
         

@@ -67,8 +67,16 @@ const Marketing = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-br from-primary/10 via-background to-secondary/5">
-        <div className="container mx-auto px-4">
+      <section className="relative py-20 overflow-hidden">
+        <div className="absolute inset-0">
+          <img 
+            src="/images/hero-slide-2.jpg" 
+            alt="PR & Marketing"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/90 to-background/80" />
+        </div>
+        <div className="container mx-auto px-4 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-5xl font-heading font-bold mb-6 text-foreground">
               PR & Marketing Excellence
@@ -151,59 +159,6 @@ const Marketing = () => {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Process Section */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-heading font-bold mb-4 text-foreground">Our Process</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              A proven methodology that delivers results for your production
-            </p>
-          </div>
-
-          <div className="max-w-4xl mx-auto">
-            <div className="space-y-8">
-              {[
-                {
-                  step: "01",
-                  title: "Discovery & Strategy",
-                  description: "We analyze your production, target audience, and goals to create a tailored marketing strategy."
-                },
-                {
-                  step: "02", 
-                  title: "Content Development",
-                  description: "Our creative team develops compelling content including visuals, copy, and promotional materials."
-                },
-                {
-                  step: "03",
-                  title: "Campaign Execution", 
-                  description: "We launch and manage your marketing campaign across all relevant channels and platforms."
-                },
-                {
-                  step: "04",
-                  title: "Monitoring & Optimization",
-                  description: "Continuous tracking and optimization to maximize reach, engagement, and ticket sales."
-                }
-              ].map((process, index) => (
-                <div key={index} className="flex gap-8 items-start">
-                  <div className="flex-shrink-0 w-16 h-16 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-heading font-bold text-lg">
-                    {process.step}
-                  </div>
-                  <div>
-                    <h3 className="text-2xl font-heading font-bold mb-3 text-foreground">
-                      {process.title}
-                    </h3>
-                    <p className="text-muted-foreground text-lg">
-                      {process.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </section>

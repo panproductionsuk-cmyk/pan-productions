@@ -24,9 +24,9 @@
     --primary: 330 100% 65%;
     --primary-foreground: 0 0% 100%;
 
-    /* Secondary - Mist Grey */
-  --secondary: 220 14% 30%;
-  --secondary-foreground: 210 33% 96%;
+    /* Secondary - Lime Yellow (#dae45f) */
+  --secondary: 64 72% 62%;
+  --secondary-foreground: 220 18% 18%;
 
     /* Muted */
   --muted: 220 14% 40%;
@@ -47,6 +47,9 @@
 
     /* Design System Tokens */
     --radius: 0.375rem;
+    
+    /* Icon Color */
+    --icon-color: #dae45f;
     
     /* Custom Gradients */
   --gradient-hero: linear-gradient(135deg, hsl(220 20% 24%), hsl(220 18% 16%));
@@ -166,5 +169,10 @@
   /* Navigation */
   .nav-backdrop {
     @apply backdrop-blur-md bg-background/90 border-b border-border/60;
+  }
+  
+  /* Icon Styling */
+  svg, .icon {
+    color: var(--icon-color);
   }
 }

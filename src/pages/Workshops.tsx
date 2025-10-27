@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { 
   Clock, 
   Users, 
@@ -10,58 +12,57 @@ import {
   MapPin,
   Award,
   BookOpen,
-  Theater
+  Theater,
+  Phone
 } from 'lucide-react';
 
 const Workshops = () => {
-  const upcomingWorkshops = [
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const pastWorkshops = [
     {
-      title: "Acting for Camera",
-      instructor: "Sarah Mitchell",
-      date: "March 15-17, 2024",
-      time: "10:00 AM - 4:00 PM",
-      location: "Pan Productions Studio",
-      price: "£180",
-      level: "Intermediate",
-      spots: 8,
-      description: "Learn the fundamentals of screen acting, including camera techniques, close-up work, and on-set etiquette.",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=250&fit=crop"
-    },
-    {
-      title: "Musical Theatre Masterclass",
-      instructor: "David Rodriguez",
-      date: "March 22-24, 2024", 
-      time: "11:00 AM - 5:00 PM",
-      location: "Pan Productions Studio",
-      price: "£220",
-      level: "Advanced",
-      spots: 6,
-      description: "Intensive workshop covering singing, dancing, and acting integration for musical theatre performers.",
-      image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=250&fit=crop"
-    },
-    {
-      title: "Shakespeare Workshop",
-      instructor: "Emily Thompson",
-      date: "April 5-7, 2024",
-      time: "9:30 AM - 3:30 PM", 
-      location: "Pan Productions Studio",
-      price: "£165",
+      title: "AN'da KALMAK Workshop",
+      instructor: "Berrin Şeker Civil",
+      date: "3rd November 2019, Sunday",
+      time: "10:00 AM - 1:00 PM",
+      location: "Claremont Project, 24-27 White Lion St, N1 9PD",
+      price: "Contact for pricing",
       level: "All Levels",
-      spots: 12,
-      description: "Explore Shakespeare's language, character development, and period movement in this comprehensive workshop.",
-      image: "https://images.unsplash.com/photo-1503095396549-807759245b35?w=400&h=250&fit=crop"
+      spots: null,
+      status: "Completed",
+      description: "Oyunculukta Kişisel Envantere Yolculuk (Journey to Personal Inventory in Acting) - A workshop focused on 'staying in the moment' for actors. Based on Role Playing, this workshop helps actors maintain presence in the reality of the moment. Open to actors and actor candidates, limited to 6 participants. Berrin Şeker Civil shares over 20 years of experience in camera and theatre acting.",
+      image: "https://www.panproductions.co.uk/file/2019/10/PAN-WORKSHOPArtboard-0-724x1024.jpg",
+      contact: "workshop@panproductions.co.uk",
+      phone: "07487 586944"
     },
     {
-      title: "Voice & Movement",
-      instructor: "James Wilson",
-      date: "April 12-14, 2024",
-      time: "10:00 AM - 4:00 PM",
-      location: "Pan Productions Studio", 
-      price: "£195",
-      level: "Beginner",
-      spots: 10,
-      description: "Develop your vocal range and physical expression through targeted exercises and performance techniques.",
-      image: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=400&h=250&fit=crop"
+      title: "Yaratıcı Drama - Çocuk Workshop",
+      instructor: "Eser Rüzgar",
+      date: "Sundays (Pazar Günleri)",
+      time: "Times vary by registration period",
+      location: "Candid Art Center, London",
+      price: "Contact for pricing",
+      level: "Children",
+      spots: null,
+      status: "Completed",
+      description: "PAN Creative Drama Workshop for Children. Creative drama education based on improvisation directly impacts children's personal development and creativity. Through learning by doing and experiencing, children develop imagination, communication skills, self-confidence, empathy, critical thinking, and responsibility in a free and supportive environment.",
+      image: "/images/drama-cocuk-workshop.jpg",
+      contact: "drama@panproductions.co.uk",
+      phone: "07487 586944"
+    },
+    {
+      title: "Movement in Acting",
+      instructor: "Dr. Selçuk Göldere",
+      date: "16th September 2019, Monday",
+      time: "19:00 - 21:00",
+      location: "Candid Arts, Angel, 3 Torrens St, The Angel, London EC1V 1NQ",
+      price: "Free",
+      level: "All Levels",
+      spots: null,
+      status: "Completed",
+      description: "Acting is an art form that requires complete awareness of the body. Training in movement techniques allows us to acquire a range of physical skills. Join us if you are a performer, director, writer or artist interested in movement skills and choreography. Dr. Selçuk Göldere, a performance-maker, educator and researcher, will share his experience in theatre and contemporary dance stretching over 25 years.",
+      image: "/images/movement-acting-workshop.jpg",
+      contact: "freeworkshop@panproductions.co.uk",
+      phone: null
     }
   ];
 
@@ -93,15 +94,24 @@ const Workshops = () => {
       case 'Beginner': return 'default';
       case 'Intermediate': return 'secondary'; 
       case 'Advanced': return 'destructive';
+      case 'Children': return 'outline';
       default: return 'outline';
     }
   };
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-br from-primary/10 via-background to-secondary/5">
-        <div className="container mx-auto px-4">
+      {/* Hero Section with Background Image */}
+      <section className="relative py-20 overflow-hidden">
+        <div className="absolute inset-0">
+          <img 
+            src="/images/hero-slide-3.jpg" 
+            alt="Pan Academy Workshops"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/90 to-background/80" />
+        </div>
+        <div className="container mx-auto px-4 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
             <Badge variant="outline" className="mb-6 text-primary border-primary/20">
               Pan Academy Workshops
@@ -128,13 +138,11 @@ const Workshops = () => {
               Meisner, Stanislavski and Method Acting.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="px-8">
-                <Calendar className="mr-2 h-5 w-5" />
-                Browse Workshops
-              </Button>
-              <Button variant="outline" size="lg" className="px-8">
-                Contact Us
-              </Button>
+              <Link to="/contact">
+                <Button variant="outline" size="lg" className="px-8">
+                  Contact Us
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -147,7 +155,7 @@ const Workshops = () => {
             {features.map((feature, index) => (
               <div key={index} className="text-center">
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4">
-                  <feature.icon className="h-8 w-8 text-primary" />
+                  <feature.icon className="h-8 w-8" style={{ color: '#dae45f' }} />
                 </div>
                 <h3 className="text-lg font-semibold mb-2 text-foreground">{feature.title}</h3>
                 <p className="text-muted-foreground text-sm">{feature.description}</p>
@@ -157,73 +165,129 @@ const Workshops = () => {
         </div>
       </section>
 
-      {/* Upcoming Workshops */}
+      {/* Past Workshops */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-heading font-bold mb-4 text-foreground">Upcoming Workshops</h2>
+            <h2 className="text-4xl font-heading font-bold mb-4 text-foreground">Past Workshops</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Join our next workshops and take your performance skills to the next level
+              Explore our previously held workshops that helped develop performance skills
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
-            {upcomingWorkshops.map((workshop, index) => (
-              <Card key={index} className="group hover:shadow-lg transition-all duration-300 border-border/50 hover:border-primary/20 overflow-hidden">
-                <div className="relative h-48 overflow-hidden">
-                  <img 
-                    src={workshop.image} 
-                    alt={workshop.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute top-4 right-4">
+            {pastWorkshops.map((workshop, index) => (
+              <Card key={index} className="group overflow-hidden cursor-pointer" onClick={() => setSelectedImage(workshop.image)}>
+                <div className="relative h-[500px] overflow-hidden">
+                  {/* Blurred background layer */}
+                  <div className="absolute inset-0">
+                    <img 
+                      src={workshop.image} 
+                      alt=""
+                      className="w-full h-full object-cover blur-2xl opacity-40 scale-110"
+                    />
+                  </div>
+                  
+                  {/* Main image layer */}
+                  <div className="absolute inset-0 flex items-center justify-center p-4">
+                    <img 
+                      src={workshop.image} 
+                      alt={workshop.title}
+                      className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
+                    />
+                  </div>
+                  
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/30 to-transparent transition-colors" />
+                  
+                  {/* Status Badges */}
+                  <div className="absolute top-4 right-4 flex gap-2 flex-wrap justify-end z-10">
+                    <Badge className="bg-gray-500/90 hover:bg-gray-600 text-white">
+                      {workshop.status}
+                    </Badge>
+                    {workshop.price === "Free" && (
+                      <Badge className="bg-green-500/90 hover:bg-green-600 text-white">
+                        Free Workshop
+                      </Badge>
+                    )}
                     <Badge variant={getLevelBadgeVariant(workshop.level)}>
                       {workshop.level}
                     </Badge>
                   </div>
+
+                  {/* Title Overlay */}
+                  <div className="absolute bottom-4 left-4 right-4 z-10">
+                    <h3 className="font-heading text-2xl font-bold text-foreground mb-1">
+                      {workshop.title}
+                    </h3>
+                    <p className="text-muted-foreground text-sm">
+                      by {workshop.instructor}
+                    </p>
+                  </div>
                 </div>
                 
-                <CardHeader>
-                  <div className="flex justify-between items-start mb-2">
-                    <CardTitle className="text-xl text-foreground">{workshop.title}</CardTitle>
-                    <div className="text-2xl font-bold text-primary">{workshop.price}</div>
-                  </div>
-                  <CardDescription className="text-base">{workshop.description}</CardDescription>
-                </CardHeader>
-                
-                <CardContent>
+                <CardContent className="p-6">
+                  <p className="text-muted-foreground mb-6">
+                    {workshop.description}
+                  </p>
+
                   <div className="space-y-3 mb-6">
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <Star className="h-4 w-4 mr-2 text-primary" />
-                      Instructor: {workshop.instructor}
+                    <div className="flex items-center text-sm">
+                      <Calendar className="w-4 h-4 mr-2 text-primary" />
+                      <span>{workshop.date}</span>
                     </div>
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <Calendar className="h-4 w-4 mr-2 text-primary" />
-                      {workshop.date}
+                    <div className="flex items-center text-sm">
+                      <Clock className="w-4 h-4 mr-2 text-primary" />
+                      <span>{workshop.time}</span>
                     </div>
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <Clock className="h-4 w-4 mr-2 text-primary" />
-                      {workshop.time}
+                    <div className="flex items-center text-sm">
+                      <MapPin className="w-4 h-4 mr-2 text-primary" />
+                      <span>{workshop.location}</span>
                     </div>
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <MapPin className="h-4 w-4 mr-2 text-primary" />
-                      {workshop.location}
-                    </div>
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <Users className="h-4 w-4 mr-2 text-primary" />
-                      {workshop.spots} spots available
-                    </div>
+                    {workshop.spots && (
+                      <div className="flex items-center text-sm">
+                        <Users className="w-4 h-4 mr-2 text-primary" />
+                        <span>{workshop.spots} spots available</span>
+                      </div>
+                    )}
+                    {workshop.phone && (
+                      <div className="flex items-center text-sm">
+                        <Phone className="w-4 h-4 mr-2 text-primary" />
+                        <span>{workshop.phone}</span>
+                      </div>
+                    )}
                   </div>
-                  
-                  <Button className="w-full">
-                    Register Now
-                  </Button>
+
+                  <div className="flex gap-2">
+                    <Button 
+                      variant="spotlight" 
+                      className="flex-1"
+                      disabled
+                    >
+                      Workshop Completed
+                    </Button>
+                    <Button variant="outline" size="icon">
+                      <Calendar className="w-4 h-4" />
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             ))}
           </div>
         </div>
       </section>
+
+      {/* Image Modal */}
+      <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
+        <DialogContent className="max-w-5xl w-full p-0 bg-transparent border-0">
+          <div className="relative">
+            <img 
+              src={selectedImage || ''} 
+              alt="Workshop Poster"
+              className="w-full h-auto max-h-[90vh] object-contain"
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-primary/10 to-secondary/10">
@@ -235,12 +299,16 @@ const Workshops = () => {
             We offer customized workshops and private coaching sessions. Contact us to discuss your specific training needs.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="px-8">
-              Custom Workshop Request
-            </Button>
-            <Button variant="outline" size="lg" className="px-8">
-              View Private Lessons
-            </Button>
+            <Link to="/contact">
+              <Button size="lg" className="px-8">
+                Custom Workshop Request
+              </Button>
+            </Link>
+            <Link to="/contact">
+              <Button variant="outline" size="lg" className="px-8">
+                Request Private Lesson
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

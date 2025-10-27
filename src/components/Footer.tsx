@@ -1,23 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, MapPin, Phone, Facebook, Instagram, Youtube } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const currentYear = new Date().getFullYear();
 
 const Footer = () => {
+  const { t } = useLanguage();
+  
   const quickLinks = [
-    { label: 'Productions', to: '/productions' },
-    { label: 'PR & Marketing', to: '/marketing' },
-    { label: 'Pan Academy Workshops', to: '/academy/workshops' },
-    { label: 'Pan Academy Lessons', to: '/academy/lessons' },
-    { label: 'News & Press', to: '/news' },
-    { label: 'Contact', to: '/contact' },
+    { label: t('nav.productions'), to: '/productions' },
+    { label: t('nav.marketing'), to: '/marketing' },
+    { label: `${t('nav.academy')} - ${t('nav.workshops')}`, to: '/academy/workshops' },
+    { label: t('nav.news'), to: '/news' },
+    { label: t('nav.contact'), to: '/contact' },
   ];
 
   const socialLinks = [
-    { label: 'Facebook', icon: Facebook, href: 'https://www.facebook.com/panproductions' },
-    { label: 'Instagram', icon: Instagram, href: 'https://www.instagram.com/panproductions' },
-    { label: 'YouTube', icon: Youtube, href: 'https://www.youtube.com/@panproductions' },
+    { label: 'Facebook', icon: Facebook, href: 'https://www.facebook.com/panproductionsUK#' },
+    { label: 'Instagram', icon: Instagram, href: 'https://www.instagram.com/panproductionsuk/' },
   ];
 
   return (
@@ -57,7 +58,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-foreground mb-5">Quick Links</h3>
+            <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-foreground mb-5">{t('footer.quickLinks')}</h3>
             <ul className="space-y-3 text-sm">
               {quickLinks.map((link) => (
                 <li key={link.label}>
@@ -73,7 +74,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-foreground mb-5">Get In Touch</h3>
+            <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-foreground mb-5">{t('footer.contact')}</h3>
             <ul className="space-y-3 text-sm text-muted-foreground">
               <li className="flex items-start gap-3">
                 <MapPin className="h-4 w-4 mt-1 text-primary" />
@@ -100,18 +101,10 @@ const Footer = () => {
       </div>
 
       <div className="border-t border-border/50 bg-background/60">
-        <div className="container mx-auto px-4 lg:px-8 py-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <p className="text-xs text-muted-foreground">
-            © {currentYear} Pan Productions. All rights reserved.
+        <div className="container mx-auto px-4 lg:px-8 py-6">
+          <p className="text-xs text-muted-foreground text-center">
+            © {currentYear} Pan Productions. {t('footer.rights')}
           </p>
-          <div className="flex gap-6 text-xs text-muted-foreground">
-            <Link to="/privacy" className="hover:text-primary transition-colors">
-              Privacy Policy
-            </Link>
-            <Link to="/terms" className="hover:text-primary transition-colors">
-              Terms of Use
-            </Link>
-          </div>
         </div>
       </div>
     </footer>

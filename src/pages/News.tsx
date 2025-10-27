@@ -19,7 +19,8 @@ const News = () => {
     readTime: "5 min read",
     source: "RevNew",
     image: "https://www.panproductions.co.uk/file/2019/11/earnest-tower.jpg",
-    category: "Reviews"
+    category: "Reviews",
+    link: "https://www.panproductions.co.uk/news-press/"
   };
 
   const newsArticles = [
@@ -30,7 +31,8 @@ const News = () => {
       readTime: "4 min read",
       source: "Aylin Bozok - Theatre Things",
       image: "https://www.panproductions.co.uk/file/2019/11/earnest-tower.jpg",
-      category: "Reviews"
+      category: "Reviews",
+      link: "https://www.panproductions.co.uk/news-press/"
     },
     {
       title: "In London's (OE) West End 2020: The Importance of Being Earnest",
@@ -39,7 +41,8 @@ const News = () => {
       readTime: "3 min read",
       source: "In London's West End",
       image: "https://www.panproductions.co.uk/file/2019/11/earnest-tower.jpg",
-      category: "Reviews"
+      category: "Reviews",
+      link: "https://www.panproductions.co.uk/news-press/"
     },
     {
       title: "About 'The Importance Of Being Earnest'",
@@ -48,7 +51,8 @@ const News = () => {
       readTime: "4 min read",
       source: "Audience Review",
       image: "https://www.panproductions.co.uk/file/2019/11/earnest-tower.jpg",
-      category: "Reviews"
+      category: "Reviews",
+      link: "https://www.panproductions.co.uk/news-press/"
     }
   ];
 
@@ -56,17 +60,20 @@ const News = () => {
     {
       title: "Pan Productions Receives Arts Council England Grant",
       date: "March 1, 2024",
-      description: "Funding will support new community engagement programs and production development."
+      description: "Funding will support new community engagement programs and production development.",
+      link: "https://www.panproductions.co.uk/news-press/"
     },
     {
       title: "Partnership Announcement: Pan Academy & RADA Collaboration", 
       date: "February 20, 2024",
-      description: "New partnership brings world-class training opportunities to Pan Academy students."
+      description: "New partnership brings world-class training opportunities to Pan Academy students.",
+      link: "https://www.panproductions.co.uk/news-press/"
     },
     {
       title: "Casting Call: Open Auditions for Summer Productions",
       date: "February 5, 2024", 
-      description: "Pan Productions seeks talented performers for upcoming summer season productions."
+      description: "Pan Productions seeks talented performers for upcoming summer season productions.",
+      link: "https://www.panproductions.co.uk/news-press/"
     }
   ];
 
@@ -107,7 +114,7 @@ const News = () => {
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
+            <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300 cursor-pointer" onClick={() => window.open(featuredNews.link, '_blank')}>
               <div className="md:flex">
                 <div className="md:w-1/2">
                   <img 
@@ -147,7 +154,7 @@ const News = () => {
                     <span className="text-sm text-muted-foreground">
                       Source: {featuredNews.source}
                     </span>
-                    <Button>
+                    <Button onClick={(e) => { e.stopPropagation(); window.open(featuredNews.link, '_blank'); }}>
                       Read Full Article
                       <ExternalLink className="ml-2 h-4 w-4" />
                     </Button>
@@ -171,7 +178,11 @@ const News = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {newsArticles.map((article, index) => (
-              <Card key={index} className="group hover:shadow-lg transition-all duration-300 border-border/50 hover:border-primary/20 overflow-hidden">
+              <Card 
+                key={index} 
+                className="group hover:shadow-lg transition-all duration-300 border-border/50 hover:border-primary/20 overflow-hidden cursor-pointer"
+                onClick={() => window.open(article.link, '_blank')}
+              >
                 <div className="relative h-48 overflow-hidden">
                   <img 
                     src={article.image} 
@@ -210,7 +221,12 @@ const News = () => {
                     <span className="text-xs text-muted-foreground">
                       {article.source}
                     </span>
-                    <Button variant="ghost" size="sm" className="p-2">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="p-2"
+                      onClick={(e) => { e.stopPropagation(); window.open(article.link, '_blank'); }}
+                    >
                       <ExternalLink className="h-4 w-4" />
                     </Button>
                   </div>
@@ -233,11 +249,15 @@ const News = () => {
 
           <div className="max-w-4xl mx-auto space-y-6">
             {pressReleases.map((release, index) => (
-              <Card key={index} className="hover:shadow-md transition-shadow duration-300">
+              <Card 
+                key={index} 
+                className="hover:shadow-md transition-shadow duration-300 cursor-pointer"
+                onClick={() => window.open(release.link, '_blank')}
+              >
                 <CardContent className="p-6">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <h3 className="text-lg font-semibold mb-2 text-foreground hover:text-primary transition-colors cursor-pointer">
+                      <h3 className="text-lg font-semibold mb-2 text-foreground hover:text-primary transition-colors">
                         {release.title}
                       </h3>
                       <p className="text-muted-foreground mb-3">
@@ -248,7 +268,12 @@ const News = () => {
                         {release.date}
                       </div>
                     </div>
-                    <Button variant="ghost" size="sm" className="ml-4">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="ml-4"
+                      onClick={(e) => { e.stopPropagation(); window.open(release.link, '_blank'); }}
+                    >
                       <Newspaper className="h-4 w-4" />
                     </Button>
                   </div>
