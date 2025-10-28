@@ -17,6 +17,9 @@ app.post("/create-checkout-session", async (req, res) => {
     // Convert price from pounds to pence (Stripe uses smallest currency unit)
     const unitAmount = Math.round(price * 100);
 
+    // Auto-detect frontend URL from request origin (works for local & deployed)
+    const frontendUrl = req.headers.origin || process.env.FRONTEND_URL || "http://localhost:5173";
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "payment",
@@ -32,8 +35,8 @@ app.post("/create-checkout-session", async (req, res) => {
           quantity: quantity || 1,
         },
       ],
-      success_url: `${process.env.FRONTEND_URL || "http://localhost:5173"}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.FRONTEND_URL || "http://localhost:5173"}/payment-cancelled`,
+      success_url: `${frontendUrl}/payment-success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${frontendUrl}/payment-cancelled`,
     });
 
     res.json({ url: session.url });
