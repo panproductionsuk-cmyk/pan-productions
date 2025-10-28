@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { useToast } from '@/components/ui/use-toast';
 import NewsletterSection from '@/components/NewsletterSection';
 import { 
   Send,
@@ -11,6 +12,7 @@ import {
 } from 'lucide-react';
 
 const Contact = () => {
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -48,7 +50,11 @@ const Contact = () => {
         throw new Error(data.error || 'Failed to send message');
       }
 
-      alert(`Thank you ${formData.firstName}! Your message has been sent. We'll get back to you soon.`);
+      toast({
+        title: "Message Sent! 🎉",
+        description: `Thank you ${formData.firstName}! Your message has been sent. We'll get back to you soon.`,
+        duration: 5000,
+      });
       
       // Reset form
       setFormData({
@@ -61,7 +67,12 @@ const Contact = () => {
       });
     } catch (error) {
       console.error('Error submitting form:', error);
-      alert('Sorry, there was an error sending your message. Please try again or email us directly.');
+      toast({
+        title: "Error",
+        description: "Sorry, there was an error sending your message. Please try again or email us directly at panproductionsuk@gmail.com",
+        variant: "destructive",
+        duration: 7000,
+      });
     } finally {
       setIsSubmitting(false);
     }

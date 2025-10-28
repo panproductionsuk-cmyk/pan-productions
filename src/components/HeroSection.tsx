@@ -83,8 +83,18 @@ const HeroSection = () => {
 
   return (
     <section className="relative h-screen flex items-center overflow-hidden">
+      {/* Background Image for All Slides */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src={slides[currentSlide].image}
+          alt=""
+          className="w-full h-full object-cover opacity-50 transition-opacity duration-500"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/40" />
+      </div>
+
       {/* Organic Blob Shapes Background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-[1]">
         {/* Large blob - bottom left */}
         <div className="absolute -bottom-32 -left-32 w-[800px] h-[600px] rounded-[40%_60%_70%_30%/60%_30%_70%_40%] bg-card/40 blur-3xl" 
              style={{ transform: 'rotate(-15deg)' }} />
@@ -140,7 +150,7 @@ const HeroSection = () => {
 
       {/* Right Image Section */}
       <div className="hidden lg:flex relative z-10 w-2/5 h-full items-center justify-center px-8">
-        <div className="relative w-full max-w-lg">
+        <div className={`relative w-full ${currentSlide === 0 ? 'max-w-3xl' : 'max-w-2xl'}`}>
           <img
             src={slides[currentSlide].image}
             alt={slides[currentSlide].title}

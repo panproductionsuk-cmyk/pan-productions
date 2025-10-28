@@ -18,7 +18,10 @@ import {
   PlayCircle,
   TrendingUp,
   Heart,
-  Ticket
+  Ticket,
+  Clock,
+  MapPin,
+  Megaphone
 } from 'lucide-react';
 
 const Index = () => {
@@ -39,24 +42,24 @@ const Index = () => {
   const highlights = [
     {
       icon: Theater,
-      title: "Current Productions",
+      title: "Productions",
       description: "Experience our acclaimed theatrical performances featuring talented casts and captivating stories.",
       link: "/productions",
-      image: "https://www.panproductions.co.uk/file/2019/11/earnest-tower.jpg"
+      image: "/images/hero-slide-1.jpg"
+    },
+    {
+      icon: Megaphone,
+      title: "PR & Marketing",
+      description: "Professional marketing and public relations services tailored for theatre productions and creative projects.",
+      link: "/marketing",
+      image: "/images/hero-slide-2.jpg"
     },
     {
       icon: GraduationCap,
       title: "Pan Academy",
       description: "Professional workshops and lessons for actors of all levels, taught by industry experts.",
-      link: "/academy",
-      image: "https://www.panproductions.co.uk/file/2019/10/PAN-WORKSHOPArtboard-0-1.jpg"
-    },
-    {
-      icon: Newspaper,
-      title: "News & Press",
-      description: "Stay updated with our latest news, reviews, and press coverage from the theatre world.",
-      link: "/news",
-      image: "https://www.panproductions.co.uk/file/2019/10/cocuk.jpg"
+      link: "/academy/workshops",
+      image: "/images/hero-slide-3.jpg"
     }
   ];
 
@@ -149,6 +152,221 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Featured Productions Section */}
+      <section className="py-24">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <div className="inline-block mb-4">
+              <span className="px-4 py-2 rounded bg-primary/10 text-primary text-sm font-semibold tracking-wider uppercase border border-primary/20">
+                On Stage Now
+              </span>
+            </div>
+            <h2 className="font-heading text-4xl md:text-6xl font-bold mb-6 text-foreground">
+              Featured Productions
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Experience our current theatrical performances
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            {[
+              {
+                title: "The Importance of Being Earnest",
+                subtitle: "Oscar Wilde",
+                status: "Past Production",
+                venue: "Tower Theatre",
+                dates: "6-15 January 2024",
+                image: "https://www.panproductions.co.uk/file/2019/11/earnest-tower.jpg",
+                description: "A brilliant comedy of manners that sparkles with wit and theatrical invention."
+              },
+              {
+                title: "Alper Yine Hamileyim!",
+                subtitle: "Turkish Theatre",
+                status: "Past Production",
+                venue: "Pan Productions",
+                dates: "2023",
+                image: "https://www.panproductions.co.uk/file/2023/10/Hamileyim.jpg",
+                description: "An acclaimed Turkish theatrical production that captivated audiences."
+              },
+              {
+                title: "Ölüm ve Kız",
+                subtitle: "Death and the Maiden",
+                status: "Past Production",
+                venue: "Arcola Theatre",
+                dates: "2021",
+                image: "https://www.panproductions.co.uk/file/2021/10/DEATH-AND-THE-MAIDEN.jpg",
+                description: "A gripping Turkish theatrical performance that left audiences spellbound."
+              }
+            ].map((production, index) => (
+              <Card key={index} className="group overflow-hidden bg-card/50 border-border/60 hover:border-primary/40 transition-all">
+                <div className="relative h-80 overflow-hidden">
+                  <img 
+                    src={production.image} 
+                    alt={production.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+                  <div className="absolute top-4 right-4">
+                    <Badge className="bg-muted text-muted-foreground">
+                      {production.status}
+                    </Badge>
+                  </div>
+                </div>
+                <CardContent className="p-8">
+                  <div className="flex items-center gap-4 mb-3 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-1">
+                      <Calendar className="w-4 h-4 text-primary" />
+                      <span className="font-semibold text-foreground">{production.dates}</span>
+                    </div>
+                    <span>•</span>
+                    <span>{production.venue}</span>
+                  </div>
+                  <h3 className="font-heading text-2xl font-bold mb-2 text-foreground">
+                    {production.title}
+                  </h3>
+                  <p className="text-primary text-sm font-semibold mb-4">
+                    {production.subtitle}
+                  </p>
+                  <p className="text-muted-foreground mb-6 leading-relaxed">
+                    {production.description}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <Link to="/productions">
+              <Button variant="outline" size="lg" className="px-8">
+                View All Productions
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Workshops Section */}
+      <section className="py-24 bg-gradient-to-br from-card/30 to-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <div className="inline-block mb-4">
+              <span className="px-4 py-2 rounded bg-primary/10 text-primary text-sm font-semibold tracking-wider uppercase border border-primary/20">
+                Pan Academy
+              </span>
+            </div>
+            <h2 className="font-heading text-4xl md:text-6xl font-bold mb-6 text-foreground">
+              Featured Workshops
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Develop your skills with our expert-led workshops and training programs
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {[
+              {
+                title: "AN'da KALMAK Workshop",
+                instructor: "Berrin Şeker Civil",
+                date: "Past Workshop",
+                time: "10:00 AM - 1:00 PM",
+                location: "Claremont Project, London",
+                level: "All Levels",
+                image: "https://www.panproductions.co.uk/file/2019/10/PAN-WORKSHOPArtboard-0-724x1024.jpg",
+                description: "Journey to Personal Inventory in Acting - A workshop focused on staying in the moment for actors."
+              },
+              {
+                title: "Creative Drama for Children",
+                instructor: "Eser Rüzgar",
+                date: "Past Workshop",
+                time: "Sundays",
+                location: "Candid Art Center, London",
+                level: "Children",
+                image: "/images/drama-cocuk-workshop.jpg",
+                description: "Creative drama education through improvisation to develop children's personal skills and creativity."
+              },
+              {
+                title: "Movement in Acting",
+                instructor: "Dr. Selçuk Göldere",
+                date: "Past Workshop",
+                time: "19:00 - 21:00",
+                location: "Candid Arts, Angel",
+                level: "All Levels",
+                image: "/images/movement-acting-workshop.jpg",
+                description: "Training in movement techniques and choreography for performers, directors, and artists."
+              }
+            ].map((workshop, index) => (
+              <Card key={index} className="group overflow-hidden bg-card/50 border-border/60 hover:border-primary/40 transition-all">
+                <div className="relative h-96 overflow-hidden">
+                  {/* Blurred background */}
+                  <div className="absolute inset-0">
+                    <img 
+                      src={workshop.image} 
+                      alt=""
+                      className="w-full h-full object-cover blur-2xl opacity-20 scale-150"
+                    />
+                  </div>
+                  
+                  {/* Main image */}
+                  <div className="absolute inset-0 flex items-center justify-center p-4">
+                    <img 
+                      src={workshop.image} 
+                      alt={workshop.title}
+                      className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+                  
+                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+                  
+                  <div className="absolute top-4 right-4">
+                    <Badge className="bg-muted text-muted-foreground">
+                      {workshop.level}
+                    </Badge>
+                  </div>
+                </div>
+                
+                <CardContent className="p-6">
+                  <h3 className="font-heading text-xl font-bold mb-2 text-foreground">
+                    {workshop.title}
+                  </h3>
+                  <p className="text-primary text-sm font-semibold mb-4">
+                    by {workshop.instructor}
+                  </p>
+                  
+                  <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
+                    {workshop.description}
+                  </p>
+
+                  <div className="space-y-2 mb-4 text-sm">
+                    <div className="flex items-center text-muted-foreground">
+                      <Calendar className="w-4 h-4 mr-2 text-primary" />
+                      <span>{workshop.date}</span>
+                    </div>
+                    <div className="flex items-center text-muted-foreground">
+                      <Clock className="w-4 h-4 mr-2 text-primary" />
+                      <span>{workshop.time}</span>
+                    </div>
+                    <div className="flex items-center text-muted-foreground">
+                      <MapPin className="w-4 h-4 mr-2 text-primary" />
+                      <span className="text-xs">{workshop.location}</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <Link to="/academy/workshops">
+              <Button variant="outline" size="lg" className="px-8">
+                <GraduationCap className="w-4 h-4 mr-2" />
+                View All Workshops
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Why Choose Pan Productions Section */}
       <section className="py-24 bg-gradient-to-br from-card/30 to-background">
         <div className="container mx-auto px-4">
@@ -203,101 +421,6 @@ const Index = () => {
                 </CardContent>
               </Card>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Productions Section */}
-      <section className="py-24">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <div className="inline-block mb-4">
-              <span className="px-4 py-2 rounded bg-primary/10 text-primary text-sm font-semibold tracking-wider uppercase border border-primary/20">
-                On Stage Now
-              </span>
-            </div>
-            <h2 className="font-heading text-4xl md:text-6xl font-bold mb-6 text-foreground">
-              Featured Productions
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Experience our current theatrical performances
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-            {[
-              {
-                title: "The Importance of Being Earnest",
-                subtitle: "A Comedy of Manners",
-                status: "Now Playing",
-                rating: "4.8/5",
-                reviews: "156 Reviews",
-                image: "/images/hero-slide-1.jpg",
-                description: "Oscar Wilde's brilliant masterpiece returns with Pan Productions' acclaimed cast."
-              },
-              {
-                title: "Summer Theatre Workshop",
-                subtitle: "Intensive Drama Course",
-                status: "Enrolling Now",
-                rating: "4.9/5",
-                reviews: "89 Reviews",
-                image: "/images/hero-slide-2.jpg",
-                description: "Join our immersive workshop and learn from industry professionals."
-              }
-            ].map((production, index) => (
-              <Card key={index} className="group overflow-hidden bg-card/50 border-border/60 hover:border-primary/40 transition-all">
-                <div className="relative h-80 overflow-hidden">
-                  <img 
-                    src={production.image} 
-                    alt={production.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
-                  <div className="absolute top-4 right-4">
-                    <Badge className="bg-primary text-primary-foreground">
-                      {production.status}
-                    </Badge>
-                  </div>
-                </div>
-                <CardContent className="p-8">
-                  <div className="flex items-center gap-4 mb-3 text-sm text-muted-foreground">
-                    <div className="flex items-center gap-1">
-                      <Star className="w-4 h-4 fill-primary text-primary" />
-                      <span className="font-semibold text-foreground">{production.rating}</span>
-                    </div>
-                    <span>•</span>
-                    <span>{production.reviews}</span>
-                  </div>
-                  <h3 className="font-heading text-2xl font-bold mb-2 text-foreground">
-                    {production.title}
-                  </h3>
-                  <p className="text-primary text-sm font-semibold mb-4">
-                    {production.subtitle}
-                  </p>
-                  <p className="text-muted-foreground mb-6 leading-relaxed">
-                    {production.description}
-                  </p>
-                  <div className="flex gap-3">
-                    <Button className="flex-1">
-                      <PlayCircle className="w-4 h-4 mr-2" />
-                      Learn More
-                    </Button>
-                    <Button variant="outline">
-                      <Calendar className="w-4 h-4 mr-2" />
-                      Book Now
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Link to="/productions">
-              <Button variant="outline" size="lg" className="px-8">
-                View All Productions
-              </Button>
-            </Link>
           </div>
         </div>
       </section>
@@ -357,34 +480,6 @@ const Index = () => {
                 </CardContent>
               </Card>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Call to Action Section */}
-      <section className="py-24">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center bg-gradient-to-br from-primary/10 via-card/50 to-secondary/10 rounded-2xl p-12 border border-border/60">
-            <h2 className="font-heading text-4xl md:text-5xl font-bold mb-6 text-foreground">
-              Ready to Experience the Magic?
-            </h2>
-            <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-              Join us for an unforgettable theatrical experience. Book your tickets now or explore our workshops to start your acting journey.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/productions">
-                <Button size="lg" className="px-10">
-                  <Theater className="mr-2 h-5 w-5" />
-                  Book Tickets
-                </Button>
-              </Link>
-              <Link to="/academy/workshops">
-                <Button variant="outline" size="lg" className="px-10">
-                  <GraduationCap className="mr-2 h-5 w-5" />
-                  Explore Workshops
-                </Button>
-              </Link>
-            </div>
           </div>
         </div>
       </section>
