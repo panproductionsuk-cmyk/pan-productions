@@ -39,6 +39,9 @@ export async function buyTicket(options: TicketCheckoutOptions): Promise<void> {
   try {
     const backendUrl = getBackendUrl();
     
+    console.log('🎫 Calling backend:', backendUrl);
+    console.log('📦 Request data:', options);
+    
     // Call your backend to create a checkout session
     const response = await fetch(backendUrl, {
       method: 'POST',
@@ -52,17 +55,22 @@ export async function buyTicket(options: TicketCheckoutOptions): Promise<void> {
       }),
     });
 
+    console.log('📡 Response status:', response.status);
+    
     if (!response.ok) {
-      throw new Error('Failed to create checkout session');
+      const errorText = await response.text();
+      console.error('❌ Error response:', errorText);
+      throw new Error(`Failed to create checkout session: ${response.status} - ${errorText}`);
     }
 
     const data: CheckoutResponse = await response.json();
+    console.log('✅ Checkout URL:', data.url);
     
     // Redirect to Stripe's hosted checkout page
     window.location.href = data.url;
   } catch (error) {
-    console.error('Payment error:', error);
-    alert('Failed to start payment process. Please try again.');
+    console.error('💥 Payment error:', error);
+    alert(`Failed to start payment process: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
 

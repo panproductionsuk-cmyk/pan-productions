@@ -1,13 +1,28 @@
 // Vercel Serverless Function for Stripe Checkout
-import Stripe from 'stripe';
+const Stripe = require('stripe');
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
+  // Enable CORS
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  // Handle preflight request
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   // Only allow POST requests
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
+    // Check if Stripe key exists
+    if (!process.env.STRIPE_SECRET_KEY) {
+      throw new Error('Stripe secret key not configured. Please add STRIPE_SECRET_KEY to Vercel environment variables.');
+    }
+
     // Initialize Stripe with secret key from environment variable
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -43,4 +58,4 @@ export default async function handler(req, res) {
     console.error('Stripe error:', error);
     res.status(500).json({ error: error.message });
   }
-}
+};
