@@ -1,5 +1,4 @@
 // Vercel Serverless Function for Stripe Checkout
-const Stripe = require('stripe');
 
 module.exports = async function handler(req, res) {
   // Enable CORS
@@ -20,19 +19,27 @@ module.exports = async function handler(req, res) {
   try {
     // Check if Stripe key exists
     if (!process.env.STRIPE_SECRET_KEY) {
-      throw new Error('Stripe secret key not configured. Please add STRIPE_SECRET_KEY to Vercel environment variables.');
+      console.error('❌ STRIPE_SECRET_KEY not found in environment variables');
+      return res.status(500).json({ 
+        error: 'Stripe secret key not configured. Please add STRIPE_SECRET_KEY to Vercel environment variables.' 
+      });
     }
 
-    // Initialize Stripe with secret key from environment variable
+    // Lazy load Stripe to avoid import errors
+    const Stripe = require('stripe');
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
     const { ticketName, price, quantity } = req.body;
+    
+    console.log('📦 Received request:', { ticketName, price, quantity });
     
     // Convert price from pounds to pence (Stripe uses smallest currency unit)
     const unitAmount = Math.round(price * 100);
 
     // Auto-detect frontend URL from request origin
     const frontendUrl = req.headers.origin || req.headers.referer?.replace(/\/$/, '') || 'https://pan-stage-revival.vercel.app';
+    
+    console.log('🌐 Frontend URL:', frontendUrl);
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -53,9 +60,11 @@ module.exports = async function handler(req, res) {
       cancel_url: `${frontendUrl}/payment-cancelled`,
     });
 
+    console.log('✅ Session created:', session.id);
+    
     res.status(200).json({ url: session.url });
   } catch (error) {
-    console.error('Stripe error:', error);
-    res.status(500).json({ error: error.message });
+    console.error('💥 Stripe error:', error);
+    res.status(500).json({ error: error.message || 'A server error has occurred' });
   }
 };
