@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Heart, Users, Award, Theater, Globe, Sparkles } from 'lucide-react';
+import NewsletterSection from '@/components/NewsletterSection';
 
 const About = () => {
   const values = [
@@ -297,6 +298,9 @@ const About = () => {
           </div>
         </div>
       </section>
+
+      {/* Newsletter Section */}
+      <NewsletterSection />
     </div>
   );
 };

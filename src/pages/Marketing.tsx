@@ -1,7 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import NewsletterSection from '@/components/NewsletterSection';
 import { 
   Target, 
   Megaphone, 
@@ -89,9 +91,11 @@ const Marketing = () => {
               We help you connect with your audience and maximize your impact.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="px-8">
-                Get in Touch
-              </Button>
+              <Link to="/contact">
+                <Button size="lg" className="px-8">
+                  Get in Touch
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -172,11 +176,16 @@ const Marketing = () => {
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
             Let's work together to create a marketing campaign that gets your production the attention it deserves.
           </p>
-          <Button size="lg" className="px-8">
-            Get in Touch
-          </Button>
+          <Link to="/contact">
+            <Button size="lg" className="px-8">
+              Get in Touch
+            </Button>
+          </Link>
         </div>
       </section>
+
+      {/* Newsletter Section */}
+      <NewsletterSection />
     </div>
   );
 };

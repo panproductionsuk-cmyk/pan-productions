@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import NewsletterSection from '@/components/NewsletterSection';
 import { 
   Send,
   MessageCircle
@@ -118,6 +119,9 @@ const Contact = () => {
           </div>
         </div>
       </div>
+
+      {/* Newsletter Section */}
+      <NewsletterSection />
     </div>
   );
 };

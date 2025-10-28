@@ -4,6 +4,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, MapPin, Clock, Ticket } from 'lucide-react';
+import NewsletterSection from '@/components/NewsletterSection';
 
 interface Production {
   id: string;
@@ -365,6 +366,9 @@ const Productions = () => {
           </div>
         </div>
       </div>
+
+      {/* Newsletter Section */}
+      <NewsletterSection />
     </div>
   );
 };
