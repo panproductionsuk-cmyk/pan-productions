@@ -6,6 +6,8 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import NewsletterSection from '@/components/NewsletterSection';
+import SEO from '@/components/SEO';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { 
   Clock, 
   Users, 
@@ -19,54 +21,103 @@ import {
 } from 'lucide-react';
 
 const Workshops = () => {
+  const { t } = useLanguage();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const pastWorkshops = [
     {
-      title: "AN'da KALMAK Workshop",
-      instructor: "Berrin Şeker Civil",
-      date: "3rd November 2019, Sunday",
-      time: "10:00 AM - 1:00 PM",
-      location: "Claremont Project, 24-27 White Lion St, N1 9PD",
-      price: "Contact for pricing",
-      level: "All Levels",
-      spots: null,
-      status: "Completed",
-      category: "THEATER",
-      description: "Oyunculukta Kişisel Envantere Yolculuk (Journey to Personal Inventory in Acting) - A workshop focused on 'staying in the moment' for actors. Based on Role Playing, this workshop helps actors maintain presence in the reality of the moment. Open to actors and actor candidates, limited to 6 participants. Berrin Şeker Civil shares over 20 years of experience in camera and theatre acting.",
-      image: "https://www.panproductions.co.uk/file/2019/10/PAN-WORKSHOPArtboard-0-724x1024.jpg",
-      contact: "workshop@panproductions.co.uk",
-      phone: "07487 586944"
-    },
-    {
-      title: "Yaratıcı Drama - Çocuk Workshop",
-      instructor: "Eser Rüzgar",
-      date: "Sundays (Pazar Günleri)",
-      time: "Times vary by registration period",
-      location: "Candid Art Center, London",
-      price: "Contact for pricing",
-      level: "Children",
-      spots: null,
-      status: "Completed",
-      category: "THEATER",
-      description: "PAN Creative Drama Workshop for Children. Creative drama education based on improvisation directly impacts children's personal development and creativity. Through learning by doing and experiencing, children develop imagination, communication skills, self-confidence, empathy, critical thinking, and responsibility in a free and supportive environment.",
-      image: "/images/drama-cocuk-workshop.jpg",
-      contact: "drama@panproductions.co.uk",
-      phone: "07487 586944"
-    },
-    {
-      title: "Movement in Acting",
-      instructor: "Dr. Selçuk Göldere",
-      date: "16th September 2019, Monday",
-      time: "19:00 - 21:00",
-      location: "Candid Arts, Angel, 3 Torrens St, The Angel, London EC1V 1NQ",
+      title: "Theatre of the Oppressed - Augusto Boal Workshop",
+      instructor: "Dr. Pieter Verstraete (Free University Berlin & University Groningen)",
+      date: "27th October 2025, Thursday",
+      time: "19:00-21:00",
+      location: "Arcola Theatre, Studio 4",
       price: "Free",
       level: "All Levels",
       spots: null,
       status: "Completed",
       category: "THEATER",
-      description: "Acting is an art form that requires complete awareness of the body. Training in movement techniques allows us to acquire a range of physical skills. Join us if you are a performer, director, writer or artist interested in movement skills and choreography. Dr. Selçuk Göldere, a performance-maker, educator and researcher, will share his experience in theatre and contemporary dance stretching over 25 years.",
-      image: "/images/movement-acting-workshop.jpg",
-      contact: "freeworkshop@panproductions.co.uk",
+      description: "A Workshop on Augusto Boal's Theatre of the Oppressed and Listening to Others with Insights from the ExiLives Project. Critical Theatre Strategies, Listening Modes and Exercises. This workshop explores Augusto Boal's revolutionary Theatre of the Oppressed methodology, focusing on critical theatre strategies and listening techniques. Participants will engage with practical exercises that combine Boal's transformative approach with contemporary insights from the ExiLives Project, learning how to use theatre as a tool for social change and understanding diverse perspectives.",
+      image: "/images/boal-workshop.jpg",
+      contact: "info@panproductions.co.uk",
+      phone: null
+    },
+    {
+      title: "Mehmet Ergen ile Tiyatro Deneyimi - Theatre Experience with Mehmet Ergen",
+      instructor: "Mehmet Ergen",
+      date: "2 Oct, 3 Oct, 7 Oct, 10 Oct 2025",
+      time: "19:00-22:00",
+      location: "Arcola Theatre, 24 Ashwin St, E8 3DL",
+      price: "Contact for pricing",
+      level: "All Levels",
+      spots: null,
+      status: "Completed",
+      category: "THEATER",
+      description: "Oyunculuk ve Yaratım - Acting and Creation workshop with renowned theatre director and practitioner Mehmet Ergen. This four-session workshop offers participants a unique opportunity to explore theatre-making techniques, acting methodologies, and creative expression under the guidance of one of the leading figures in contemporary Turkish theatre. Participants will engage in practical exercises, scene work, and collaborative creation processes.",
+      image: "/images/mehmet-ergen-workshop.jpg",
+      contact: "info@panproductions.co.uk",
+      phone: null
+    },
+    {
+      title: "Philip Arditti ile Oyun Yapma Atölyesi - Devised Theatre with Philip Arditti",
+      instructor: "Philip Arditti",
+      date: "24 June, 1 July, 8 July, 15 July 2025",
+      time: "19:00-21:30",
+      location: "Arcola Theatre, 24 Ashwin St, E8 3DL",
+      price: "Contact for pricing",
+      level: "All Levels",
+      spots: "Limited availability",
+      status: "Completed",
+      category: "THEATER",
+      description: "Devised theatre and storytelling workshop. 'I can take any empty space and call it a bare stage. A man walks across this empty space whilst someone else is watching him, and this is all that is needed for an act of theatre to be engaged.' - Peter Brook. Deriving from this mindset, in this workshop we will: Create scenes without the obligation of writing. Explore the power of storytelling with the minimum amount of elements. Experience theatre-making and devised theatre techniques. Create personal stories on stage using stand-up, solo and storytelling formats. Who can join? Those interested in acting. Those who want to create on stage. Those interested in solo performance and storytelling. Those who want to explore theatre. Limited availability.",
+      image: "/images/philip-arditti-workshop.jpg",
+      contact: "info@panproductions.co.uk",
+      phone: null
+    },
+    {
+      title: "Duygular Bankası Yazı Atölyesi - Emotions Bank Writing Workshop",
+      instructor: "Seçil Honeywill (WriteNow Berlin - Writer & Dramaturg)",
+      date: "TBA",
+      time: "4 hours",
+      location: "Pan Productions",
+      price: "Contact for pricing",
+      level: "All Levels",
+      spots: null,
+      status: "Completed",
+      category: "THEATER",
+      description: "There are countless ways to write about an event, a feeling, or a thought. Strangely enough, sometimes we have to begin from an unexpected place to truly express what's inside us. But where is that unexpected place? The 'Emotions Bank Writing Workshop' is a space free from formulas and templates, designed to take you on a journey through your own personal bank of emotions. It will focus on how to tap into your storytelling instinct, how to generate new ideas from your perceptions and experiences, how to explore different structures, and how to develop your writing skills. The goal of this four-hour workshop is to inspire you, help you overcome your fear of writing, and leave you with a notebook full of creative ideas. We invite you to write, to share your stories, and most importantly, to discover the healing power of writing.",
+      image: "/images/writing-workshop.jpg",
+      contact: "info@panproductions.co.uk",
+      phone: null
+    },
+    {
+      title: "Oyunculuk Atölyesi - Introduction to Stanislavski's Method of Physical Actions",
+      instructor: "Cüneyt Yalaz",
+      date: "2nd June 2025, Monday",
+      time: "19:00",
+      location: "Tower Theatre, 16 Northwold Road - N16 7HR",
+      price: "Contact for pricing",
+      level: "All Levels",
+      spots: null,
+      status: "Completed",
+      category: "THEATER",
+      description: "This workshop offers an introduction to the 'Method of Physical Actions' developed by Stanislavski, the founder of the most influential acting theory. The Method of Physical Actions is an essential acting approach that should be learned and practiced by both beginners and experienced actors alike. The workshop will also include a discussion and practical session on how this method can be interpreted from a Brechtian perspective. Topics: What was Stanislavski's innovative contribution to acting? What is the Method of Physical Actions? Core concepts like Emotion Memory, Concentration, Given Circumstances, The Magic If, and Emotion-Thought Exchange. How to approach a role and what elements to draw upon when portraying a character. The relationship between dramaturgy and acting style, and Brecht's contribution. Cüneyt Yalaz is a graduate of Boğaziçi University, founding member of BGST, actor, director, playwright, and recipient of the Sadri Alışık Best Actor Award (2016) and Vasıf Öngören Special Award (2018).",
+      image: "/images/stanislavski-workshop.jpg",
+      contact: "info@panproductions.co.uk",
+      phone: "07944430349"
+    },
+    {
+      title: "Meisner Technique Workshop",
+      instructor: "Pan Productions",
+      date: "21st July 2024, Sunday",
+      time: "11:00 AM - 2:00 PM (3 hours with breaks)",
+      location: "Tower Theatre",
+      price: "Free",
+      level: "All Levels",
+      spots: null,
+      status: "Completed",
+      category: "THEATER",
+      description: "The Meisner technique is an approach to acting developed by American theatre practitioner Sanford Meisner. The goal of the Meisner approach is for the actor to not focus on themselves and instead concentrate on the other actors in the immediate environment. Here and now, without thinking or planning.",
+      image: "/images/meisner-workshop.jpg",
+      contact: "info@panproductions.co.uk",
       phone: null
     }
   ];
@@ -74,23 +125,23 @@ const Workshops = () => {
   const features = [
     {
       icon: Award,
-      title: "Expert Instructors",
-      description: "Learn from industry professionals with years of experience"
+      title: t('workshops.feature1Title'),
+      description: t('workshops.feature1Description')
     },
     {
       icon: Users,
-      title: "Small Groups",
-      description: "Intimate class sizes ensure personalized attention"
+      title: t('workshops.feature2Title'),
+      description: t('workshops.feature2Description')
     },
     {
       icon: Theater,
-      title: "Professional Setting",
-      description: "Train in our fully equipped studio spaces"
+      title: t('workshops.feature3Title'),
+      description: t('workshops.feature3Description')
     },
     {
       icon: BookOpen,
-      title: "Comprehensive Materials",
-      description: "All workshop materials and resources included"
+      title: t('workshops.feature4Title'),
+      description: t('workshops.feature4Description')
     }
   ];
 
@@ -104,8 +155,32 @@ const Workshops = () => {
     }
   };
 
+  const workshopsSchema = {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": "Pan Academy",
+    "description": "Professional drama school in North London offering acting classes, workshops, and courses for all levels",
+    "url": "https://www.panproductions.co.uk/academy/workshops",
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "Pan Productions"
+    },
+    "offers": {
+      "@type": "Offer",
+      "category": "Acting Classes and Workshops"
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Acting Workshops & Classes | Pan Academy London"
+        description="Pan Academy offers professional acting workshops in North London. From beginners to advanced, learn from industry experts. Theatre, Meisner, Stanislavski methods and more."
+        keywords="acting workshops London, drama classes, theatre workshops, Pan Academy, acting school London, drama training, Meisner technique, Stanislavski method"
+        url="/academy/workshops"
+        structuredData={workshopsSchema}
+      />
+      
       {/* Hero Section with Background Image */}
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0">
@@ -119,33 +194,24 @@ const Workshops = () => {
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
             <Badge variant="outline" className="mb-6 text-primary border-primary/20">
-              Pan Academy Workshops
+              {t('workshops.badgeTitle')}
             </Badge>
             <h1 className="text-5xl font-heading font-bold mb-6 text-foreground">
-              Elevate Your <span className="text-primary">Performance Skills</span>
+              {t('workshops.heroTitle1')} <span className="text-primary">{t('workshops.heroTitle2')}</span>
             </h1>
             <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-              Pan Academy is a leading acting school in North London. We offer a varied range of acting classes 
-              and courses designed to suit all experience levels. Whether you're looking to challenge yourself, 
-              develop new skills, or take the next step in your acting journey, we have a course for you. 
-              Our evening, weekend, and part-time programs are structured to fit around your busy schedule.
+              {t('workshops.heroParagraph1')}
             </p>
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-              If you're new to acting, our Beginners Courses provide a fun and supportive environment to help you 
-              get started before progressing to Improvers and Advanced levels. For those aspiring to a professional 
-              career, our Industry Courses offer expert training to prepare you for the demands of the acting industry. 
-              If you're seeking an intensive experience covering a range of techniques, our Foundation in Acting course 
-              is the perfect choice.
+              {t('workshops.heroParagraph2')}
             </p>
             <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-              We offer a variety of acting courses for adults, including Acting Classes, Voice and Movement Training, 
-              along with specialized workshops such as playwriting and alongside specialised methods of acting such as 
-              Meisner, Stanislavski and Method Acting.
+              {t('workshops.heroParagraph3')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/contact">
                 <Button variant="outline" size="lg" className="px-8">
-                  Contact Us
+                  {t('workshops.contactUs')}
                 </Button>
               </Link>
             </div>
@@ -174,19 +240,19 @@ const Workshops = () => {
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-heading font-bold mb-4 text-foreground">Past Workshops</h2>
+            <h2 className="text-4xl font-heading font-bold mb-4 text-foreground">{t('workshops.pastWorkshopsTitle')}</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Explore our previously held workshops that helped develop performance skills
+              {t('workshops.pastWorkshopsSubtitle')}
             </p>
           </div>
 
           {/* Category Tabs */}
           <Tabs defaultValue="theater" className="w-full">
             <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-4 mb-12">
-              <TabsTrigger value="theater" className="text-lg font-heading">THEATER</TabsTrigger>
-              <TabsTrigger value="music" className="text-lg font-heading">MUSIC</TabsTrigger>
-              <TabsTrigger value="art" className="text-lg font-heading">ART</TabsTrigger>
-              <TabsTrigger value="film" className="text-lg font-heading">FILM</TabsTrigger>
+              <TabsTrigger value="theater" className="text-lg font-heading">{t('workshops.tabTheater')}</TabsTrigger>
+              <TabsTrigger value="music" className="text-lg font-heading">{t('workshops.tabMusic')}</TabsTrigger>
+              <TabsTrigger value="art" className="text-lg font-heading">{t('workshops.tabArt')}</TabsTrigger>
+              <TabsTrigger value="film" className="text-lg font-heading">{t('workshops.tabFilm')}</TabsTrigger>
             </TabsList>
 
             {/* Theater Tab */}
@@ -213,35 +279,37 @@ const Workshops = () => {
                         />
                       </div>
                       
-                      <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/30 to-transparent transition-colors" />
                       
                       {/* Status Badges */}
-                      <div className="absolute top-4 right-4 flex gap-2 flex-wrap justify-end z-10">
-                        <Badge className="bg-gray-500/90 hover:bg-gray-600 text-white">
+                      <div className="absolute top-4 right-4 flex flex-col gap-2 z-10">
+                        <Badge className={
+                          workshop.status === "Upcoming" 
+                            ? "bg-pink-500/80 hover:bg-pink-600/80 text-white" 
+                            : workshop.status === "Completed"
+                            ? "bg-lime-400/80 hover:bg-lime-500/80 text-black"
+                            : "bg-lime-300/40 text-gray-600"
+                        }>
                           {workshop.status}
-                    </Badge>
-                    {workshop.price === "Free" && (
-                      <Badge className="bg-green-500/90 hover:bg-green-600 text-white">
-                        Free Workshop
-                      </Badge>
-                    )}
-                    <Badge variant={getLevelBadgeVariant(workshop.level)}>
-                      {workshop.level}
-                    </Badge>
-                  </div>
-
-                  {/* Title Overlay */}
-                  <div className="absolute bottom-4 left-4 right-4 z-10">
-                    <h3 className="font-heading text-2xl font-bold text-foreground mb-1">
-                      {workshop.title}
-                    </h3>
-                    <p className="text-muted-foreground text-sm">
-                      by {workshop.instructor}
-                    </p>
-                  </div>
+                        </Badge>
+                        {workshop.price === "Free" && (
+                          <Badge className="bg-pink-500/70 hover:bg-pink-600/70 text-white">
+                            Free Workshop
+                          </Badge>
+                        )}
+                        <Badge variant={getLevelBadgeVariant(workshop.level)} className="opacity-80">
+                          {workshop.level}
+                        </Badge>
+                      </div>
                 </div>
                 
                 <CardContent className="p-6">
+                  {/* Title */}
+                  <h3 className="font-heading text-2xl font-bold text-foreground mb-2">
+                    {workshop.title}
+                  </h3>
+                  <p className="text-muted-foreground text-sm mb-4">
+                    {t('workshops.instructor')}: {workshop.instructor}
+                  </p>
                   <p className="text-muted-foreground mb-6">
                     {workshop.description}
                   </p>
@@ -279,7 +347,7 @@ const Workshops = () => {
                       className="flex-1"
                       disabled
                     >
-                      Workshop Completed
+                      {t('workshops.completed')}
                     </Button>
                     <Button variant="outline" size="icon">
                       <Calendar className="w-4 h-4" />
@@ -294,21 +362,21 @@ const Workshops = () => {
             {/* Music Tab */}
             <TabsContent value="music">
               <div className="text-center py-16">
-                <p className="text-muted-foreground text-lg">No music workshops available at the moment.</p>
+                <p className="text-muted-foreground text-lg">{t('workshops.noMusic')}</p>
               </div>
             </TabsContent>
 
             {/* Art Tab */}
             <TabsContent value="art">
               <div className="text-center py-16">
-                <p className="text-muted-foreground text-lg">No art workshops available at the moment.</p>
+                <p className="text-muted-foreground text-lg">{t('workshops.noArt')}</p>
               </div>
             </TabsContent>
 
             {/* Film Tab */}
             <TabsContent value="film">
               <div className="text-center py-16">
-                <p className="text-muted-foreground text-lg">No film workshops available at the moment.</p>
+                <p className="text-muted-foreground text-lg">{t('workshops.noFilm')}</p>
               </div>
             </TabsContent>
           </Tabs>
@@ -332,20 +400,20 @@ const Workshops = () => {
       <section className="py-20 bg-gradient-to-r from-primary/10 to-secondary/10">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl font-heading font-bold mb-6 text-foreground">
-            Can't Find What You're Looking For?
+            {t('workshops.ctaTitle')}
           </h2>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            We offer customized workshops and private coaching sessions. Contact us to discuss your specific training needs.
+            {t('workshops.ctaDescription')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/contact">
               <Button size="lg" className="px-8">
-                Contact Us
+                {t('workshops.contactUs')}
               </Button>
             </Link>
             <Link to="/contact">
               <Button variant="outline" size="lg" className="px-8">
-                Request Private Lesson
+                {t('workshops.requestLesson')}
               </Button>
             </Link>
           </div>

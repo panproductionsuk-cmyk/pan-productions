@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import NewsletterSection from '@/components/NewsletterSection';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { 
   Heart, 
   Users, 
@@ -16,49 +17,50 @@ import {
 } from 'lucide-react';
 
 const GetInvolved = () => {
+  const { t } = useLanguage();
   const opportunities = [
     {
       icon: Heart,
-      title: "Donate",
-      subtitle: "Support Our Mission", 
-      description: "Help us continue creating powerful theatrical experiences and providing arts education to our community.",
+      title: t('getInvolved.donateTitle'),
+      subtitle: t('getInvolved.donateSubtitle'), 
+      description: t('getInvolved.donateDescription'),
       features: [
-        "Support new productions",
-        "Fund educational programs", 
-        "Provide scholarships",
-        "Maintain our facilities"
+        t('getInvolved.donateFeature1'),
+        t('getInvolved.donateFeature2'), 
+        t('getInvolved.donateFeature3'),
+        t('getInvolved.donateFeature4')
       ],
-      cta: "Make a Donation",
+      cta: t('getInvolved.donateCta'),
       color: "from-red-500/10 to-pink-500/10",
       buttonVariant: "default"
     },
     {
       icon: Users,
-      title: "Volunteer", 
-      subtitle: "Join Our Team",
-      description: "Become part of our creative community and gain hands-on experience in professional theatre production.",
+      title: t('getInvolved.volunteerTitle'), 
+      subtitle: t('getInvolved.volunteerSubtitle'),
+      description: t('getInvolved.volunteerDescription'),
       features: [
-        "Production assistance",
-        "Event management",
-        "Marketing support", 
-        "Administrative help"
+        t('getInvolved.volunteerFeature1'),
+        t('getInvolved.volunteerFeature2'),
+        t('getInvolved.volunteerFeature3'), 
+        t('getInvolved.volunteerFeature4')
       ],
-      cta: "Apply to Volunteer",
+      cta: t('getInvolved.volunteerCta'),
       color: "from-blue-500/10 to-cyan-500/10",
       buttonVariant: "default"
     },
     {
       icon: Handshake,
-      title: "Become a Partner",
-      subtitle: "Corporate Collaboration",
-      description: "Partner with us to create meaningful connections between your business and the arts community.",
+      title: t('getInvolved.partnerTitle'),
+      subtitle: t('getInvolved.partnerSubtitle'),
+      description: t('getInvolved.partnerDescription'),
       features: [
-        "Brand visibility",
-        "Community engagement",
-        "Employee benefits",
-        "Networking opportunities"
+        t('getInvolved.partnerFeature1'),
+        t('getInvolved.partnerFeature2'),
+        t('getInvolved.partnerFeature3'),
+        t('getInvolved.partnerFeature4')
       ],
-      cta: "Partnership Inquiry", 
+      cta: t('getInvolved.partnerCta'), 
       color: "from-green-500/10 to-emerald-500/10",
       buttonVariant: "default"
     }
@@ -66,69 +68,69 @@ const GetInvolved = () => {
 
   const volunteerRoles = [
     {
-      title: "Production Assistant",
-      commitment: "10-15 hours/week",
-      description: "Support our production team with backstage operations, set construction, and technical assistance.",
-      skills: ["Reliability", "Physical capability", "Team player"]
+      title: t('getInvolved.role1Title'),
+      commitment: t('getInvolved.role1Commitment'),
+      description: t('getInvolved.role1Description'),
+      skills: [t('getInvolved.role1Skill1'), t('getInvolved.role1Skill2'), t('getInvolved.role1Skill3')]
     },
     {
-      title: "Marketing Volunteer",
-      commitment: "5-8 hours/week", 
-      description: "Help promote our productions through social media, content creation, and community outreach.",
-      skills: ["Social media", "Writing", "Photography"]
+      title: t('getInvolved.role2Title'),
+      commitment: t('getInvolved.role2Commitment'), 
+      description: t('getInvolved.role2Description'),
+      skills: [t('getInvolved.role2Skill1'), t('getInvolved.role2Skill2'), t('getInvolved.role2Skill3')]
     },
     {
-      title: "Event Coordinator",
-      commitment: "8-12 hours/week",
-      description: "Assist with organizing special events, workshops, and community engagement activities.",
-      skills: ["Organization", "Communication", "Event planning"]
+      title: t('getInvolved.role3Title'),
+      commitment: t('getInvolved.role3Commitment'),
+      description: t('getInvolved.role3Description'),
+      skills: [t('getInvolved.role3Skill1'), t('getInvolved.role3Skill2'), t('getInvolved.role3Skill3')]
     },
     {
-      title: "Education Support",
-      commitment: "6-10 hours/week",
-      description: "Support Pan Academy workshops and educational programs for students of all ages.",
-      skills: ["Patience", "Teaching interest", "Arts background"]
+      title: t('getInvolved.role4Title'),
+      commitment: t('getInvolved.role4Commitment'),
+      description: t('getInvolved.role4Description'),
+      skills: [t('getInvolved.role4Skill1'), t('getInvolved.role4Skill2'), t('getInvolved.role4Skill3')]
     }
   ];
 
   const partnershipBenefits = [
     {
-      level: "Supporting Partner",
+      level: t('getInvolved.partner1Level'),
       amount: "£1,000 - £2,500",
-      benefits: ["Logo in programs", "Social media mentions", "2 complimentary tickets per show"]
+      benefits: [t('getInvolved.partner1Benefit1'), t('getInvolved.partner1Benefit2'), t('getInvolved.partner1Benefit3')]
     },
     {
-      level: "Principal Partner", 
+      level: t('getInvolved.partner2Level'), 
       amount: "£2,500 - £5,000",
-      benefits: ["Prominent logo placement", "Website recognition", "VIP event invitations", "4 complimentary tickets per show"]
+      benefits: [t('getInvolved.partner2Benefit1'), t('getInvolved.partner2Benefit2'), t('getInvolved.partner2Benefit3'), t('getInvolved.partner2Benefit4')]
     },
     {
-      level: "Founding Partner",
+      level: t('getInvolved.partner3Level'),
       amount: "£5,000+",
-      benefits: ["Title sponsor opportunities", "Exclusive networking events", "Custom partnership packages", "Season passes"]
+      benefits: [t('getInvolved.partner3Benefit1'), t('getInvolved.partner3Benefit2'), t('getInvolved.partner3Benefit3'), t('getInvolved.partner3Benefit4')]
     }
   ];
 
   const impactStats = [
     {
       number: "500+",
-      label: "Students Educated",
-      description: "Through our academy programs"
+      label: t('getInvolved.impact1Label'),
+      description: t('getInvolved.impact1Description')
     },
     {
       number: "25+",
-      label: "Productions Staged", 
-      description: "Since our founding in 2016"
+      label: t('getInvolved.impact2Label'), 
+      description: t('getInvolved.impact2Description')
     },
     {
       number: "15,000+",
-      label: "Audience Members",
-      description: "Reached through our work"
+      label: t('getInvolved.impact3Label'),
+      description: t('getInvolved.impact3Description')
     },
     {
       number: "50+",
-      label: "Artists Supported",
-      description: "Professional opportunities created"
+      label: t('getInvolved.impact4Label'),
+      description: t('getInvolved.impact4Description')
     }
   ];
 
@@ -139,18 +141,17 @@ const GetInvolved = () => {
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
             <Badge variant="outline" className="mb-6 text-primary border-primary/20">
-              Make a Difference
+              {t('getInvolved.badge')}
             </Badge>
             <h1 className="text-5xl font-heading font-bold mb-6 text-foreground">
-              Get <span className="text-primary">Involved</span>
+              {t('getInvolved.title1')} <span className="text-primary">{t('getInvolved.title2')}</span>
             </h1>
             <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-              Join our mission to create transformative theatrical experiences and foster arts education in our community. 
-              There are many ways to support Pan Productions and make a lasting impact.
+              {t('getInvolved.heroDescription')}
             </p>
             <Button size="lg" className="px-8">
               <Heart className="mr-2 h-5 w-5" />
-              Choose Your Way to Help
+              {t('getInvolved.heroCta')}
             </Button>
           </div>
         </div>
@@ -160,9 +161,9 @@ const GetInvolved = () => {
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-heading font-bold mb-4 text-foreground">Ways to Support Us</h2>
+            <h2 className="text-4xl font-heading font-bold mb-4 text-foreground">{t('getInvolved.waysTitle')}</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Choose the way that best fits your interests and availability
+              {t('getInvolved.waysSubtitle')}
             </p>
           </div>
 
@@ -194,7 +195,7 @@ const GetInvolved = () => {
                     ))}
                   </div>
                   
-                  <Button className="w-full" variant={opportunity.buttonVariant as any}>
+                  <Button className="w-full" variant="default">
                     {opportunity.cta}
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
@@ -209,9 +210,9 @@ const GetInvolved = () => {
       <section className="py-16 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-heading font-bold mb-4 text-foreground">Your Impact</h2>
+            <h2 className="text-3xl font-heading font-bold mb-4 text-foreground">{t('getInvolved.impactTitle')}</h2>
             <p className="text-muted-foreground">
-              See how your support helps us make a difference in our community
+              {t('getInvolved.impactSubtitle')}
             </p>
           </div>
 
@@ -237,9 +238,9 @@ const GetInvolved = () => {
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-heading font-bold mb-4 text-foreground">Volunteer Opportunities</h2>
+            <h2 className="text-4xl font-heading font-bold mb-4 text-foreground">{t('getInvolved.volunteerRolesTitle')}</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Find the perfect role that matches your skills and interests
+              {t('getInvolved.volunteerRolesSubtitle')}
             </p>
           </div>
 
@@ -261,7 +262,7 @@ const GetInvolved = () => {
                 
                 <CardContent>
                   <div className="space-y-2">
-                    <div className="text-sm font-medium text-foreground">Required Skills:</div>
+                    <div className="text-sm font-medium text-foreground">{t('getInvolved.requiredSkills')}:</div>
                     <div className="flex flex-wrap gap-2">
                       {role.skills.map((skill, skillIndex) => (
                         <Badge key={skillIndex} variant="secondary" className="text-xs">
@@ -281,9 +282,9 @@ const GetInvolved = () => {
       <section className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-heading font-bold mb-4 text-foreground">Partnership Levels</h2>
+            <h2 className="text-4xl font-heading font-bold mb-4 text-foreground">{t('getInvolved.partnershipLevelsTitle')}</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Flexible partnership options to suit your organization's goals and budget
+              {t('getInvolved.partnershipLevelsSubtitle')}
             </p>
           </div>
 
@@ -292,7 +293,7 @@ const GetInvolved = () => {
               <Card key={index} className={`${index === 1 ? 'border-primary shadow-lg' : ''} hover:shadow-lg transition-shadow duration-300`}>
                 {index === 1 && (
                   <div className="bg-primary text-primary-foreground text-center py-2 text-sm font-medium">
-                    Most Popular
+                    {t('getInvolved.mostPopular')}
                   </div>
                 )}
                 
@@ -321,19 +322,18 @@ const GetInvolved = () => {
       <section className="py-20 bg-gradient-to-r from-primary/10 to-secondary/10">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl font-heading font-bold mb-6 text-foreground">
-            Ready to Make a Difference?
+            {t('getInvolved.ctaTitle')}
           </h2>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Whether you want to donate, volunteer, or become a partner, we'd love to hear from you. 
-            Let's work together to strengthen our arts community.
+            {t('getInvolved.ctaDescription')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="px-8">
               <Heart className="mr-2 h-5 w-5" />
-              Get Started Today
+              {t('getInvolved.ctaPrimary')}
             </Button>
             <Button variant="outline" size="lg" className="px-8">
-              Contact Us
+              {t('getInvolved.ctaSecondary')}
             </Button>
           </div>
         </div>

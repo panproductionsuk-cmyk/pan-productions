@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import NewsletterSection from '@/components/NewsletterSection';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { 
   Target, 
   Megaphone, 
@@ -16,30 +17,32 @@ import {
 } from 'lucide-react';
 
 const Marketing = () => {
+  const { t } = useLanguage();
+  
   const services = [
     {
       icon: Target,
-      title: "Strategic Marketing",
-      description: "Comprehensive marketing strategies tailored to your production's unique needs and target audience.",
-      features: ["Market Research", "Audience Analysis", "Brand Positioning", "Campaign Planning"]
+      title: t('marketing.service1Title'),
+      description: t('marketing.service1Description'),
+      features: [t('marketing.service1Feature1'), t('marketing.service1Feature2'), t('marketing.service1Feature3'), t('marketing.service1Feature4')]
     },
     {
       icon: Megaphone,
-      title: "Public Relations",
-      description: "Professional PR services to maximize your production's visibility and media coverage.",
-      features: ["Press Releases", "Media Relations", "Interview Coordination", "Crisis Management"]
+      title: t('marketing.service2Title'),
+      description: t('marketing.service2Description'),
+      features: [t('marketing.service2Feature1'), t('marketing.service2Feature2'), t('marketing.service2Feature3'), t('marketing.service2Feature4')]
     },
     {
       icon: Camera,
-      title: "Content Creation",
-      description: "High-quality promotional content including photography, videography, and graphic design.",
-      features: ["Professional Photography", "Video Production", "Graphic Design", "Social Media Content"]
+      title: t('marketing.service3Title'),
+      description: t('marketing.service3Description'),
+      features: [t('marketing.service3Feature1'), t('marketing.service3Feature2'), t('marketing.service3Feature3'), t('marketing.service3Feature4')]
     },
     {
       icon: Globe,
-      title: "Digital Marketing",
-      description: "Complete digital marketing solutions to reach audiences across all online platforms.",
-      features: ["Social Media Marketing", "Website Development", "SEO Optimization", "Email Campaigns"]
+      title: t('marketing.service4Title'),
+      description: t('marketing.service4Description'),
+      features: [t('marketing.service4Feature1'), t('marketing.service4Feature2'), t('marketing.service4Feature3'), t('marketing.service4Feature4')]
     }
   ];
 
@@ -81,18 +84,18 @@ const Marketing = () => {
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-5xl font-heading font-bold mb-6 text-foreground">
-              PR & Marketing Excellence
+              {t('marketing.heroTitle')}
             </h1>
             <h2 className="text-3xl font-heading font-semibold mb-6 text-primary">
-              Amplify Your Creative Vision
+              {t('marketing.heroSubtitle')}
             </h2>
             <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-              Pan Productions provides bespoke PR & Marketing strategies and support on a project basis in theatre, music and exhibitions.
+              {t('marketing.heroDescription')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/contact">
                 <Button size="lg" className="px-8">
-                  Get in Touch
+                  {t('marketing.getInTouch')}
                 </Button>
               </Link>
             </div>
@@ -105,8 +108,7 @@ const Marketing = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              Pan Productions provides bespoke PR & Marketing strategies and support on a project basis 
-              in theatre, music and exhibitions.
+              {t('marketing.description')}
             </p>
           </div>
 
@@ -142,11 +144,11 @@ const Marketing = () => {
       <section className="py-20 bg-gradient-to-r from-primary/10 to-secondary/10">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl font-heading font-bold mb-6 text-foreground">
-            Ready to Promote Your Production?
+            {t('marketing.ctaTitle')}
           </h2>
           <Link to="/contact">
             <Button size="lg" className="px-8">
-              Get in Touch
+              {t('marketing.getInTouch')}
             </Button>
           </Link>
         </div>

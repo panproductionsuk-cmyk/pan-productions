@@ -20,6 +20,7 @@ const Navigation = () => {
   const isActive = (path: string) => location.pathname === path;
 
   const navItems = [
+    { label: t('nav.home'), path: '/', icon: Home },
     { label: t('nav.productions'), path: '/productions' },
     { label: t('nav.marketing'), path: '/marketing' },
     { label: t('nav.academy'), path: '/academy/workshops' },
@@ -32,19 +33,14 @@ const Navigation = () => {
     <header className="sticky top-0 z-50 nav-backdrop">
       <div className="container mx-auto px-0">
         <div className="flex items-center h-32">
-          {/* Logo with Home Icon */}
-          <div className="flex items-center gap-6">
-            <Link to="/" className="flex items-center">
-              <img
-                src="/images/pan-logo.png"
-                alt="Pan Productions"
-                className="h-28 w-auto transition-transform hover:scale-105 rounded-lg py-4"
-              />
-            </Link>
-            <Link to="/" className="text-primary hover:text-primary/80 transition-colors">
-              <Home className="h-6 w-6" />
-            </Link>
-          </div>
+          {/* Logo */}
+          <Link to="/" className="flex items-center">
+            <img
+              src="/images/pan-logo.png"
+              alt="Pan Productions"
+              className="h-28 w-auto transition-transform hover:scale-105 rounded-lg py-4"
+            />
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-0 flex-1 justify-center">
@@ -61,15 +57,16 @@ const Navigation = () => {
                         <Button 
                           variant="ghost" 
                           className={cn(
-                            'flex items-center space-x-1 rounded-md px-2 py-2 uppercase font-semibold text-m tracking-[0.1em] transition-colors font-heading',
+                            'flex items-center space-x-1 rounded-md px-2 py-2.5 uppercase font-semibold text-base tracking-[0.1em] transition-colors font-heading',
                             isParentActive
                               ? 'bg-primary text-primary-foreground shadow-sm'
                               : 'hover:bg-muted/30 hover:text-primary'
                           )}
                           style={{ color: isParentActive ? undefined : '#dae45f' }}
                         >
+                          {item.icon && <item.icon className="h-4 w-4" />}
                           <span>{item.label}</span>
-                          <ChevronDown className="h-4 w-4" />
+                          <ChevronDown className="h-5 w-5" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent 
@@ -98,14 +95,15 @@ const Navigation = () => {
                     <Link 
                       to={item.path}
                       className={cn(
-                        'px-3 py-2 uppercase font-semibold text-sm tracking-[0.16em] rounded-md transition-colors font-heading',
+                        'flex items-center space-x-1 px-2.5 py-2.5 uppercase font-semibold text-base tracking-[0.16em] rounded-md transition-colors font-heading',
                         isParentActive
                           ? 'bg-primary text-primary-foreground shadow-sm'
                           : 'hover:bg-muted/30 hover:text-primary'
                       )}
                       style={{ color: isParentActive ? undefined : '#dae45f' }}
                     >
-                      {item.label}
+                      {item.icon && <item.icon className="h-4 w-5" />}
+                      <span>{item.label}</span>
                     </Link>
                   )}
                 </div>
@@ -113,9 +111,8 @@ const Navigation = () => {
             })}
           </nav>
 
-          {/* Language Toggle and Get Involved Button */}
-          <div className="hidden lg:flex items-center space-x-4 pr-8">
-            {/* Language Toggle */}
+          {/* Language Toggle */}
+          <div className="hidden lg:flex items-center pr-8">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="flex items-center space-x-1 text-white hover:text-primary">
@@ -136,13 +133,6 @@ const Navigation = () => {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-
-            {/* Get Involved CTA */}
-            <Link to="/get-involved">
-              <Button variant="spotlight" className="px-8 py-2.5">
-                {t('nav.getInvolved')}
-              </Button>
-            </Link>
           </div>
 
           {/* Mobile Menu */}
@@ -196,27 +186,22 @@ const Navigation = () => {
                           to={item.path}
                           onClick={() => setIsOpen(false)}
                           className={cn(
-                            'block uppercase font-semibold text-sm tracking-[0.16em] rounded-md px-3 py-2 transition-colors font-heading',
+                            'flex items-center space-x-2 uppercase font-semibold text-sm tracking-[0.16em] rounded-md px-3 py-2 transition-colors font-heading',
                             isParentActive
                               ? 'bg-primary text-primary-foreground'
                               : 'hover:bg-muted/30 hover:text-primary'
                           )}
                           style={{ color: isParentActive ? undefined : '#dae45f' }}
                         >
-                          {item.label}
+                          {item.icon && <item.icon className="h-4 w-4" />}
+                          <span>{item.label}</span>
                         </Link>
                       )}
                     </div>
                   );
                 })}
                 
-                <div className="pt-4 border-t border-border/50 space-y-4">
-                  <Link to="/get-involved" onClick={() => setIsOpen(false)}>
-                    <Button variant="spotlight" className="w-full">
-                      {t('nav.getInvolved')}
-                    </Button>
-                  </Link>
-                  
+                <div className="pt-4 border-t border-border/50">
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-muted-foreground">Language:</span>
                     <div className="flex space-x-2">

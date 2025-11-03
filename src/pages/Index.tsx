@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import HeroSection from '@/components/HeroSection';
 import NewsletterSection from '@/components/NewsletterSection';
 import PartnersCarousel from '@/components/PartnersCarousel';
+import SEO from '@/components/SEO';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { testTicketPurchase } from '@/lib/stripe';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { 
   Theater, 
   GraduationCap, 
@@ -25,7 +27,31 @@ import {
 } from 'lucide-react';
 
 const Index = () => {
+  const { t } = useLanguage();
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+
+  // Structured data for organization
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "PerformingArtsTheater",
+    "name": "Pan Productions",
+    "alternateName": "Pan Academy",
+    "url": "https://www.panproductions.co.uk",
+    "logo": "https://www.panproductions.co.uk/file/2017/02/PAN_LOGO-01.png",
+    "description": "Professional theatre company and performing arts academy in London, bringing Turkish culture to UK audiences through exceptional performances.",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "London",
+      "addressCountry": "GB"
+    },
+    "sameAs": [
+      "https://www.facebook.com/PanProductionsUK",
+      "https://twitter.com/PanProductionsUK",
+      "https://www.instagram.com/panproductionsuk"
+    ],
+    "email": "panproductionsuk@gmail.com",
+    "priceRange": "$$"
+  };
 
   const handleTestPayment = async () => {
     setIsProcessingPayment(true);
@@ -42,22 +68,22 @@ const Index = () => {
   const highlights = [
     {
       icon: Theater,
-      title: "Productions",
-      description: "Experience our acclaimed theatrical performances featuring talented casts and captivating stories.",
+      title: t('index.highlights.productions.title'),
+      description: t('index.highlights.productions.description'),
       link: "/productions",
       image: "/images/hero-slide-1.jpg"
     },
     {
       icon: Megaphone,
-      title: "PR & Marketing",
-      description: "Professional marketing and public relations services tailored for theatre productions and creative projects.",
+      title: t('nav.marketing'),
+      description: t('marketing.description'),
       link: "/marketing",
       image: "/images/hero-slide-2.jpg"
     },
     {
       icon: GraduationCap,
-      title: "Pan Academy",
-      description: "Professional workshops and lessons for actors of all levels, taught by industry experts.",
+      title: t('index.highlights.academy.title'),
+      description: t('index.highlights.academy.description'),
       link: "/academy/workshops",
       image: "/images/hero-slide-3.jpg"
     }
@@ -65,6 +91,14 @@ const Index = () => {
 
   return (
     <div className="min-h-screen">
+      <SEO
+        title="Pan Productions | Award-Winning Theatre Company & Drama Academy London"
+        description="Pan Productions - London's premier Turkish theatre company and performing arts academy. Award-winning productions, professional workshops, and drama education for all levels. Book tickets and explore our academy."
+        keywords="Pan Productions, theatre London, Turkish theatre UK, drama academy, acting classes London, theatre workshops, performing arts, Pan Academy, theatre company London, drama school, acting lessons"
+        url="/"
+        structuredData={organizationSchema}
+      />
+      
       {/* Hero Section */}
       <HeroSection />
 
@@ -153,61 +187,71 @@ const Index = () => {
       </section>
 
       {/* Featured Productions Section */}
-      <section className="py-24">
+      <section className="py-24 bg-gradient-to-br from-primary/5 via-background to-secondary/5">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <div className="inline-block mb-4">
               <span className="px-4 py-2 rounded bg-primary/10 text-primary text-sm font-semibold tracking-wider uppercase border border-primary/20">
-                On Stage Now
+                PAN ACADEMY
               </span>
             </div>
             <h2 className="font-heading text-4xl md:text-6xl font-bold mb-6 text-foreground">
               Featured Productions
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Experience our current theatrical performances
+              Discover the stories that come alive on our stage.
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {[
               {
-                title: "The Importance of Being Earnest",
-                subtitle: "Oscar Wilde",
+                title: "Tut Elimden Rovni",
+                subtitle: "Aziz Nesin",
                 status: "Past Production",
-                venue: "Tower Theatre",
-                dates: "6-15 January 2024",
-                image: "https://www.panproductions.co.uk/file/2019/11/earnest-tower.jpg",
-                description: "A brilliant comedy of manners that sparkles with wit and theatrical invention."
+                venue: "Rosemary Branch Theatre",
+                dates: "27-29 March 2024",
+                image: "/images/tut-elimden-rovni.jpg",
+                description: "A captivating theatrical performance - 'hayatı bir cambazlık gösterisi' (life is a juggling show)."
               },
               {
-                title: "Alper Yine Hamileyim!",
-                subtitle: "Turkish Theatre",
+                title: "Ben Kolay Ölmem",
+                subtitle: "Ali Has",
                 status: "Past Production",
-                venue: "Pan Productions",
-                dates: "2023",
-                image: "https://www.panproductions.co.uk/file/2023/10/Hamileyim.jpg",
-                description: "An acclaimed Turkish theatrical production that captivated audiences."
+                venue: "Arcola Theatre",
+                dates: "11-13 March 2019",
+                image: "/images/ben-kolay-olmem.jpg",
+                description: "A story of Cemal Süreya and Ahmed Arif - two poets, two lives, one story."
               },
               {
                 title: "Ölüm ve Kız",
-                subtitle: "Death and the Maiden",
+                subtitle: "Ariel Dorfman",
                 status: "Past Production",
                 venue: "Arcola Theatre",
-                dates: "2021",
-                image: "https://www.panproductions.co.uk/file/2021/10/DEATH-AND-THE-MAIDEN.jpg",
-                description: "A gripping Turkish theatrical performance that left audiences spellbound."
+                dates: "04/06/2017",
+                image: "/images/olum-ve-kiz.jpg",
+                description: "A gripping psychological thriller with English surtitles."
               }
             ].map((production, index) => (
               <Card key={index} className="group overflow-hidden bg-card/50 border-border/60 hover:border-primary/40 transition-all">
-                <div className="relative h-80 overflow-hidden">
+                <div className="relative h-80 overflow-hidden bg-muted flex items-center justify-center">
+                  {/* Blurred Background Image */}
+                  <div className="absolute inset-0">
+                    <img
+                      src={production.image}
+                      alt=""
+                      className="w-full h-full object-cover blur-xl scale-110 opacity-60"
+                    />
+                  </div>
+                  
+                  {/* Main Image */}
                   <img 
                     src={production.image} 
                     alt={production.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    className="relative z-10 w-full h-full object-contain group-hover:scale-105 transition-transform duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
-                  <div className="absolute top-4 right-4">
+                  
+                  <div className="absolute top-4 right-4 z-20">
                     <Badge className="bg-muted text-muted-foreground">
                       {production.status}
                     </Badge>
@@ -238,7 +282,8 @@ const Index = () => {
 
           <div className="text-center mt-12">
             <Link to="/productions">
-              <Button variant="outline" size="lg" className="px-8">
+              <Button size="lg" className="px-8 bg-pink-500 text-white hover:bg-pink-600 transition-colors">
+                <Theater className="w-4 h-4 mr-2" />
                 View All Productions
               </Button>
             </Link>
@@ -252,7 +297,7 @@ const Index = () => {
           <div className="text-center mb-16">
             <div className="inline-block mb-4">
               <span className="px-4 py-2 rounded bg-primary/10 text-primary text-sm font-semibold tracking-wider uppercase border border-primary/20">
-                Pan Academy
+                PAN ACADEMY
               </span>
             </div>
             <h2 className="font-heading text-4xl md:text-6xl font-bold mb-6 text-foreground">
@@ -263,94 +308,78 @@ const Index = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {[
               {
-                title: "AN'da KALMAK Workshop",
-                instructor: "Berrin Şeker Civil",
-                date: "Past Workshop",
-                time: "10:00 AM - 1:00 PM",
-                location: "Claremont Project, London",
-                level: "All Levels",
-                image: "https://www.panproductions.co.uk/file/2019/10/PAN-WORKSHOPArtboard-0-724x1024.jpg",
-                description: "Journey to Personal Inventory in Acting - A workshop focused on staying in the moment for actors."
+                title: "Theatre of the Oppressed",
+                instructor: "Augusto Boal",
+                status: "Completed",
+                venue: "Pan Academy, London",
+                dates: "Full Day Workshop",
+                image: "/images/boal-workshop.jpg",
+                description: "An intensive workshop exploring Augusto Boal's revolutionary Theatre of the Oppressed techniques."
               },
               {
-                title: "Creative Drama for Children",
-                instructor: "Eser Rüzgar",
-                date: "Past Workshop",
-                time: "Sundays",
-                location: "Candid Art Center, London",
-                level: "Children",
-                image: "/images/drama-cocuk-workshop.jpg",
-                description: "Creative drama education through improvisation to develop children's personal skills and creativity."
+                title: "Mehmet Ergen Theatre Experience",
+                instructor: "Mehmet Ergen",
+                status: "Completed",
+                venue: "Pan Academy, London",
+                dates: "Weekend Intensive",
+                image: "/images/mehmet-ergen-workshop.jpg",
+                description: "A comprehensive theatre workshop with renowned director Mehmet Ergen."
               },
               {
-                title: "Movement in Acting",
-                instructor: "Dr. Selçuk Göldere",
-                date: "Past Workshop",
-                time: "19:00 - 21:00",
-                location: "Candid Arts, Angel",
-                level: "All Levels",
-                image: "/images/movement-acting-workshop.jpg",
-                description: "Training in movement techniques and choreography for performers, directors, and artists."
+                title: "Devised Theatre with Philip Arditti",
+                instructor: "Philip Arditti",
+                status: "Completed",
+                venue: "Pan Academy, London",
+                dates: "3-Day Workshop",
+                image: "/images/philip-arditti-workshop.jpg",
+                description: "Learn the art of devised theatre from acclaimed actor Philip Arditti."
               }
             ].map((workshop, index) => (
               <Card key={index} className="group overflow-hidden bg-card/50 border-border/60 hover:border-primary/40 transition-all">
-                <div className="relative h-96 overflow-hidden">
-                  {/* Blurred background */}
+                <div className="relative h-80 overflow-hidden bg-muted flex items-center justify-center">
+                  {/* Blurred Background Image */}
                   <div className="absolute inset-0">
-                    <img 
-                      src={workshop.image} 
+                    <img
+                      src={workshop.image}
                       alt=""
-                      className="w-full h-full object-cover blur-2xl opacity-20 scale-150"
+                      className="w-full h-full object-cover blur-xl scale-110 opacity-60"
                     />
                   </div>
                   
-                  {/* Main image */}
-                  <div className="absolute inset-0 flex items-center justify-center p-4">
-                    <img 
-                      src={workshop.image} 
-                      alt={workshop.title}
-                      className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
+                  {/* Main Image */}
+                  <img 
+                    src={workshop.image} 
+                    alt={workshop.title}
+                    className="relative z-10 w-full h-full object-contain group-hover:scale-105 transition-transform duration-700"
+                  />
                   
-                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
-                  
-                  <div className="absolute top-4 right-4">
+                  <div className="absolute top-4 right-4 z-20">
                     <Badge className="bg-muted text-muted-foreground">
-                      {workshop.level}
+                      {workshop.status}
                     </Badge>
                   </div>
                 </div>
-                
-                <CardContent className="p-6">
-                  <h3 className="font-heading text-xl font-bold mb-2 text-foreground">
+                <CardContent className="p-8">
+                  <div className="flex items-center gap-4 mb-3 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-1">
+                      <Calendar className="w-4 h-4 text-primary" />
+                      <span className="font-semibold text-foreground">{workshop.dates}</span>
+                    </div>
+                    <span>•</span>
+                    <span>{workshop.venue}</span>
+                  </div>
+                  <h3 className="font-heading text-2xl font-bold mb-2 text-foreground">
                     {workshop.title}
                   </h3>
                   <p className="text-primary text-sm font-semibold mb-4">
                     by {workshop.instructor}
                   </p>
-                  
-                  <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
+                  <p className="text-muted-foreground mb-6 leading-relaxed">
                     {workshop.description}
                   </p>
-
-                  <div className="space-y-2 mb-4 text-sm">
-                    <div className="flex items-center text-muted-foreground">
-                      <Calendar className="w-4 h-4 mr-2 text-primary" />
-                      <span>{workshop.date}</span>
-                    </div>
-                    <div className="flex items-center text-muted-foreground">
-                      <Clock className="w-4 h-4 mr-2 text-primary" />
-                      <span>{workshop.time}</span>
-                    </div>
-                    <div className="flex items-center text-muted-foreground">
-                      <MapPin className="w-4 h-4 mr-2 text-primary" />
-                      <span className="text-xs">{workshop.location}</span>
-                    </div>
-                  </div>
                 </CardContent>
               </Card>
             ))}
@@ -358,7 +387,7 @@ const Index = () => {
 
           <div className="text-center mt-12">
             <Link to="/academy/workshops">
-              <Button variant="outline" size="lg" className="px-8">
+              <Button size="lg" className="px-8 bg-pink-500 text-white hover:bg-pink-600 transition-colors">
                 <GraduationCap className="w-4 h-4 mr-2" />
                 View All Workshops
               </Button>
@@ -368,7 +397,7 @@ const Index = () => {
       </section>
 
       {/* Why Choose Pan Productions Section */}
-      <section className="py-24 bg-gradient-to-br from-card/30 to-background">
+      <section className="py-24 bg-gradient-to-br from-secondary/5 via-background to-primary/5">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <div className="inline-block mb-4">
@@ -426,14 +455,9 @@ const Index = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-24 bg-gradient-to-br from-card/30 to-background">
+      <section className="py-24 bg-gradient-to-br from-primary/5 via-background to-accent/5">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <div className="inline-block mb-4">
-              <span className="px-4 py-2 rounded bg-primary/10 text-primary text-sm font-semibold tracking-wider uppercase border border-primary/20">
-                Testimonials
-              </span>
-            </div>
             <h2 className="font-heading text-4xl md:text-6xl font-bold mb-6 text-foreground">
               Testimonials
             </h2>

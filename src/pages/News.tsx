@@ -1,8 +1,10 @@
 import React from 'react';
 import { ExternalLink } from 'lucide-react';
 import NewsletterSection from '@/components/NewsletterSection';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const News = () => {
+  const { t } = useLanguage();
   const newsItems = [
     {
       title: "Pan Productions at CPT Theatre",
@@ -18,10 +20,10 @@ const News = () => {
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-5xl font-heading font-bold mb-6 text-foreground">
-              News & <span className="text-primary">Press</span>
+              {t('news.title1')} <span className="text-primary">{t('news.title2')}</span>
             </h1>
             <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-              Stay updated with the latest news, reviews, and behind-the-scenes stories from Pan Productions.
+              {t('news.subtitle')}
             </p>
           </div>
         </div>

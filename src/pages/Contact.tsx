@@ -6,6 +6,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 import NewsletterSection from '@/components/NewsletterSection';
+import SEO from '@/components/SEO';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { 
   Send,
   MessageCircle
@@ -13,6 +15,7 @@ import {
 
 const Contact = () => {
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -51,8 +54,8 @@ const Contact = () => {
       }
 
       toast({
-        title: "Message Sent! 🎉",
-        description: `Thank you ${formData.firstName}! Your message has been sent. We'll get back to you soon.`,
+        title: t('contact.messageSent'),
+        description: t('contact.messageSuccess').replace('{name}', formData.firstName),
         duration: 5000,
       });
       
@@ -68,8 +71,8 @@ const Contact = () => {
     } catch (error) {
       console.error('Error submitting form:', error);
       toast({
-        title: "Error",
-        description: "Sorry, there was an error sending your message. Please try again or email us directly at panproductionsuk@gmail.com",
+        title: t('contact.error'),
+        description: t('contact.errorMessage'),
         variant: "destructive",
         duration: 7000,
       });
@@ -80,34 +83,41 @@ const Contact = () => {
 
   const faqs = [
     {
-      question: "How do I audition for Pan Productions shows?",
-      answer: "Audition information is posted on our Productions page and social media. We typically hold open auditions 6-8 weeks before each production begins rehearsals."
+      question: t('contact.faq1Question'),
+      answer: t('contact.faq1Answer')
     },
     {
-      question: "How can I stay updated on upcoming shows and workshops?",
-      answer: "Subscribe to our newsletter, follow us on social media and check our website regularly for the latest show announcements and ticket information."
+      question: t('contact.faq2Question'),
+      answer: t('contact.faq2Answer')
     },
     {
-      question: "What are the entry requirements for your workshops?",
-      answer: "Our only requirement is enthusiasm and an interest in theatre. Previous training is not needed."
+      question: t('contact.faq3Question'),
+      answer: t('contact.faq3Answer')
     },
     {
-      question: "Can I stage an original piece that I wrote?",
-      answer: "Absolutely! Contact us at hello@panproductions.co.uk and our team will be in touch to further discuss things."
+      question: t('contact.faq4Question'),
+      answer: t('contact.faq4Answer')
     }
   ];
 
   return (
     <div className="min-h-screen bg-background py-20">
+      <SEO
+        title="Contact Us | Pan Productions & Pan Academy London"
+        description="Get in touch with Pan Productions. Contact us about productions, workshops, auditions, or general inquiries. We'd love to hear from you."
+        keywords="contact Pan Productions, theatre contact London, Pan Academy contact, auditions, workshop inquiries"
+        url="/contact"
+      />
+      
       <div className="container mx-auto px-4">
         {/* Contact Form Section */}
         <div className="mb-20">
           <div className="text-center mb-12">
             <h1 className="text-5xl font-heading font-bold mb-6 text-foreground">
-              Contact <span className="text-primary">Us</span>
+              {t('contact.title')}
             </h1>
             <p className="text-xl text-muted-foreground">
-              We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+              {t('contact.subtitle')}
             </p>
           </div>
 
@@ -116,10 +126,10 @@ const Contact = () => {
               <form className="space-y-6" onSubmit={handleSubmit}>
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="firstName">First Name</Label>
+                    <Label htmlFor="firstName">{t('contact.firstName')}</Label>
                     <Input 
                       id="firstName" 
-                      placeholder="Enter your first name" 
+                      placeholder={t('contact.firstNamePlaceholder')}
                       className="mt-1"
                       value={formData.firstName}
                       onChange={handleInputChange}
@@ -127,10 +137,10 @@ const Contact = () => {
                     />
                   </div>
                   <div>
-                    <Label htmlFor="lastName">Last Name</Label>
+                    <Label htmlFor="lastName">{t('contact.lastName')}</Label>
                     <Input 
                       id="lastName" 
-                      placeholder="Enter your last name" 
+                      placeholder={t('contact.lastNamePlaceholder')}
                       className="mt-1"
                       value={formData.lastName}
                       onChange={handleInputChange}
@@ -140,11 +150,11 @@ const Contact = () => {
                 </div>
                 
                 <div>
-                  <Label htmlFor="email">Email Address</Label>
+                  <Label htmlFor="email">{t('contact.email')}</Label>
                   <Input 
                     id="email" 
                     type="email" 
-                    placeholder="Enter your email" 
+                    placeholder={t('contact.emailPlaceholder')}
                     className="mt-1"
                     value={formData.email}
                     onChange={handleInputChange}
@@ -153,11 +163,11 @@ const Contact = () => {
                 </div>
                 
                 <div>
-                  <Label htmlFor="phone">Phone Number (Optional)</Label>
+                  <Label htmlFor="phone">{t('contact.phone')}</Label>
                   <Input 
                     id="phone" 
                     type="tel" 
-                    placeholder="Enter your phone number" 
+                    placeholder={t('contact.phonePlaceholder')}
                     className="mt-1"
                     value={formData.phone}
                     onChange={handleInputChange}
@@ -165,10 +175,10 @@ const Contact = () => {
                 </div>
                 
                 <div>
-                  <Label htmlFor="subject">Subject</Label>
+                  <Label htmlFor="subject">{t('contact.subject')}</Label>
                   <Input 
                     id="subject" 
-                    placeholder="What is this about?" 
+                    placeholder={t('contact.subjectPlaceholder')}
                     className="mt-1"
                     value={formData.subject}
                     onChange={handleInputChange}
@@ -177,10 +187,10 @@ const Contact = () => {
                 </div>
                 
                 <div>
-                  <Label htmlFor="message">Message</Label>
+                  <Label htmlFor="message">{t('contact.message')}</Label>
                   <Textarea 
                     id="message" 
-                    placeholder="Tell us how we can help you..."
+                    placeholder={t('contact.messagePlaceholder')}
                     className="mt-1 min-h-40"
                     value={formData.message}
                     onChange={handleInputChange}
@@ -190,7 +200,7 @@ const Contact = () => {
                 
                 <Button type="submit" className="w-full" size="lg" disabled={isSubmitting}>
                   <Send className="mr-2 h-4 w-4" />
-                  {isSubmitting ? 'Sending...' : 'Send Message'}
+                  {isSubmitting ? t('contact.sending') : t('contact.sendMessage')}
                 </Button>
               </form>
             </CardContent>
@@ -201,10 +211,10 @@ const Contact = () => {
         <div className="mb-16">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-heading font-bold mb-4 text-foreground">
-              Frequently Asked Questions
+              {t('contact.faqTitle')}
             </h2>
             <p className="text-xl text-muted-foreground">
-              Quick answers to common questions
+              {t('contact.faqSubtitle')}
             </p>
           </div>
 
