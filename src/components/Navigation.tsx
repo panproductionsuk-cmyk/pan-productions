@@ -45,68 +45,23 @@ const Navigation = () => {
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-0 flex-1 justify-center">
             {navItems.map((item) => {
-              const isParentActive = item.children
-                ? item.children.some((child) => isActive(child.path)) || isActive(item.path)
-                : isActive(item.path);
+              const isItemActive = isActive(item.path);
 
               return (
-                <div key={item.label} className="relative">
-                  {item.children ? (
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button 
-                          variant="ghost" 
-                          className={cn(
-                            'flex items-center space-x-1 rounded-md px-2 py-2.5 uppercase font-semibold text-base tracking-[0.1em] transition-colors font-heading',
-                            isParentActive
-                              ? 'bg-primary text-primary-foreground shadow-sm'
-                              : 'hover:bg-muted/30 hover:text-primary'
-                          )}
-                          style={{ color: isParentActive ? undefined : '#dae45f' }}
-                        >
-                          {item.icon && <item.icon className="h-4 w-4" />}
-                          <span>{item.label}</span>
-                          <ChevronDown className="h-5 w-5" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent 
-                        align="start" 
-                        className="bg-card/95 backdrop-blur-md border border-border/60"
-                      >
-                        {item.children.map((child) => (
-                          <DropdownMenuItem key={child.path} asChild>
-                            <Link 
-                              to={child.path}
-                              className={cn(
-                                'w-full rounded-md px-3 py-2 uppercase font-semibold text-sm tracking-[0.16em] transition-colors font-heading',
-                                isActive(child.path)
-                                  ? 'bg-primary text-primary-foreground shadow-sm'
-                                  : 'hover:bg-muted/30 hover:text-primary'
-                              )}
-                              style={{ color: isActive(child.path) ? undefined : '#dae45f' }}
-                            >
-                              {child.label}
-                            </Link>
-                          </DropdownMenuItem>
-                        ))}
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  ) : (
-                    <Link 
-                      to={item.path}
-                      className={cn(
-                        'flex items-center space-x-1 px-2.5 py-2.5 uppercase font-semibold text-base tracking-[0.16em] rounded-md transition-colors font-heading',
-                        isParentActive
-                          ? 'bg-primary text-primary-foreground shadow-sm'
-                          : 'hover:bg-muted/30 hover:text-primary'
-                      )}
-                      style={{ color: isParentActive ? undefined : '#dae45f' }}
-                    >
-                      {item.icon && <item.icon className="h-4 w-5" />}
-                      <span>{item.label}</span>
-                    </Link>
+                <Link 
+                  key={item.label}
+                  to={item.path}
+                  className={cn(
+                    'flex items-center space-x-1 px-2.5 py-2.5 uppercase font-semibold text-base tracking-[0.16em] rounded-md transition-colors font-heading',
+                    isItemActive
+                      ? 'bg-primary text-primary-foreground shadow-sm'
+                      : 'hover:bg-muted/30 hover:text-primary'
                   )}
-                </div>
+                  style={{ color: isItemActive ? undefined : '#dae45f' }}
+                >
+                  {item.icon && <item.icon className="h-5 w-5" />}
+                  <span>{item.label}</span>
+                </Link>
               );
             })}
           </nav>
@@ -145,59 +100,24 @@ const Navigation = () => {
             <SheetContent side="right" className="w-80 bg-card/95 backdrop-blur-md">
               <div className="flex flex-col space-y-4 mt-8">
                 {navItems.map((item) => {
-                  const isParentActive = item.children
-                    ? item.children.some((child) => isActive(child.path)) || isActive(item.path)
-                    : isActive(item.path);
+                  const isItemActive = isActive(item.path);
 
                   return (
-                    <div key={item.label}>
-                      {item.children ? (
-                        <div className="space-y-2">
-                          <span 
-                            className={cn(
-                              'block uppercase font-semibold text-sm tracking-[0.16em] font-heading',
-                              isParentActive ? 'text-primary' : ''
-                            )}
-                            style={{ color: isParentActive ? undefined : '#dae45f' }}
-                          >
-                            {item.label}
-                          </span>
-                          <div className="ml-4 space-y-2">
-                            {item.children.map((child) => (
-                              <Link
-                                key={child.path}
-                                to={child.path}
-                                onClick={() => setIsOpen(false)}
-                                className={cn(
-                                  'block uppercase font-semibold text-sm tracking-[0.16em] rounded-md px-3 py-2 transition-colors font-heading',
-                                  isActive(child.path)
-                                    ? 'bg-primary text-primary-foreground'
-                                    : 'hover:bg-muted/30 hover:text-primary'
-                                )}
-                                style={{ color: isActive(child.path) ? undefined : '#dae45f' }}
-                              >
-                                {child.label}
-                              </Link>
-                            ))}
-                          </div>
-                        </div>
-                      ) : (
-                        <Link
-                          to={item.path}
-                          onClick={() => setIsOpen(false)}
-                          className={cn(
-                            'flex items-center space-x-2 uppercase font-semibold text-sm tracking-[0.16em] rounded-md px-3 py-2 transition-colors font-heading',
-                            isParentActive
-                              ? 'bg-primary text-primary-foreground'
-                              : 'hover:bg-muted/30 hover:text-primary'
-                          )}
-                          style={{ color: isParentActive ? undefined : '#dae45f' }}
-                        >
-                          {item.icon && <item.icon className="h-4 w-4" />}
-                          <span>{item.label}</span>
-                        </Link>
+                    <Link
+                      key={item.label}
+                      to={item.path}
+                      onClick={() => setIsOpen(false)}
+                      className={cn(
+                        'flex items-center space-x-2 uppercase font-semibold text-sm tracking-[0.16em] rounded-md px-3 py-2 transition-colors font-heading',
+                        isItemActive
+                          ? 'bg-primary text-primary-foreground'
+                          : 'hover:bg-muted/30 hover:text-primary'
                       )}
-                    </div>
+                      style={{ color: isItemActive ? undefined : '#dae45f' }}
+                    >
+                      {item.icon && <item.icon className="h-4 w-4" />}
+                      <span>{item.label}</span>
+                    </Link>
                   );
                 })}
                 

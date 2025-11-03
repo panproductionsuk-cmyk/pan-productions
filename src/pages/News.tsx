@@ -1,6 +1,7 @@
 import React from 'react';
 import { ExternalLink } from 'lucide-react';
 import NewsletterSection from '@/components/NewsletterSection';
+import SEO from '@/components/SEO';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const News = () => {
@@ -9,12 +10,19 @@ const News = () => {
     {
       title: "Pan Productions at CPT Theatre",
       image: "/images/cpt-theatre.jpg",
-      link: "https://cptheatre.co.uk/artists/Pan-Productions"
+      link: "https://cptheatre.co.uk/artists/Pan-Productions",
+      description: "Read about Pan Productions featured artists page at CPT Theatre"
     }
   ];
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="News & Press | Pan Productions Theatre Company London"
+        description="Latest news, press coverage, and media features about Pan Productions. Stay updated with our theatrical announcements and reviews."
+        keywords="Pan Productions news, theatre news London, press coverage, theatre reviews, Pan Productions media"
+        url="/news"
+      />
       {/* Hero Section */}
       <section className="relative py-20 bg-gradient-to-br from-primary/10 via-background to-secondary/5">
         <div className="container mx-auto px-4">
@@ -42,11 +50,16 @@ const News = () => {
                 className="group relative overflow-hidden rounded-lg bg-card border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-xl"
               >
                 {/* Image */}
-                <div className="relative h-64 overflow-hidden">
+                <div className="relative h-64 overflow-hidden bg-muted">
                   <img
                     src={item.image}
                     alt={item.title}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    loading="lazy"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = '/images/hero-slide-1.jpg';
+                    }}
                   />
                   {/* Overlay on hover */}
                   <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">

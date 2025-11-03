@@ -241,10 +241,13 @@ const Productions = () => {
     }
   };
 
+  // Combine all productions for structured data
+  const allProductions = [...categories.theatre, ...categories.music, ...categories.art, ...categories.film];
+
   const eventsSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    "itemListElement": productions.map((prod, index) => ({
+    "itemListElement": allProductions.map((prod, index) => ({
       "@type": "Event",
       "position": index + 1,
       "name": prod.title,
