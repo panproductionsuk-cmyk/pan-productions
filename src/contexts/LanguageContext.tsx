@@ -51,6 +51,15 @@ const translations = {
     'hero.slide3.description': 'Our workshops inspire and nurture the next generation of performers.',
     'hero.slide3.cta': 'Join a Workshop',
     
+    'hero.slide4.title': 'Experience Our Latest Production',
+    'hero.slide4.subtitle': 'Now Showing',
+    'hero.slide4.description': 'Don\'t miss out on our spectacular theatre production. Book your tickets now and be part of an unforgettable experience.',
+    'hero.slide4.cta': 'Learn More',
+    'hero.slide4.video': '/videos/showcase.mp4', // Update with your video path
+    'hero.slide4.buyTicket': 'Buy Ticket',
+    'hero.slide4.processing': 'Processing...',
+    'hero.slide4.ticketName': 'Theatre Show Ticket',
+    
     // Index Page
     'index.whatWeOffer': 'What We Offer',
     'index.discover': 'Discover Pan Productions',
@@ -697,6 +706,15 @@ const translations = {
     'hero.slide3.subtitle': 'Pan Akademi Atölyeleri',
     'hero.slide3.description': 'Atölyelerimiz gelecek nesil sanatçılara ilham verir ve onları geliştirir.',
     'hero.slide3.cta': 'Atölyelere Katılın',
+    
+    'hero.slide4.title': 'Son Prodüksiyonumuzu Deneyimleyin',
+    'hero.slide4.subtitle': 'Şimdi Gösterimde',
+    'hero.slide4.description': 'Muhteşem tiyatro prodüksiyonumuzu kaçırmayın. Biletlerinizi şimdi alın ve unutulmaz bir deneyimin parçası olun.',
+    'hero.slide4.cta': 'Daha Fazla Bilgi',
+    'hero.slide4.video': '/videos/showcase.mp4', // Video yolunu güncelleyin
+    'hero.slide4.buyTicket': 'Bilet Al',
+    'hero.slide4.processing': 'İşleniyor...',
+    'hero.slide4.ticketName': 'Tiyatro Gösteri Bileti',
     
     // Index Page
     'index.whatWeOffer': 'Neler Sunuyoruz',

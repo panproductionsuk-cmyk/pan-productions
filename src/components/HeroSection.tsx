@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Ticket } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { buyTicket } from '@/lib/stripe';
 
 interface Slide {
   id: string;
@@ -10,16 +11,35 @@ interface Slide {
   subtitle: string;
   description: string;
   image: string;
-  ctaText: string;
-  ctaLink: string;
+  video?: string;
+  ctaText?: string;
+  ctaLink?: string;
   type: 'current' | 'upcoming' | 'past';
+  showBuyTicket?: boolean;
+  ticketPrice?: number;
+  ticketName?: string;
+  ticketLink?: string;
 }
 
 const HeroSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isProcessingTicket, setIsProcessingTicket] = useState(false);
   const { t, language } = useLanguage();
 
   const slides: Slide[] = [
+    {
+      id: 'video-show',
+      title: t('hero.slide4.title'),
+      subtitle: t('hero.slide4.subtitle'),
+      description: t('hero.slide4.description'),
+      image: '/images/hero-slide-1.jpg', // Fallback image
+      video: t('hero.slide4.video'),
+      type: 'current',
+      showBuyTicket: true,
+      ticketPrice: 25.00,
+      ticketName: t('hero.slide4.ticketName'),
+      ticketLink: 'https://buy.stripe.com/5kQ3cn1To0KtbQ2byaeZ200'
+    },
     {
       id: 'productions',
       title: t('hero.slide1.title'),
@@ -52,6 +72,33 @@ const HeroSection = () => {
     }
   ];
 
+  const handleBuyTicket = async () => {
+    const slide = slides[currentSlide];
+    if (!slide.showBuyTicket) return;
+    
+    setIsProcessingTicket(true);
+    try {
+      if (slide.ticketLink) {
+        window.location.href = slide.ticketLink;
+        return;
+      }
+
+      if (!slide.ticketPrice || !slide.ticketName) {
+        throw new Error('Ticket details are missing');
+      }
+
+      await buyTicket({
+        ticketName: slide.ticketName,
+        price: slide.ticketPrice,
+        quantity: 1,
+      });
+    } catch (error) {
+      console.error('Ticket purchase error:', error);
+    } finally {
+      setIsProcessingTicket(false);
+    }
+  };
+
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -83,14 +130,30 @@ const HeroSection = () => {
 
   return (
     <section className="relative h-screen flex items-center overflow-hidden">
-      {/* Background Image for All Slides */}
+      {/* Background Image/Video for All Slides */}
       <div className="absolute inset-0 z-0">
-        <img
-          src={slides[currentSlide].image}
-          alt=""
-          className="w-full h-full object-cover opacity-50 transition-opacity duration-500"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/40" />
+        {slides[currentSlide].video ? (
+          <>
+            <video
+              src={slides[currentSlide].video}
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-cover opacity-50 transition-opacity duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/40" />
+          </>
+        ) : (
+          <>
+            <img
+              src={slides[currentSlide].image}
+              alt=""
+              className="w-full h-full object-cover opacity-50 transition-opacity duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-background via-background/90 to-background/40" />
+          </>
+        )}
       </div>
 
       {/* Organic Blob Shapes Background */}
@@ -124,12 +187,25 @@ const HeroSection = () => {
           {slides[currentSlide].description}
         </p>
 
-        <div className="flex gap-4">
-          <Link to={slides[currentSlide].ctaLink}>
-            <Button size="lg" className="btn-spotlight px-10 py-6 text-base font-semibold">
-              {slides[currentSlide].ctaText}
+        <div className="flex gap-4 flex-wrap">
+          {slides[currentSlide].ctaText && slides[currentSlide].ctaLink && (
+            <Link to={slides[currentSlide].ctaLink}>
+              <Button size="lg" className="btn-spotlight px-10 py-6 text-base font-semibold">
+                {slides[currentSlide].ctaText}
+              </Button>
+            </Link>
+          )}
+          {slides[currentSlide].showBuyTicket && (
+            <Button 
+              size="lg" 
+              className="px-10 py-6 text-base font-semibold bg-primary text-primary-foreground hover:bg-primary/90"
+              onClick={handleBuyTicket}
+              disabled={isProcessingTicket}
+            >
+              <Ticket className="mr-2 h-5 w-5" />
+              {isProcessingTicket ? t('hero.slide4.processing') : t('hero.slide4.buyTicket')}
             </Button>
-          </Link>
+          )}
         </div>
 
         {/* Slide Indicators */}
@@ -148,14 +224,29 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Right Image Section */}
+      {/* Right Image/Video Section */}
       <div className="hidden lg:flex relative z-10 w-2/5 h-full items-center justify-center px-8">
         <div className={`relative w-full ${currentSlide === 0 ? 'max-w-3xl' : 'max-w-2xl'}`}>
-          <img
-            src={slides[currentSlide].image}
-            alt={slides[currentSlide].title}
-            className="relative w-full h-auto object-contain rounded-2xl shadow-2xl"
-          />
+          {slides[currentSlide].video ? (
+            <div className="relative w-full rounded-2xl shadow-2xl overflow-hidden bg-black">
+              <video
+                src={slides[currentSlide].video}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-auto object-contain"
+              >
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          ) : (
+            <img
+              src={slides[currentSlide].image}
+              alt={slides[currentSlide].title}
+              className="relative w-full h-auto object-contain rounded-2xl shadow-2xl"
+            />
+          )}
         </div>
       </div>
 

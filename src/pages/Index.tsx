@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import HeroSection from '@/components/HeroSection';
 import NewsletterSection from '@/components/NewsletterSection';
 import PartnersCarousel from '@/components/PartnersCarousel';
@@ -20,7 +20,6 @@ import {
   PlayCircle,
   TrendingUp,
   Heart,
-  Ticket,
   Clock,
   MapPin,
   Megaphone
@@ -28,7 +27,6 @@ import {
 
 const Index = () => {
   const { t, language } = useLanguage();
-  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
   // Structured data for organization
   const organizationSchema = {
@@ -51,19 +49,6 @@ const Index = () => {
     ],
     "email": "panproductionsuk@gmail.com",
     "priceRange": "$$"
-  };
-
-  const handleTestPayment = async () => {
-    setIsProcessingPayment(true);
-    try {
-      // Direct redirect to the provided Stripe Checkout link for testing
-      window.location.href = 'https://buy.stripe.com/5kQ3cn1To0KtbQ2byaeZ200';
-    } catch (error) {
-      console.error('Test payment error:', error);
-      alert('Test payment failed. Please check console for details.');
-    } finally {
-      setIsProcessingPayment(false);
-    }
   };
 
   const highlights = [
@@ -102,31 +87,6 @@ const Index = () => {
       
       {/* Hero Section */}
       <HeroSection />
-
-      {/* Test Stripe Payment Button */}
-      <section className="py-8 bg-gradient-to-r from-primary/5 to-secondary/5 border-y border-border/50">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <div className="text-center sm:text-left">
-              <Badge variant="outline" className="mb-2 text-xs">
-                Test Mode
-              </Badge>
-              <p className="text-sm text-muted-foreground">
-                Click to test ticket purchase with Stripe (uses test data)
-              </p>
-            </div>
-            <Button 
-              onClick={handleTestPayment}
-              disabled={isProcessingPayment}
-              size="lg"
-              className="px-8"
-            >
-              <Ticket className="mr-2 h-5 w-5" />
-              {isProcessingPayment ? 'Processing...' : 'Test Buy Ticket - £25.00'}
-            </Button>
-          </div>
-        </div>
-      </section>
 
       {/* Highlights Section */}
       <section className="py-24 relative">
