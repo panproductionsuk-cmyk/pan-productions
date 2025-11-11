@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { testTicketPurchase } from '@/lib/stripe';
+// testTicketPurchase redirect replaced with a direct Stripe hosted-payment link
 import { useLanguage } from '@/contexts/LanguageContext';
 import { 
   Theater, 
@@ -56,7 +56,8 @@ const Index = () => {
   const handleTestPayment = async () => {
     setIsProcessingPayment(true);
     try {
-      await testTicketPurchase();
+      // Direct redirect to the provided Stripe Checkout link for testing
+      window.location.href = 'https://buy.stripe.com/5kQ3cn1To0KtbQ2byaeZ200';
     } catch (error) {
       console.error('Test payment error:', error);
       alert('Test payment failed. Please check console for details.');
