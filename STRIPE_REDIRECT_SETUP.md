@@ -14,6 +14,8 @@ This guide will help you set up Stripe payments with **redirect-based checkout**
 
 > **Note:** With redirect checkout, you don't need the publishable key on the frontend!
 
+
+
 ---
 
 ## 🔧 Step 2: Setup Backend Server
