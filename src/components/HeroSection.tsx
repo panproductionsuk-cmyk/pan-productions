@@ -35,6 +35,7 @@ const HeroSection = () => {
       subtitle: t('hero.slide4.subtitle'),
       description: t('hero.slide4.description'),
       image: '/images/love-of-rumi.jpg',
+      video: '/videos/love-of-rumi.mov',
       type: 'current',
       showBuyTicket: true,
       ticketPrice: 25.00,
@@ -175,8 +176,8 @@ const HeroSection = () => {
       </div>
 
       {/* Left Image/Video Section */}
-      <div className="flex relative z-10 w-full lg:w-2/5 h-auto lg:h-full items-center justify-start px-4 sm:px-6 lg:px-8 mt-8 lg:mt-0 order-1 lg:order-1">
-        <div className={`relative w-full ${currentSlide === 0 ? 'max-w-xs sm:max-w-sm lg:max-w-md' : 'max-w-sm sm:max-w-md lg:max-w-2xl'}`}>
+      <div className="flex relative z-10 w-full lg:w-1/2 h-auto lg:h-full items-center justify-start px-4 sm:px-6 lg:px-8 mt-8 lg:mt-0 order-1 lg:order-1">
+        <div className={`relative w-full ${currentSlide === 0 ? 'max-w-2xl sm:max-w-3xl lg:max-w-4xl' : 'max-w-sm sm:max-w-md lg:max-w-2xl'}`}>
           {slides[currentSlide].video ? (
             <div className="relative w-full rounded-xl lg:rounded-2xl shadow-2xl overflow-hidden bg-black">
               <video
@@ -203,7 +204,7 @@ const HeroSection = () => {
       </div>
 
       {/* Right Content Section */}
-      <div className="relative z-10 w-full lg:w-3/5 px-4 sm:px-6 lg:px-16 py-8 lg:py-0 order-2 lg:order-2">
+      <div className="relative z-10 w-full lg:w-1/2 px-4 sm:px-6 lg:px-16 py-8 lg:py-0 order-2 lg:order-2">
         <div className="mb-4 lg:mb-6">
           <span className="inline-block px-4 py-1.5 lg:px-5 lg:py-2 rounded text-xs font-semibold tracking-wider uppercase bg-primary/20 text-primary border border-primary/30 mb-3 lg:mb-4">
             {slides[currentSlide].subtitle}
