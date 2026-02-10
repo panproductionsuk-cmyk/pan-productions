@@ -44,7 +44,7 @@ const HeroSection = () => {
       title: t('hero.slide4.title'),
       subtitle: t('hero.slide4.subtitle'),
       description: t('hero.slide4.description'),
-      image: '/images/love-of-rumi.jpg',
+      image: '',
       video: '/videos/love-of-rumi.mov',
       type: 'current',
       showBuyTicket: true,
