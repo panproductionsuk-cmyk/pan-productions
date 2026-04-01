@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, ChevronRight, Ticket } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Ticket, X, Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { buyTicket } from '@/lib/stripe';
@@ -25,40 +25,20 @@ interface Slide {
 
 const STRIPE_TICKET_LINK = 'https://buy.stripe.com/3cI5kv69E78R3jweKmeZ207';
 
+const SUS_TICKET_DATES = [
+  { date: '1 Nisan 2026', dateEn: '1 April 2026', day: 'Çarşamba / Wednesday', time: '19:30', link: '', soldOut: true },
+  { date: '2 Nisan 2026', dateEn: '2 April 2026', day: 'Perşembe / Thursday', time: '19:30', link: 'https://buy.stripe.com/28E7sD55A3WF7zM59MeZ20b', soldOut: false },
+  { date: '3 Nisan 2026', dateEn: '3 April 2026', day: 'Cuma / Friday', time: '19:30', link: 'https://buy.stripe.com/6oU28jbtY9gZcU61XAeZ20c', soldOut: false },
+  { date: '4 Nisan 2026', dateEn: '4 April 2026', day: 'Cumartesi / Saturday', time: '19:30', link: 'https://buy.stripe.com/aFa7sDapUdxfcU6au6eZ20d', soldOut: false },
+];
+
 const HeroSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isProcessingTicket, setIsProcessingTicket] = useState(false);
+  const [showTicketModal, setShowTicketModal] = useState(false);
   const { t, language } = useLanguage();
 
   const slides: Slide[] = [
-    {
-      id: 'love-of-rumi',
-      title: t('hero.slide4.title'),
-      subtitle: t('hero.slide4.subtitle'),
-      description: t('hero.slide4.description'),
-      image: '/images/love-of-rumi.jpg',
-      type: 'current',
-      posterStyle: true,
-      showBuyTicket: true,
-      ticketPrice: 25.00,
-      ticketName: t('hero.slide4.ticketName'),
-      ticketLink: 'https://buy.stripe.com/3cI5kv69E78R3jweKmeZ207',
-      buyTicketText: t('hero.slide4.buyTicket')
-    },
-    {
-      id: 'sakali-akustik',
-      title: t('hero.slide5.title'),
-      subtitle: t('hero.slide5.subtitle'),
-      description: t('hero.slide5.description'),
-      image: '/images/sakali-akustik.jpg',
-      type: 'current',
-      posterStyle: true,
-      showBuyTicket: true,
-      ticketPrice: 50.00,
-      ticketName: t('hero.slide5.ticketName'),
-      ticketLink: 'https://buy.stripe.com/cNi14f9lQbp79HUdGieZ208',
-      buyTicketText: t('hero.slide5.buyTicket')
-    },
     {
       id: 'sus',
       title: t('hero.slide6.title'),
@@ -105,31 +85,10 @@ const HeroSection = () => {
     }
   ];
 
-  const handleBuyTicket = async () => {
+  const handleBuyTicket = () => {
     const slide = slides[currentSlide];
     if (!slide.showBuyTicket) return;
-    
-    setIsProcessingTicket(true);
-    try {
-      if (slide.ticketLink) {
-        window.location.href = slide.ticketLink;
-        return;
-      }
-
-      if (!slide.ticketPrice || !slide.ticketName) {
-        throw new Error('Ticket details are missing');
-      }
-
-      await buyTicket({
-        ticketName: slide.ticketName,
-        price: slide.ticketPrice,
-        quantity: 1,
-      });
-    } catch (error) {
-      console.error('Ticket purchase error:', error);
-    } finally {
-      setIsProcessingTicket(false);
-    }
+    setShowTicketModal(true);
   };
 
   useEffect(() => {
@@ -306,6 +265,96 @@ const HeroSection = () => {
       >
         <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
       </button>
+      {/* Ticket Date Selection Modal */}
+      {showTicketModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={() => setShowTicketModal(false)}>
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+          <div 
+            className="relative w-full max-w-md bg-card border border-border rounded-2xl shadow-2xl overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="relative bg-primary/10 border-b border-border px-6 py-5">
+              <button 
+                onClick={() => setShowTicketModal(false)}
+                className="absolute top-4 right-4 w-8 h-8 rounded-full bg-muted/60 hover:bg-muted flex items-center justify-center transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+                  <Ticket className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <h3 className="font-heading text-lg font-bold">Sus.</h3>
+                  <p className="text-sm text-muted-foreground">Tower Theatre, London</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Date Options */}
+            <div className="p-6">
+              <p className="text-sm text-muted-foreground mb-4">
+                {language === 'TR' ? 'Tarih seçiniz:' : 'Select a date:'}
+              </p>
+              <div className="space-y-3">
+                {SUS_TICKET_DATES.map((item, idx) => 
+                  item.soldOut ? (
+                    <div
+                      key={idx}
+                      className="flex items-center justify-between w-full p-4 rounded-xl border border-border bg-muted/30 opacity-60 cursor-not-allowed"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-muted/40 flex items-center justify-center">
+                          <Calendar className="w-5 h-5 text-muted-foreground" />
+                        </div>
+                        <div>
+                          <p className="font-semibold text-sm text-muted-foreground line-through">
+                            {language === 'TR' ? item.date : item.dateEn}
+                          </p>
+                          <p className="text-xs text-muted-foreground">{item.day} • {item.time}</p>
+                        </div>
+                      </div>
+                      <span className="text-sm font-bold text-red-500/80 uppercase tracking-wide">Sold Out</span>
+                    </div>
+                  ) : (
+                    <a
+                      key={idx}
+                      href={item.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-center justify-between w-full p-4 rounded-xl border border-border bg-background hover:border-primary/50 hover:bg-primary/5 transition-all duration-200"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                          <Calendar className="w-5 h-5 text-primary" />
+                        </div>
+                        <div>
+                          <p className="font-semibold text-sm">
+                            {language === 'TR' ? item.date : item.dateEn}
+                          </p>
+                          <p className="text-xs text-muted-foreground">{item.day} • {item.time}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-bold text-primary">£27</span>
+                        <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                      </div>
+                    </a>
+                  )
+                )}
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="px-6 pb-5">
+              <p className="text-xs text-center text-muted-foreground">
+                {language === 'TR' ? 'Güvenli ödeme • Stripe ile işlenir' : 'Secure payment • Powered by Stripe'}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

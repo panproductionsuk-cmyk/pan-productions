@@ -22,6 +22,7 @@ interface Production {
   ticketPrice: string;
   ticketLink?: string;
   titleEn?: string;
+  sortDate?: string;
 }
 
 // ProductionCard Component
@@ -159,7 +160,7 @@ const Productions = () => {
         title: 'Love of Rumi: Flow and Spirit',
         titleEn: 'Love of Rumi: Flow and Spirit',
         author: 'Aya Art, Berrin Bugay Lawler',
-        status: 'On Sale',
+        status: 'Past',
         description: {
           EN: 'Experience the essence of Rumi\'s poetry through a captivating fusion of fashion and performance, celebrating love, flow, and spirit. A mystical journey featuring whirling dervish dance, choir, poetry reading, solo performances, and a costume parade with stylised 13th century costumes. This is not just a stage performance; it is an artistic experience that bridges the heart, mind, and soul.',
           TR: 'Rumi\'nin şiirlerinin özünü, aşk, akış ve ruhu kutlayan büyüleyici bir moda ve performans füzyonu ile deneyimleyin. Semazen dansı, koro, şiir okuma, solo performanslar ve 13. yüzyıl kostümleriyle kostüm gösterisi içeren mistik bir yolculuk. Bu sadece bir sahne performansı değil; kalbi, zihni ve ruhu birleştiren sanatsal bir deneyimdir.'
@@ -168,7 +169,8 @@ const Productions = () => {
         dates: 'Friday, March 21, 2026, 7:00 PM',
         venue: 'Mumford Theater, Cambridge',
         duration: 'Performative Fashion Show',
-        ticketPrice: '£25'
+        ticketPrice: 'See Archive',
+        sortDate: '2026-03-21'
       },
       {
         id: 'sus',
@@ -185,7 +187,8 @@ const Productions = () => {
         venue: 'Tower Theatre, 16 Northwold Road, London N16 7HR',
         duration: 'Theatre Play',
         ticketPrice: '£27',
-        ticketLink: 'https://buy.stripe.com/bJe7sDbtY64NcU60TweZ209'
+        ticketLink: 'https://buy.stripe.com/bJe7sDbtY64NcU60TweZ209',
+        sortDate: '2026-04-01'
       },
       {
         id: 'earnest',
@@ -202,7 +205,8 @@ const Productions = () => {
         dates: '6-18 January 2020',
         venue: 'Tower Theatre, 16 Northwold Road, Stoke Newington, London N16 7HR',
         duration: '2h 30min (including interval)',
-        ticketPrice: 'See Archive'
+        ticketPrice: 'See Archive',
+        sortDate: '2020-01-06'
       },
       {
         id: 'tut-elimden-rovni',
@@ -217,7 +221,8 @@ const Productions = () => {
         dates: '27-28-29 March 2024, 20:00',
         venue: 'Rosemary Branch Theatre, 2 Shepperton Rd, London N1 3DT',
         duration: '2h (including interval)',
-        ticketPrice: 'See Archive'
+        ticketPrice: 'See Archive',
+        sortDate: '2024-03-27'
       },
       {
         id: 'ben-kolay-olmem',
@@ -233,7 +238,8 @@ const Productions = () => {
         dates: '11-12-13 March 2019, 19:00',
         venue: 'Arcola Theatre, 24 Ashwin St, London E8 3DL',
         duration: '2h',
-        ticketPrice: 'See Archive'
+        ticketPrice: 'See Archive',
+        sortDate: '2019-03-11'
       },
       {
         id: 'olum-ve-kiz',
@@ -249,7 +255,8 @@ const Productions = () => {
         dates: '4 June 2017, 20:00',
         venue: 'Arcola Theatre, 24 Ashwin Street, London E8 3DL',
         duration: '2h',
-        ticketPrice: 'See Archive'
+        ticketPrice: 'See Archive',
+        sortDate: '2017-06-04'
       },
       {
         id: 'ufacik-tefecik-karadut',
@@ -265,7 +272,8 @@ const Productions = () => {
         dates: '15 April 2018',
         venue: 'Pan Productions, London',
         duration: 'Children\'s Play',
-        ticketPrice: 'See Archive'
+        ticketPrice: 'See Archive',
+        sortDate: '2018-04-15'
       },
       {
         id: 'ferhangi-seyler',
@@ -281,7 +289,8 @@ const Productions = () => {
         dates: '10 June 2017',
         venue: 'Pan Productions, London',
         duration: 'One-Man Show',
-        ticketPrice: 'See Archive'
+        ticketPrice: 'See Archive',
+        sortDate: '2017-06-10'
       },
     ],
     art: [
@@ -292,7 +301,7 @@ const Productions = () => {
         id: 'sakali-akustik',
         title: 'ŞAKALI AKUSTİK',
         author: 'Harun Tekin & Koray Candemir',
-        status: 'On Sale',
+        status: 'Past',
         description: {
           EN: 'Two powerful voices of the rock scene — Mor ve Ötesi vocalist Harun Tekin and Kargo vocalist Koray Candemir take the "ŞAKALI AKUSTİK" stage, performing their own songs, each other\'s works, and their favourite tracks in stripped-back acoustic arrangements.\n\nWith plenty of conversation, laughter, and a heartfelt atmosphere, this special performance offers a warm concert experience that feels like music being made at home.',
           TR: 'Rock sahnesinin iki güçlü sesi, "Mor ve Ötesi"\'nin solisti Harun Tekin ve "Kargo"\'nun solisti Koray Candemir, "ŞAKALI AKUSTİK" sahnesinde; kendi şarkılarını, birbirlerinin eserlerini ve en sevdikleri parçaları sade akustik düzenlemelerle yorumluyor.\n\nBol sohbetli, bol kahkahalı ve içten atmosferiyle bu özel performans, seyirciye adeta evde müzik yapılıyormuş hissi veren sıcacık bir konser deneyimi sunuyor.'
@@ -301,8 +310,8 @@ const Productions = () => {
         dates: '26 March 2026',
         venue: 'Islington Assembly Hall, London',
         duration: 'Acoustic Concert',
-        ticketPrice: '£50',
-        ticketLink: 'https://buy.stripe.com/cNi14f9lQbp79HUdGieZ208'
+        ticketPrice: 'See Archive',
+        sortDate: '2026-03-26'
       },
       {
         id: 'gripin-jazz-cafe',
@@ -317,7 +326,8 @@ const Productions = () => {
         dates: 'Sunday, January 11, 2026, 7:00 PM',
         venue: 'Jazz Cafe, Camden Town',
         duration: 'Concert',
-        ticketPrice: 'See Archive'
+        ticketPrice: 'See Archive',
+        sortDate: '2026-01-11'
       },
       {
         id: 'jem-candlelit-concert',
@@ -332,7 +342,8 @@ const Productions = () => {
         dates: 'December 8, 2025',
         venue: 'St. Pancras Old Church, London',
         duration: 'Concert',
-        ticketPrice: 'See Archive'
+        ticketPrice: 'See Archive',
+        sortDate: '2025-12-08'
       },
       {
         id: 'erkan-ogur-bulent',
@@ -351,7 +362,8 @@ const Productions = () => {
         dates: '27 November 2016, 19:00',
         venue: 'Islington Assembly Hall, Upper St, London N1 2UD',
         duration: 'Concert',
-        ticketPrice: 'See Archive'
+        ticketPrice: 'See Archive',
+        sortDate: '2016-11-27'
       },
       {
         id: 'erkan-ogur-ismail',
@@ -366,7 +378,8 @@ const Productions = () => {
         dates: '20 March 2011, 18:45',
         venue: 'Union Chapel, Compton Terrace, London N1 2UN',
         duration: 'Concert',
-        ticketPrice: 'See Archive'
+        ticketPrice: 'See Archive',
+        sortDate: '2011-03-20'
       },
       {
         id: 'olcay-bayir-fundraiser',
@@ -381,7 +394,8 @@ const Productions = () => {
         dates: 'Friday 21 April, 7:30PM-1:00AM',
         venue: 'Epic Dalston, 13 Stoke Newington Rd N16 8BH',
         duration: 'Concert & DJ Event',
-        ticketPrice: 'See Archive'
+        ticketPrice: 'See Archive',
+        sortDate: '2017-04-21'
       },
     ],
     film: [
@@ -472,8 +486,15 @@ const Productions = () => {
         <div className="grid md:grid-cols-2 gap-8">
           {[...categories.theatre, ...categories.art, ...categories.music, ...categories.film]
             .sort((a, b) => {
-              const order = { 'On Sale': 0, 'Current': 1, 'Upcoming': 2, 'Past': 3 };
-              return (order[a.status] ?? 4) - (order[b.status] ?? 4);
+              const dateA = a.sortDate || '1900-01-01';
+              const dateB = b.sortDate || '1900-01-01';
+              const now = new Date().toISOString().split('T')[0];
+              const aUpcoming = dateA >= now;
+              const bUpcoming = dateB >= now;
+              if (aUpcoming && !bUpcoming) return -1;
+              if (!aUpcoming && bUpcoming) return 1;
+              if (aUpcoming && bUpcoming) return dateA.localeCompare(dateB);
+              return dateB.localeCompare(dateA);
             })
             .map((production) => (
               <ProductionCard key={production.id} production={production} getStatusColor={getStatusColor} t={t} />
