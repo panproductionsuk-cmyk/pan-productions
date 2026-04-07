@@ -44,7 +44,7 @@ const allProductions: Production[] = [
     status: 'Past',
     description: {
       EN: 'Experience the essence of Rumi\'s poetry through a captivating fusion of fashion and performance, celebrating love, flow, and spirit. A mystical journey featuring whirling dervish dance, choir, poetry reading, solo performances, and a costume parade with stylised 13th century costumes. This is not just a stage performance; it is an artistic experience that bridges the heart, mind, and soul.',
-      TR: 'Rumi\'nin şiirlerinin özünü, aşk, akış ve ruhu kutlayan büyüleyici bir moda ve performans füzyonu ile deneyimleyin. Semazen dansı, koro, şiir okuma, solo performanslar ve 13. yüzyıl kostümleriyle kostüm gösterisi içeren mistik bir yolculuk. Bu sadece bir sahne performansı değil; kalbi, zihni ve ruhu birleştiren sanatsal bir deneyimdir.'
+      TR: "Rumi'nin şiirlerinin özünü, aşk, akış ve ruhu kutlayan büyüleyici bir moda ve performans füzyonu ile deneyimleyin. Semazen dansı, koro, şiir okuma, solo performanslar ve 13. yüzyıl kostümleriyle kostüm gösterisi içeren mistik bir yolculuk. Bu sadece bir sahne performansı değil; kalbi, zihni ve ruhu birleştiren sanatsal bir deneyimdir."
     },
     image: '/images/love-of-rumi.jpg',
     dates: 'Friday, March 21, 2026, 7:00 PM',
@@ -197,7 +197,7 @@ const allProductions: Production[] = [
     status: 'Past',
     description: {
       EN: 'Two powerful voices of the rock scene — Mor ve Ötesi vocalist Harun Tekin and Kargo vocalist Koray Candemir take the "ŞAKALI AKUSTİK" stage, performing their own songs, each other\'s works, and their favourite tracks in stripped-back acoustic arrangements.\n\nWith plenty of conversation, laughter, and a heartfelt atmosphere, this special performance offers a warm concert experience that feels like music being made at home.',
-      TR: 'Rock sahnesinin iki güçlü sesi, "Mor ve Ötesi"\'nin solisti Harun Tekin ve "Kargo"\'nun solisti Koray Candemir, "ŞAKALI AKUSTİK" sahnesinde; kendi şarkılarını, birbirlerinin eserlerini ve en sevdikleri parçaları sade akustik düzenlemelerle yorumluyor.\n\nBol sohbetli, bol kahkahalı ve içten atmosferiyle bu özel performans, seyirciye adeta evde müzik yapılıyormuş hissi veren sıcacık bir konser deneyimi sunuyor.'
+      TR: "Rock sahnesinin iki güçlü sesi, 'Mor ve Ötesi'nin solisti Harun Tekin ve 'Kargo'nun solisti Koray Candemir, 'ŞAKALI AKUSTİK' sahnesinde; kendi şarkılarını, birbirlerinin eserlerini ve en sevdikleri parçaları sade akustik düzenlemelerle yorumluyor.\n\nBol sohbetli, bol kahkahalı ve içten atmosferiyle bu özel performans, seyirciye adeta evde müzik yapılıyormuş hissi veren sıcacık bir konser deneyimi sunuyor."
     },
     image: '/images/sakali-akustik.jpg',
     dates: '26 March 2026',
@@ -214,7 +214,7 @@ const allProductions: Production[] = [
     status: 'Past',
     description: {
       EN: 'GRiPİN is back at one of London\'s most iconic venues, Jazz Cafe, for a special live performance. Join us for an unforgettable night of powerful music, featuring special guest IKIYEONKALA.',
-      TR: 'GRiPİN, Londra\'nın en ikonik mekanlarından Jazz Cafe\'de özel bir canlı performans için geri döndü. Özel konuk IKIYEONKALA ile güçlü müzik dolu unutulmaz bir geceye katılın.'
+      TR: "GRiPİN, Londra'nın en ikonik mekanlarından Jazz Cafe'de özel bir canlı performans için geri döndü. Özel konuk IKIYEONKALA ile güçlü müzik dolu unutulmaz bir geceye katılın."
     },
     image: '/videos/showcase.mp4',
     dates: 'Sunday, January 11, 2026, 7:00 PM',
@@ -231,7 +231,7 @@ const allProductions: Production[] = [
     status: 'Past',
     description: {
       EN: 'Experience an intimate candlelit concert with Jem at St. Pancras Old Church on December 8. Let her ethereal voice and poetic melodies create a soulful, unforgettable evening. Tickets are limited, reserve yours now!',
-      TR: 'St. Pancras Old Church\'ta Jem ile samimi mum ışığında bir konser deneyimi. Eterik sesi ve şiirsel melodileriyle ruhani, unutulmaz bir akşam. Biletler sınırlı sayıda!'
+      TR: "St. Pancras Old Church'ta Jem ile samimi mum ışığında bir konser deneyimi. Eterik sesi ve şiirsel melodileriyle ruhani, unutulmaz bir akşam. Biletler sınırlı sayıda!"
     },
     image: '/images/jem-concert.jpg',
     dates: 'December 8, 2025',
