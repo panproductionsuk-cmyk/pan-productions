@@ -248,7 +248,7 @@ const allProductions: Production[] = [
     status: 'Past',
     description: {
       EN: 'An intimate concert featuring legendary Turkish musicians Erkan Oğur and Bülent Ortaçgil.',
-      TR: 'Efsanevi Türk müzisyenler Erkan Oğur ve Bülent Ortaçgil'in samimi konseri.'
+      TR: "Efsanevi Türk müzisyenler Erkan Oğur ve Bülent Ortaçgil'in samimi konseri."
     },
     image: '/images/erkan-ogur-bulent.jpg',
     dates: '27 November 2016, 19:00',
@@ -265,7 +265,7 @@ const allProductions: Production[] = [
     status: 'Past',
     description: {
       EN: 'A captivating musical collaboration between legendary Turkish musicians Erkan Oğur and İsmail Hakkı Demircioğlu. "Bütün türküler güzeldir, hayatın ta kendisidir. Salt müzik değildir ve bu ülkenin eline tutulan hazinesidir."',
-      TR: 'Efsanevi Türk müzisyenler Erkan Oğur ve İsmail Hakkı Demircioğlu'nun büyüleyici müzikal buluşması. "Bütün türküler güzeldir, hayatın ta kendisidir."'
+      TR: "Efsanevi Türk müzisyenler Erkan Oğur ve İsmail Hakkı Demircioğlu'nun büyüleyici müzikal buluşması. 'Bütün türküler güzeldir, hayatın ta kendisidir.'"
     },
     image: '/images/erkan-ogur-ismail.jpg',
     dates: '20 March 2011, 18:45',
@@ -282,7 +282,7 @@ const allProductions: Production[] = [
     status: 'Past',
     description: {
       EN: 'A special fundraiser concert featuring the talented Kurdish-Turkish singer Olcay Bayır. Supporting Djanan Turan, Erdogan Bayir, Ece & Debora. Live music and DJ Ece till 1AM.',
-      TR: 'Başarılı Kürt-Türk şarkıcı Olcay Bayır'ın yer aldığı özel bir destek konseri. Djanan Turan, Erdoğan Bayır, Ece & Debora destekliyor. Canlı müzik ve DJ Ece sabaha kadar.'
+      TR: "Başarılı Kürt-Türk şarkıcı Olcay Bayır'ın yer aldığı özel bir destek konseri. Djanan Turan, Erdoğan Bayır, Ece & Debora destekliyor. Canlı müzik ve DJ Ece sabaha kadar."
     },
     image: '/images/olcay-bayir-fundraiser.jpg',
     dates: 'Friday 21 April, 7:30PM-1:00AM',
