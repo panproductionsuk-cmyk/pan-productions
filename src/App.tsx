@@ -11,6 +11,7 @@ import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import Index from "./pages/Index";
 import Productions from "./pages/Productions";
+import ProductionDetails from "./pages/ProductionDetails";
 import Marketing from "./pages/Marketing";
 import Workshops from "./pages/Workshops";
 import Lessons from "./pages/Lessons";
@@ -40,6 +41,7 @@ const App = () => (
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/productions" element={<Productions />} />
+                <Route path="/productions/:id" element={<ProductionDetails />} />
                 <Route path="/marketing" element={<Marketing />} />
                 <Route path="/academy/workshops" element={<Workshops />} />
                 <Route path="/academy/lessons" element={<Lessons />} />

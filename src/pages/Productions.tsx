@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
-import { Dialog, DialogTrigger, DialogContent } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Calendar, MapPin, Clock, Ticket } from 'lucide-react';
+import { Calendar, MapPin, Clock, Ticket, ArrowRight } from 'lucide-react';
 import SEO from '@/components/SEO';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -27,127 +25,121 @@ interface Production {
 
 // ProductionCard Component
 const ProductionCard = ({ production, getStatusColor, t }: { production: Production; getStatusColor: (status: string) => string; t: (key: string) => string }) => {
-  const [open, setOpen] = useState(false);
   const { language } = useLanguage();
   const isVideo = production.image.endsWith('.mp4') || production.image.endsWith('.webm');
   
+  // Truncate description for card preview
+  const fullDescription = typeof production.description === 'string' 
+    ? production.description 
+    : (language === 'EN' ? production.description.EN : production.description.TR);
+  const truncatedDescription = fullDescription.length > 150 
+    ? fullDescription.substring(0, 150) + '...' 
+    : fullDescription;
+  
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Card className="production-card group overflow-hidden cursor-pointer">
-          <div className="relative h-[500px] overflow-hidden bg-muted flex items-center justify-center">
-            {isVideo ? (
-              <>
-                {/* Video Background */}
-                <div className="absolute inset-0">
-                  <video
-                    src={production.image}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="w-full h-full object-cover blur-xl scale-110 opacity-60"
-                  />
-                </div>
-                {/* Main Video */}
+    <Link to={`/productions/${production.id}`}>
+      <Card className="production-card group overflow-hidden cursor-pointer h-full">
+        <div className="relative h-[500px] overflow-hidden bg-muted flex items-center justify-center">
+          {isVideo ? (
+            <>
+              {/* Video Background */}
+              <div className="absolute inset-0">
                 <video
                   src={production.image}
                   autoPlay
                   loop
                   muted
                   playsInline
-                  className="relative z-10 w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+                  className="w-full h-full object-cover blur-xl scale-110 opacity-60"
                 />
-              </>
-            ) : (
-              <>
-                {/* Blurred Background Image */}
-                <div className="absolute inset-0">
-                  <img
-                    src={production.image}
-                    alt=""
-                    className="w-full h-full object-cover blur-xl scale-110 opacity-60"
-                  />
-                </div>
-                {/* Main Image */}
+              </div>
+              {/* Main Video */}
+              <video
+                src={production.image}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="relative z-10 w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+              />
+            </>
+          ) : (
+            <>
+              {/* Blurred Background Image */}
+              <div className="absolute inset-0">
                 <img
                   src={production.image}
-                  alt={production.title}
-                  className="relative z-10 w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+                  alt=""
+                  className="w-full h-full object-cover blur-xl scale-110 opacity-60"
                 />
-              </>
-            )}
-            {/* Status Badge */}
-            <div className="absolute top-4 right-4 z-20">
-              <Badge className={getStatusColor(production.status)}>
-                {production.status}
-              </Badge>
+              </div>
+              {/* Main Image */}
+              <img
+                src={production.image}
+                alt={production.title}
+                className="relative z-10 w-full h-full object-contain transition-transform duration-300 group-hover:scale-105"
+              />
+            </>
+          )}
+          {/* Status Badge */}
+          <div className="absolute top-4 right-4 z-20">
+            <Badge className={getStatusColor(production.status)}>
+              {production.status}
+            </Badge>
+          </div>
+        </div>
+        <CardContent className="p-6">
+          <h3 className="font-heading text-2xl font-bold mb-1 text-foreground">
+            {production.title}
+          </h3>
+          {production.author && (
+            <p className="text-muted-foreground text-sm mb-4">
+              {t('productions.by')} {production.author}
+            </p>
+          )}
+          <p className="text-muted-foreground mb-6 line-clamp-3">
+            {truncatedDescription}
+          </p>
+          <div className="space-y-3 mb-6">
+            <div className="flex items-center text-sm text-foreground">
+              <Calendar className="w-4 h-4 mr-2 text-primary" />
+              <span>{production.dates}</span>
+            </div>
+            <div className="flex items-center text-sm text-foreground">
+              <MapPin className="w-4 h-4 mr-2 text-primary" />
+              <span>{production.venue}</span>
+            </div>
+            <div className="flex items-center text-sm text-foreground">
+              <Clock className="w-4 h-4 mr-2 text-primary" />
+              <span>{production.duration}</span>
+            </div>
+            <div className="flex items-center text-sm text-foreground">
+              <Ticket className="w-4 h-4 mr-2 text-primary" />
+              <span>{production.ticketPrice}</span>
             </div>
           </div>
-          <CardContent className="p-6">
-            <h3 className="font-heading text-2xl font-bold mb-1">
-              {production.title}
-            </h3>
-            {production.author && (
-              <p className="text-muted-foreground text-sm mb-4">
-                {t('productions.by')} {production.author}
-              </p>
-            )}
-            <p className="text-muted-foreground mb-6">
-              {typeof production.description === 'string' ? production.description : (language === 'EN' ? production.description.EN : production.description.TR)}
-            </p>
-            <div className="space-y-3 mb-6">
-              <div className="flex items-center text-sm">
-                <Calendar className="w-4 h-4 mr-2 text-primary" />
-                <span>{production.dates}</span>
-              </div>
-              <div className="flex items-center text-sm">
-                <MapPin className="w-4 h-4 mr-2 text-primary" />
-                <span>{production.venue}</span>
-              </div>
-              <div className="flex items-center text-sm">
-                <Clock className="w-4 h-4 mr-2 text-primary" />
-                <span>{production.duration}</span>
-              </div>
-              <div className="flex items-center text-sm">
-                <Ticket className="w-4 h-4 mr-2 text-primary" />
-                <span>{production.ticketPrice}</span>
-              </div>
-            </div>
-            <div className="flex gap-2">
-              <Button 
-                variant="spotlight" 
-                className="flex-1"
-                disabled={production.status === 'Past'}
-                onClick={(e) => {
-                  if (production.ticketLink) {
-                    e.stopPropagation();
-                    window.location.href = production.ticketLink;
-                  }
-                }}
-              >
-                {(production.status === 'Current' || production.status === 'On Sale') ? t('productions.buyTickets') : 
-                 production.status === 'Upcoming' ? t('productions.comingSoon') : t('productions.archive')}
-              </Button>
-              <Button variant="outline" size="icon">
-                <Calendar className="w-4 h-4" />
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </DialogTrigger>
-      <DialogContent className="max-w-2xl flex flex-col items-center">
-        {isVideo ? (
-          <video src={production.image} autoPlay loop muted playsInline className="w-full h-auto max-h-[80vh] object-contain rounded-lg" />
-        ) : (
-          <img src={production.image} alt={production.title} className="w-full h-auto max-h-[80vh] object-contain rounded-lg" />
-        )}
-        <div className="mt-4 text-center">
-          <h3 className="font-heading text-2xl font-bold mb-2">{production.title}</h3>
-          {production.author && <p className="text-muted-foreground text-sm mb-2">{t('productions.by')} {production.author}</p>}
-        </div>
-      </DialogContent>
-    </Dialog>
+          <div className="flex gap-2">
+            <Button 
+              variant="spotlight" 
+              className="flex-1"
+              onClick={(e) => {
+                if (production.ticketLink && production.status !== 'Past') {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  window.open(production.ticketLink, '_blank');
+                }
+              }}
+            >
+              {(production.status === 'Current' || production.status === 'On Sale') ? t('productions.buyTickets') : 
+               production.status === 'Upcoming' ? t('productions.comingSoon') : t('productions.archive')}
+            </Button>
+            <Button variant="outline" size="icon" className="shrink-0">
+              <ArrowRight className="w-4 h-4" />
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    </Link>
   );
 };
 
