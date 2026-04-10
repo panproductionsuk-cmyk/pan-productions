@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { ChevronDown } from 'lucide-react';
 
 const PartnersCarousel = () => {
+  const [isOpen, setIsOpen] = useState(true);
   const partners = [
     {
       name: 'O2 Academy Islington',
@@ -64,13 +66,24 @@ const PartnersCarousel = () => {
     <section className="py-10">
       <div className="container mx-auto px-4">
         <div className="bg-gradient-to-br from-primary/10 via-card/50 to-secondary/10 rounded-2xl p-12 border border-border/60">
-          <div className="text-center mb-8">
+          <button
+            onClick={() => setIsOpen((prev) => !prev)}
+            className="w-full flex items-center justify-between mb-8 group"
+            aria-expanded={isOpen}
+            aria-controls="partners-carousel-content"
+          >
             <h3 className="font-heading text-2xl font-semibold text-foreground">
-              Our Partners & Supporters
+              Our Partners &amp; Supporters
             </h3>
-          </div>
+            <ChevronDown
+              className={`w-5 h-5 text-muted-foreground transition-transform duration-300 group-hover:text-foreground ${isOpen ? 'rotate-180' : 'rotate-0'}`}
+            />
+          </button>
 
-          <div className="relative">
+          <div
+            id="partners-carousel-content"
+            className={`relative overflow-hidden transition-all duration-500 ease-in-out ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}
+          >
             {/*
               We keep the animated marquee (animate-scroll) but also allow users
               to manually scroll the row. On touch devices this enables swipe/drag.
