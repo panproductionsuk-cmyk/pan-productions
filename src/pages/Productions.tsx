@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -7,20 +7,23 @@ import { Calendar, MapPin, Clock, Ticket, ArrowRight } from 'lucide-react';
 import SEO from '@/components/SEO';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { allProductions, type Production } from '@/data/productions';
-import { useProductions } from '@/hooks/useSupabaseProductions';
 
-// Helper to get description from either local or Supabase format
+// Helper to safely get description
 const getDescription = (production: Production, language: string): string => {
-  // Check for Supabase format first (snake_case)
-  const supabaseProd = production as unknown as { description_en?: string; description_tr?: string };
-  if (supabaseProd.description_en || supabaseProd.description_tr) {
-    return language === 'EN' ? (supabaseProd.description_en || '') : (supabaseProd.description_tr || supabaseProd.description_en || '');
+  try {
+    if (!production.description) return '';
+    if (typeof production.description === 'string') {
+      return production.description;
+    }
+    return language === 'EN' ? (production.description.EN || '') : (production.description.TR || production.description.EN || '');
+  } catch {
+    return '';
   }
-  // Fall back to local format
-  if (typeof production.description === 'string') {
-    return production.description;
-  }
-  return language === 'EN' ? production.description.EN : production.description.TR;
+};
+
+// Helper to safely get sortDate
+const getSortDate = (production: Production): string => {
+  return production.sortDate || '1900-01-01';
 };
 
 // ProductionCard Component
@@ -131,10 +134,6 @@ const ProductionCard = ({ production, getStatusColor, t }: { production: Product
 
 const Productions = () => {
   const { t } = useLanguage();
-  const { productions: supabaseProductions, loading, error } = useProductions();
-  
-  // Use Supabase data if available, otherwise fall back to local data
-  const productions = supabaseProductions.length > 0 ? supabaseProductions : allProductions;
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -150,14 +149,27 @@ const Productions = () => {
     }
   };
 
+  // Sort productions: upcoming first (sorted by date asc), then past (sorted by date desc)
+  const sortedProductions = [...allProductions].sort((a, b) => {
+    const dateA = getSortDate(a);
+    const dateB = getSortDate(b);
+    const now = new Date().toISOString().split('T')[0];
+    const aUpcoming = dateA >= now;
+    const bUpcoming = dateB >= now;
+    if (aUpcoming && !bUpcoming) return -1;
+    if (!aUpcoming && bUpcoming) return 1;
+    if (aUpcoming && bUpcoming) return dateA.localeCompare(dateB);
+    return dateB.localeCompare(dateA);
+  });
+
   const eventsSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    "itemListElement": productions.map((prod, index) => ({
+    "itemListElement": sortedProductions.map((prod, index) => ({
       "@type": "Event",
       "position": index + 1,
       "name": prod.title,
-      "description": typeof prod.description === 'string' ? prod.description : prod.description.EN,
+      "description": getDescription(prod, 'EN'),
       "startDate": prod.dates,
       "location": {
         "@type": "Place",
@@ -204,21 +216,9 @@ const Productions = () => {
 
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {allProductions
-            .sort((a, b) => {
-              const dateA = a.sortDate || '1900-01-01';
-              const dateB = b.sortDate || '1900-01-01';
-              const now = new Date().toISOString().split('T')[0];
-              const aUpcoming = dateA >= now;
-              const bUpcoming = dateB >= now;
-              if (aUpcoming && !bUpcoming) return -1;
-              if (!aUpcoming && bUpcoming) return 1;
-              if (aUpcoming && bUpcoming) return dateA.localeCompare(dateB);
-              return dateB.localeCompare(dateA);
-            })
-            .map((production) => (
-              <ProductionCard key={production.id} production={production} getStatusColor={getStatusColor} t={t} />
-            ))}
+          {sortedProductions.map((production) => (
+            <ProductionCard key={production.id} production={production} getStatusColor={getStatusColor} t={t} />
+          ))}
         </div>
 
         {/* Call to Action */}
