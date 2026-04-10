@@ -6,17 +6,29 @@ import { Badge } from '@/components/ui/badge';
 import { Calendar, MapPin, Clock, Ticket, ArrowRight } from 'lucide-react';
 import SEO from '@/components/SEO';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { categories, allProductions, type Production } from '@/data/productions';
+import { allProductions, type Production } from '@/data/productions';
 import { useProductions } from '@/hooks/useSupabaseProductions';
+
+// Helper to get description from either local or Supabase format
+const getDescription = (production: Production, language: string): string => {
+  // Check for Supabase format first (snake_case)
+  const supabaseProd = production as unknown as { description_en?: string; description_tr?: string };
+  if (supabaseProd.description_en || supabaseProd.description_tr) {
+    return language === 'EN' ? (supabaseProd.description_en || '') : (supabaseProd.description_tr || supabaseProd.description_en || '');
+  }
+  // Fall back to local format
+  if (typeof production.description === 'string') {
+    return production.description;
+  }
+  return language === 'EN' ? production.description.EN : production.description.TR;
+};
 
 // ProductionCard Component
 const ProductionCard = ({ production, getStatusColor, t }: { production: Production; getStatusColor: (status: string) => string; t: (key: string) => string }) => {
   const { language } = useLanguage();
-  const isVideo = production.image.endsWith('.mp4') || production.image.endsWith('.webm');
+  const isVideo = production.image?.endsWith('.mp4') || production.image?.endsWith('.webm');
   
-  const fullDescription = typeof production.description === 'string' 
-    ? production.description 
-    : (language === 'EN' ? production.description.EN : production.description.TR);
+  const fullDescription = getDescription(production, language);
   const truncatedDescription = fullDescription.length > 150 
     ? fullDescription.substring(0, 150) + '...' 
     : fullDescription;
@@ -192,7 +204,7 @@ const Productions = () => {
 
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {[...categories.theatre, ...categories.art, ...categories.music, ...categories.film]
+          {allProductions
             .sort((a, b) => {
               const dateA = a.sortDate || '1900-01-01';
               const dateB = b.sortDate || '1900-01-01';
