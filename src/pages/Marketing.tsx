@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
 import SEO from '@/components/SEO';
 import useEmblaCarousel from 'embla-carousel-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { marketingProductions } from '@/data/productions';
 import { 
   Target, 
   Megaphone, 
@@ -20,7 +20,7 @@ import {
 
 const Marketing = () => {
   const { t } = useLanguage();
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
   const [emblaRef] = useEmblaCarousel({ loop: true, align: 'start' });
   
   // Services list removed as requested
@@ -122,54 +122,44 @@ const Marketing = () => {
 
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex gap-6">
-              {[
-                {
-                  id: 'jem-candlelit-concert',
-                  title: 'JEM: Intimate Candlelit Concert',
-                  image: '/images/jem-concert.jpg',
-                  description: 'An ethereal evening of music at St. Pancras Old Church'
-                },
-                {
-                  id: 'english-kings-killing-foreigners',
-                  title: 'English Kings Killing Foreigners',
-                  image: '/images/english-kings-killing-foreigners.jpg',
-                  description: 'A powerful theatrical production'
-                },
-                {
-                  id: 'women-who-blow-on-knots',
-                  title: 'Women Who Blow on Knots',
-                  image: '/images/women-who-blow-on-knots.jpg',
-                  description: 'An evocative performance piece'
-                }
-              ].map((production, index) => (
+              {marketingProductions.map((production, index) => {
+                const description = typeof production.description === 'string'
+                  ? production.description
+                  : production.description.EN;
+                const isVideo = production.image.endsWith('.mp4') || production.image.endsWith('.webm');
+                return (
                 <div key={index} className="flex-[0_0_100%] min-w-0 sm:flex-[0_0_50%] lg:flex-[0_0_33.333%]">
-                  <Link to={`/marketing/${production.id}`}>
+                  <Link to={`/productions/${production.id}`}>
                   <Card 
                     className="group overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-300"
                   >
                     <div className="relative h-[500px] overflow-hidden">
                       {/* Blurred background layer */}
                       <div className="absolute inset-0">
-                        <img 
-                          src={production.image} 
-                          alt=""
-                          className="w-full h-full object-cover blur-2xl opacity-40 scale-110"
-                          onError={(e) => {
-                            e.currentTarget.src = '/images/hero-slide-2.jpg';
-                          }}
-                        />
+                        {isVideo ? (
+                          <video src={production.image} className="w-full h-full object-cover blur-2xl opacity-40 scale-110" muted loop playsInline autoPlay />
+                        ) : (
+                          <img 
+                            src={production.image} 
+                            alt=""
+                            className="w-full h-full object-cover blur-2xl opacity-40 scale-110"
+                            onError={(e) => { e.currentTarget.src = '/images/hero-slide-2.jpg'; }}
+                          />
+                        )}
                       </div>
                       
-                      {/* Main image layer */}
+                      {/* Main media layer */}
                       <div className="absolute inset-0 flex items-center justify-center p-4">
-                        <img 
-                          src={production.image} 
-                          alt={production.title}
-                          className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
-                          onError={(e) => {
-                            e.currentTarget.src = '/images/hero-slide-2.jpg';
-                          }}
-                        />
+                        {isVideo ? (
+                          <video src={production.image} className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105" muted loop playsInline autoPlay />
+                        ) : (
+                          <img 
+                            src={production.image} 
+                            alt={production.title}
+                            className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
+                            onError={(e) => { e.currentTarget.src = '/images/hero-slide-2.jpg'; }}
+                          />
+                        )}
                       </div>
                     </div>
                     
@@ -177,31 +167,19 @@ const Marketing = () => {
                       <h3 className="font-heading text-xl font-bold mb-2 text-foreground">
                         {production.title}
                       </h3>
-                      <p className="text-muted-foreground text-sm">
-                        {production.description}
+                      <p className="text-muted-foreground text-sm line-clamp-2">
+                        {description}
                       </p>
                     </CardContent>
                   </Card>
                   </Link>
                 </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
       </section>
-
-      {/* Image Modal */}
-      <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
-        <DialogContent className="max-w-5xl w-full p-0 bg-transparent border-0">
-          <div className="relative">
-            <img 
-              src={selectedImage || ''} 
-              alt="Production Poster"
-              className="w-full h-auto max-h-[90vh] object-contain"
-            />
-          </div>
-        </DialogContent>
-      </Dialog>
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-primary/10 to-secondary/10">

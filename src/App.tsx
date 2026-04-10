@@ -13,7 +13,6 @@ import Index from "./pages/Index";
 import Productions from "./pages/Productions";
 import ProductionDetails from "./pages/ProductionDetails";
 import Marketing from "./pages/Marketing";
-import MarketingDetails from "./pages/MarketingDetails";
 import Workshops from "./pages/Workshops";
 import WorkshopDetails from "./pages/WorkshopDetails";
 import Lessons from "./pages/Lessons";
@@ -45,7 +44,6 @@ const App = () => (
                 <Route path="/productions" element={<Productions />} />
                 <Route path="/productions/:id" element={<ProductionDetails />} />
                 <Route path="/marketing" element={<Marketing />} />
-                <Route path="/marketing/:id" element={<MarketingDetails />} />
                 <Route path="/academy/workshops" element={<Workshops />} />
                 <Route path="/academy/workshops/:id" element={<WorkshopDetails />} />
                 <Route path="/academy/lessons" element={<Lessons />} />
