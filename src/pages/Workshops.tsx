@@ -1,30 +1,29 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import SEO from '@/components/SEO';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { 
   Clock, 
   Users, 
-  Star, 
   Calendar,
   MapPin,
   Award,
   BookOpen,
   Theater,
-  Phone
+  Phone,
+  ArrowRight
 } from 'lucide-react';
 import { formatWorkshopDate } from '@/lib/dateFormat';
 
 const Workshops = () => {
   const { t, language } = useLanguage();
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const pastWorkshops = [
     {
+      id: 'boal-workshop',
       title: "Theatre of the Oppressed - Augusto Boal Workshop",
       instructor: "Dr. Pieter Verstraete (Free University Berlin & University Groningen)",
       date: "27 October 2025",
@@ -44,6 +43,7 @@ const Workshops = () => {
       phone: null
     },
     {
+      id: 'mehmet-ergen-workshop',
       title: "Mehmet Ergen ile Tiyatro Deneyimi - Theatre Experience with Mehmet Ergen",
       instructor: "Mehmet Ergen",
       date: "2,3,7,10 October 2024",
@@ -63,6 +63,7 @@ const Workshops = () => {
       phone: null
     },
     {
+      id: 'philip-arditti-workshop',
       title: "Philip Arditti ile Oyun Yapma Atölyesi - Devised Theatre with Philip Arditti",
       instructor: "Philip Arditti",
       date: "24 June, 1, 8, 15 July 2025",
@@ -82,6 +83,7 @@ const Workshops = () => {
       phone: null
     },
     {
+      id: 'writing-workshop',
       title: "Duygular Bankası Yazı Atölyesi - Emotions Bank Writing Workshop",
       instructor: "Seçil Honeywill (WriteNow Berlin - Writer & Dramaturg)",
       date: "TBA",
@@ -101,6 +103,7 @@ const Workshops = () => {
       phone: null
     },
     {
+      id: 'stanislavski-workshop',
       title: "Oyunculuk Atölyesi - Introduction to Stanislavski's Method of Physical Actions",
       instructor: "Cüneyt Yalaz",
       date: "2 June 2025",
@@ -120,6 +123,7 @@ const Workshops = () => {
       phone: "07944430349"
     },
     {
+      id: 'meisner-workshop',
       title: "Meisner Technique Workshop",
       instructor: "Pan Productions",
       date: "21 July 2024",
@@ -274,48 +278,49 @@ const Workshops = () => {
             <TabsContent value="theatre">
               <div className="grid md:grid-cols-2 gap-8">
                 {pastWorkshops.map((workshop, index) => (
-                  <Card key={index} className="group overflow-hidden cursor-pointer" onClick={() => setSelectedImage(workshop.image)}>
-                    <div className="relative h-[500px] overflow-hidden">
-                      {/* Blurred background layer */}
-                      <div className="absolute inset-0">
-                        <img 
-                          src={workshop.image} 
-                          alt=""
-                          className="w-full h-full object-cover blur-2xl opacity-40 scale-110"
-                        />
-                      </div>
-                      
-                      {/* Main image layer */}
-                      <div className="absolute inset-0 flex items-center justify-center p-4">
-                        <img 
-                          src={workshop.image} 
-                          alt={workshop.title}
-                          className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
-                        />
-                      </div>
-                      
-                      
-                      {/* Status Badges */}
-                      <div className="absolute top-4 right-4 flex flex-col gap-2 z-10">
-                        <Badge className={
-                          workshop.status === "Upcoming" 
-                            ? "bg-pink-500/80 hover:bg-pink-600/80 text-white" 
-                            : workshop.status === "Completed"
-                            ? "bg-lime-400/80 hover:bg-lime-500/80 text-black"
-                            : "bg-lime-300/40 text-gray-600"
-                        }>
-                          {workshop.status}
-                        </Badge>
-                        {workshop.price === "Free" && (
-                          <Badge className="bg-pink-500/70 hover:bg-pink-600/70 text-white">
-                            Free Workshop
+                  <Link key={index} to={`/academy/workshops/${workshop.id}`}>
+                    <Card className="group overflow-hidden cursor-pointer h-full">
+                      <div className="relative h-[500px] overflow-hidden">
+                        {/* Blurred background layer */}
+                        <div className="absolute inset-0">
+                          <img 
+                            src={workshop.image} 
+                            alt=""
+                            className="w-full h-full object-cover blur-2xl opacity-40 scale-110"
+                          />
+                        </div>
+                        
+                        {/* Main image layer */}
+                        <div className="absolute inset-0 flex items-center justify-center p-4">
+                          <img 
+                            src={workshop.image} 
+                            alt={workshop.title}
+                            className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
+                          />
+                        </div>
+                        
+                        
+                        {/* Status Badges */}
+                        <div className="absolute top-4 right-4 flex flex-col gap-2 z-10">
+                          <Badge className={
+                            workshop.status === "Upcoming" 
+                              ? "bg-pink-500/80 hover:bg-pink-600/80 text-white" 
+                              : workshop.status === "Completed"
+                              ? "bg-lime-400/80 hover:bg-lime-500/80 text-black"
+                              : "bg-lime-300/40 text-gray-600"
+                          }>
+                            {workshop.status}
                           </Badge>
-                        )}
-                        <Badge variant={getLevelBadgeVariant(workshop.level)} className="opacity-80">
-                          {workshop.level}
-                        </Badge>
-                      </div>
-                </div>
+                          {workshop.price === "Free" && (
+                            <Badge className="bg-pink-500/70 hover:bg-pink-600/70 text-white">
+                              Free Workshop
+                            </Badge>
+                          )}
+                          <Badge variant={getLevelBadgeVariant(workshop.level)} className="opacity-80">
+                            {workshop.level}
+                          </Badge>
+                        </div>
+                  </div>
                 
                 <CardContent className="p-6">
                   {/* Title */}
@@ -325,31 +330,31 @@ const Workshops = () => {
                   <p className="text-muted-foreground text-sm mb-4">
                     {t('workshops.instructor')}: {workshop.instructor}
                   </p>
-                  <p className="text-muted-foreground mb-6">
+                  <p className="text-muted-foreground mb-6 line-clamp-3">
                     {typeof workshop.description === 'string' ? workshop.description : (language === 'EN' ? workshop.description.EN : workshop.description.TR)}
                   </p>
 
                   <div className="space-y-3 mb-6">
-                    <div className="flex items-center text-sm">
+                    <div className="flex items-center text-sm text-foreground">
                       <Calendar className="w-4 h-4 mr-2 text-primary" />
                       <span>{formatWorkshopDate(workshop.date)}</span>
                     </div>
-                    <div className="flex items-center text-sm">
+                    <div className="flex items-center text-sm text-foreground">
                       <Clock className="w-4 h-4 mr-2 text-primary" />
                       <span>{workshop.time}</span>
                     </div>
-                    <div className="flex items-center text-sm">
+                    <div className="flex items-center text-sm text-foreground">
                       <MapPin className="w-4 h-4 mr-2 text-primary" />
                       <span>{workshop.location}</span>
                     </div>
                     {workshop.spots && (
-                      <div className="flex items-center text-sm">
+                      <div className="flex items-center text-sm text-foreground">
                         <Users className="w-4 h-4 mr-2 text-primary" />
                         <span>{workshop.spots} spots available</span>
                       </div>
                     )}
                     {workshop.phone && (
-                      <div className="flex items-center text-sm">
+                      <div className="flex items-center text-sm text-foreground">
                         <Phone className="w-4 h-4 mr-2 text-primary" />
                         <span>{workshop.phone}</span>
                       </div>
@@ -360,16 +365,16 @@ const Workshops = () => {
                     <Button 
                       variant="spotlight" 
                       className="flex-1"
-                      disabled
                     >
-                      {t('workshops.completed')}
+                      {t('workshops.viewDetails') || 'View Details'}
                     </Button>
-                    <Button variant="outline" size="icon">
-                      <Calendar className="w-4 h-4" />
+                    <Button variant="outline" size="icon" className="shrink-0">
+                      <ArrowRight className="w-4 h-4" />
                     </Button>
                   </div>
                 </CardContent>
               </Card>
+            </Link>
             ))}
               </div>
             </TabsContent>
@@ -397,19 +402,6 @@ const Workshops = () => {
           </Tabs>
         </div>
       </section>
-
-      {/* Image Modal */}
-      <Dialog open={!!selectedImage} onOpenChange={() => setSelectedImage(null)}>
-        <DialogContent className="max-w-5xl w-full p-0 bg-transparent border-0">
-          <div className="relative">
-            <img 
-              src={selectedImage || ''} 
-              alt="Workshop Poster"
-              className="w-full h-auto max-h-[90vh] object-contain"
-            />
-          </div>
-        </DialogContent>
-      </Dialog>
 
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-r from-primary/10 to-secondary/10">

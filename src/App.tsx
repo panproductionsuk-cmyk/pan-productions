@@ -14,6 +14,7 @@ import Productions from "./pages/Productions";
 import ProductionDetails from "./pages/ProductionDetails";
 import Marketing from "./pages/Marketing";
 import Workshops from "./pages/Workshops";
+import WorkshopDetails from "./pages/WorkshopDetails";
 import Lessons from "./pages/Lessons";
 import About from "./pages/About";
 import News from "./pages/News";
@@ -44,6 +45,7 @@ const App = () => (
                 <Route path="/productions/:id" element={<ProductionDetails />} />
                 <Route path="/marketing" element={<Marketing />} />
                 <Route path="/academy/workshops" element={<Workshops />} />
+                <Route path="/academy/workshops/:id" element={<WorkshopDetails />} />
                 <Route path="/academy/lessons" element={<Lessons />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/news" element={<News />} />
