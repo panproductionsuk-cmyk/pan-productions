@@ -75,6 +75,11 @@ const AdminProductionForm = ({ productionId, onSuccess, onCancel }: AdminProduct
   }, [productionId, reset]);
 
   const onSubmit = async (data: ProductionFormData) => {
+    if (!supabase) {
+      toast.error('Supabase not configured');
+      return;
+    }
+
     setLoading(true);
     try {
       const productionData = {
