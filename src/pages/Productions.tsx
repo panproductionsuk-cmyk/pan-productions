@@ -267,7 +267,7 @@ const Productions = () => {
         status: 'Past',
         description: {
           EN: 'A legendary one-man show by the iconic Turkish comedian and theatre artist Ferhan Şensoy. An unforgettable evening of humor, satire, and theatrical brilliance.',
-          TR: 'Ferhan Şensoy'un efsanevi tek kişilik gösterisi. Mizah, hiciv ve tiyatro dolu unutulmaz bir gece.'
+          TR: 'Ferhan Şensoy&apos;un efsanevi tek kişilik gösterisi. Mizah, hiciv ve tiyatro dolu unutulmaz bir gece.'
         },
         image: '/images/ferhangi-seyler.jpg',
         dates: '10 June 2017',
