@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -6,17 +6,32 @@ import { Badge } from '@/components/ui/badge';
 import { Calendar, MapPin, Clock, Ticket, ArrowRight } from 'lucide-react';
 import SEO from '@/components/SEO';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { categories, allProductions, type Production } from '@/data/productions';
-import { useProductions } from '@/hooks/useSupabaseProductions';
+import { allProductions, type Production } from '@/data/productions';
+
+// Helper to safely get description
+const getDescription = (production: Production, language: string): string => {
+  try {
+    if (!production.description) return '';
+    if (typeof production.description === 'string') {
+      return production.description;
+    }
+    return language === 'EN' ? (production.description.EN || '') : (production.description.TR || production.description.EN || '');
+  } catch {
+    return '';
+  }
+};
+
+// Helper to safely get sortDate
+const getSortDate = (production: Production): string => {
+  return production.sortDate || '1900-01-01';
+};
 
 // ProductionCard Component
 const ProductionCard = ({ production, getStatusColor, t }: { production: Production; getStatusColor: (status: string) => string; t: (key: string) => string }) => {
   const { language } = useLanguage();
-  const isVideo = production.image.endsWith('.mp4') || production.image.endsWith('.webm');
+  const isVideo = production.image?.endsWith('.mp4') || production.image?.endsWith('.webm');
   
-  const fullDescription = typeof production.description === 'string' 
-    ? production.description 
-    : (language === 'EN' ? production.description.EN : production.description.TR);
+  const fullDescription = getDescription(production, language);
   const truncatedDescription = fullDescription.length > 150 
     ? fullDescription.substring(0, 150) + '...' 
     : fullDescription;
@@ -119,10 +134,6 @@ const ProductionCard = ({ production, getStatusColor, t }: { production: Product
 
 const Productions = () => {
   const { t } = useLanguage();
-  const { productions: supabaseProductions, loading, error } = useProductions();
-  
-  // Use Supabase data if available, otherwise fall back to local data
-  const productions = supabaseProductions.length > 0 ? supabaseProductions : allProductions;
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -138,14 +149,27 @@ const Productions = () => {
     }
   };
 
+  // Sort productions: upcoming first (sorted by date asc), then past (sorted by date desc)
+  const sortedProductions = [...allProductions].sort((a, b) => {
+    const dateA = getSortDate(a);
+    const dateB = getSortDate(b);
+    const now = new Date().toISOString().split('T')[0];
+    const aUpcoming = dateA >= now;
+    const bUpcoming = dateB >= now;
+    if (aUpcoming && !bUpcoming) return -1;
+    if (!aUpcoming && bUpcoming) return 1;
+    if (aUpcoming && bUpcoming) return dateA.localeCompare(dateB);
+    return dateB.localeCompare(dateA);
+  });
+
   const eventsSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    "itemListElement": productions.map((prod, index) => ({
+    "itemListElement": sortedProductions.map((prod, index) => ({
       "@type": "Event",
       "position": index + 1,
       "name": prod.title,
-      "description": typeof prod.description === 'string' ? prod.description : prod.description.EN,
+      "description": getDescription(prod, 'EN'),
       "startDate": prod.dates,
       "location": {
         "@type": "Place",
@@ -192,21 +216,9 @@ const Productions = () => {
 
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {[...categories.theatre, ...categories.art, ...categories.music, ...categories.film]
-            .sort((a, b) => {
-              const dateA = a.sortDate || '1900-01-01';
-              const dateB = b.sortDate || '1900-01-01';
-              const now = new Date().toISOString().split('T')[0];
-              const aUpcoming = dateA >= now;
-              const bUpcoming = dateB >= now;
-              if (aUpcoming && !bUpcoming) return -1;
-              if (!aUpcoming && bUpcoming) return 1;
-              if (aUpcoming && bUpcoming) return dateA.localeCompare(dateB);
-              return dateB.localeCompare(dateA);
-            })
-            .map((production) => (
-              <ProductionCard key={production.id} production={production} getStatusColor={getStatusColor} t={t} />
-            ))}
+          {sortedProductions.map((production) => (
+            <ProductionCard key={production.id} production={production} getStatusColor={getStatusColor} t={t} />
+          ))}
         </div>
 
         {/* Call to Action */}
