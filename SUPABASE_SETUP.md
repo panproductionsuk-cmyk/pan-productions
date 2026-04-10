@@ -47,37 +47,58 @@ INSERT INTO productions (id, title, title_en, author, status, description_en, de
 ('olcay-bayir-concert', 'Olcay Bayır Support Concert', 'Olcay Bayır Support Concert', NULL, 'Past', 'A special support concert featuring successful Kurdish-Turkish singer Olcay Bayır. Supported by Djanan Turan, Erdoğan Bayır, Ece & Debora. Live music and DJ Ece until sunrise.', "Başarılı Kürt-Türk şarkıcı Olcay Bayır'ın yer aldığı özel bir destek konseri. Djanan Turan, Erdoğan Bayır, Ece & Debora destekliyor. Canlı müzik ve DJ Ece sabaha kadar.", '/images/olcay-bayir-concert.jpg', '3 April 2015, 22:00', '2015-04-03', 'Istanbul Loft', '180 minutes', '35', NULL, 'music', false);
 ```
 
-## Step 3: Enable Environment Variables
+## Step 3: Set Admin Password
+
+Set the admin panel password as an environment variable in v0 project settings (Vars):
+
+```
+VITE_ADMIN_PASSWORD=your_secure_password
+```
+
+If not set, the default password is `admin123` (change this in production).
+
+## Step 4: Enable Environment Variables
 
 The React app needs these environment variables. Go to your project settings in v0 and add:
 
 ```
 VITE_SUPABASE_URL=your_supabase_url
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+VITE_ADMIN_PASSWORD=your_admin_password
 ```
 
-You can find these in your Supabase project settings under **API**.
+You can find Supabase credentials in your project settings under **API**.
 
-## Step 4: Managing Productions
+## Step 5: Managing Productions
 
-### Add a New Production
+### Using the Admin Panel
+
+1. Navigate to `/admin` in your app
+2. Enter the admin password to login
+3. Click **+ Add New Production** to create entries
+4. Use the **Edit** button to modify existing productions
+5. Toggle **Show in PR & Marketing** to control visibility
+6. Use **Delete** to remove productions
+
+### Manual Database Management
+
+Alternatively, manage productions directly in Supabase:
 
 1. Go to Supabase dashboard
 2. Open the **productions** table
-3. Click **Insert** and fill in all fields
+3. Add/edit/delete rows directly
 4. Set `show_in_marketing: true` to display in PR & Marketing archive
-5. Save
 
-### Edit a Production
+## Admin Panel
 
-1. Find the production in the table
-2. Click to edit and update fields
-3. Changes will appear immediately in the app
+The admin panel is available at `/admin`. It provides:
 
-### Toggle Show in Marketing
+- **Authentication**: Simple password protection
+- **Add Productions**: Create new events with all required fields
+- **Edit Productions**: Modify existing productions
+- **Delete Productions**: Remove entries from the database
+- **Marketing Toggle**: Control visibility in PR & Marketing archive
+- **Live Table**: View all productions with status, category, and marketing flag
 
-Simply update the `show_in_marketing` boolean field for any production.
+Changes made through the admin panel or Supabase will immediately reflect in the Productions and Marketing pages.
 
-## Admin Panel (Optional)
-
-An admin panel UI is coming soon to manage productions without accessing the database directly.
