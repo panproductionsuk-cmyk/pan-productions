@@ -28,6 +28,14 @@ const ProductionDetails = () => {
     return <Navigate to="/productions" replace />;
   }
 
+  if (loading || !production) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="animate-pulse text-muted-foreground">Loading...</div>
+      </div>
+    );
+  }
+
   const isVideo = production.image.endsWith('.mp4') || production.image.endsWith('.webm');
   const description = typeof production.description === 'string' 
     ? production.description 
@@ -129,7 +137,7 @@ const ProductionDetails = () => {
               </p>
             )}
             
-            {production.author && (
+            {production.author && production.author.length > 0 && (
               <p className="text-lg text-muted-foreground mb-6">
                 {t('productions.by')} {production.author}
               </p>

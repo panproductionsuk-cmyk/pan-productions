@@ -70,7 +70,7 @@ const ProductionCard = ({ production, getStatusColor, t }: { production: Product
           <h3 className="font-heading text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors">
             {production.title}
           </h3>
-          {production.author && (
+          {production.author && production.author.length > 0 && (
             <p className="text-muted-foreground text-sm mb-3">
               {t('productions.by')} {production.author}
             </p>
