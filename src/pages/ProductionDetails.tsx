@@ -14,14 +14,17 @@ import { Calendar, MapPin, Clock, Ticket, ArrowLeft, Users, Info } from 'lucide-
 import SEO from '@/components/SEO';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { allProductions, type Production } from '@/data/productions';
+import { useProductionById } from '@/hooks/useSupabaseProductions';
 
 const ProductionDetails = () => {
   const { id } = useParams<{ id: string }>();
   const { t, language } = useLanguage();
+  const { production: supabaseProduction, loading } = useProductionById(id || '');
   
-  const production = allProductions.find((p) => p.id === id);
+  // Use Supabase data if available, otherwise fall back to local data
+  const production = supabaseProduction || allProductions.find((p) => p.id === id);
   
-  if (!production) {
+  if (!production && !loading) {
     return <Navigate to="/productions" replace />;
   }
 

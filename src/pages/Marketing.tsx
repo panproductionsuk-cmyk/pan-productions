@@ -7,6 +7,7 @@ import SEO from '@/components/SEO';
 import useEmblaCarousel from 'embla-carousel-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { marketingProductions } from '@/data/productions';
+import { useMarketingProductions } from '@/hooks/useSupabaseProductions';
 import { 
   Target, 
   Megaphone, 
@@ -20,6 +21,10 @@ import {
 
 const Marketing = () => {
   const { t } = useLanguage();
+  const { productions: supabaseProductions, loading } = useMarketingProductions();
+  
+  // Use Supabase data if available, otherwise fall back to local data
+  const productions = supabaseProductions.length > 0 ? supabaseProductions : marketingProductions;
 
   const [emblaRef] = useEmblaCarousel({ loop: true, align: 'start' });
   
@@ -122,7 +127,7 @@ const Marketing = () => {
 
           <div className="overflow-hidden" ref={emblaRef}>
             <div className="flex gap-6">
-              {marketingProductions.map((production, index) => {
+              {productions.map((production, index) => {
                 const description = typeof production.description === 'string'
                   ? production.description
                   : production.description.EN;

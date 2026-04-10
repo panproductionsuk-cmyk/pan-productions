@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -7,6 +7,7 @@ import { Calendar, MapPin, Clock, Ticket, ArrowRight } from 'lucide-react';
 import SEO from '@/components/SEO';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { categories, allProductions, type Production } from '@/data/productions';
+import { useProductions } from '@/hooks/useSupabaseProductions';
 
 // ProductionCard Component
 const ProductionCard = ({ production, getStatusColor, t }: { production: Production; getStatusColor: (status: string) => string; t: (key: string) => string }) => {
@@ -118,6 +119,10 @@ const ProductionCard = ({ production, getStatusColor, t }: { production: Product
 
 const Productions = () => {
   const { t } = useLanguage();
+  const { productions: supabaseProductions, loading, error } = useProductions();
+  
+  // Use Supabase data if available, otherwise fall back to local data
+  const productions = supabaseProductions.length > 0 ? supabaseProductions : allProductions;
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -136,7 +141,7 @@ const Productions = () => {
   const eventsSchema = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    "itemListElement": allProductions.map((prod, index) => ({
+    "itemListElement": productions.map((prod, index) => ({
       "@type": "Event",
       "position": index + 1,
       "name": prod.title,
