@@ -124,25 +124,28 @@ const Marketing = () => {
             <div className="flex gap-6">
               {[
                 {
+                  id: 'jem-candlelit-concert',
                   title: 'JEM: Intimate Candlelit Concert',
                   image: '/images/jem-concert.jpg',
                   description: 'An ethereal evening of music at St. Pancras Old Church'
                 },
                 {
+                  id: 'english-kings-killing-foreigners',
                   title: 'English Kings Killing Foreigners',
                   image: '/images/english-kings-killing-foreigners.jpg',
                   description: 'A powerful theatrical production'
                 },
                 {
+                  id: 'women-who-blow-on-knots',
                   title: 'Women Who Blow on Knots',
                   image: '/images/women-who-blow-on-knots.jpg',
                   description: 'An evocative performance piece'
                 }
               ].map((production, index) => (
                 <div key={index} className="flex-[0_0_100%] min-w-0 sm:flex-[0_0_50%] lg:flex-[0_0_33.333%]">
+                  <Link to={`/marketing/${production.id}`}>
                   <Card 
                     className="group overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-300"
-                    onClick={() => setSelectedImage(production.image)}
                   >
                     <div className="relative h-[500px] overflow-hidden">
                       {/* Blurred background layer */}
@@ -179,6 +182,7 @@ const Marketing = () => {
                       </p>
                     </CardContent>
                   </Card>
+                  </Link>
                 </div>
               ))}
             </div>
