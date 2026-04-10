@@ -17,6 +17,11 @@ const AdminDashboard = () => {
   const [showForm, setShowForm] = useState(false);
 
   const handleDelete = async (id: string) => {
+    if (!supabase) {
+      toast.error('Supabase not configured');
+      return;
+    }
+
     if (!confirm('Are you sure you want to delete this production?')) return;
 
     try {

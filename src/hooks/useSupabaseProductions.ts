@@ -15,6 +15,13 @@ export function useProductions(): UseProductionsReturn {
   useEffect(() => {
     async function fetchProductions() {
       try {
+        if (!supabase) {
+          setProductions([])
+          setError(new Error('Supabase not configured'))
+          setLoading(false)
+          return
+        }
+
         const { data, error: fetchError } = await supabase
           .from('productions')
           .select('*')
@@ -52,6 +59,13 @@ export function useProductionById(id: string): Omit<UseProductionsReturn, 'produ
 
     async function fetchProduction() {
       try {
+        if (!supabase) {
+          setProduction(null)
+          setError(new Error('Supabase not configured'))
+          setLoading(false)
+          return
+        }
+
         const { data, error: fetchError } = await supabase
           .from('productions')
           .select('*')
@@ -84,6 +98,13 @@ export function useMarketingProductions(): UseProductionsReturn {
   useEffect(() => {
     async function fetchProductions() {
       try {
+        if (!supabase) {
+          setProductions([])
+          setError(new Error('Supabase not configured'))
+          setLoading(false)
+          return
+        }
+
         const { data, error: fetchError } = await supabase
           .from('productions')
           .select('*')
