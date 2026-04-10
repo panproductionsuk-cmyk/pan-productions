@@ -39,20 +39,6 @@ const HeroSection = () => {
   const { t, language } = useLanguage();
 
   const slides: Slide[] = [
-    {
-      id: 'sus',
-      title: t('hero.slide6.title'),
-      subtitle: t('hero.slide6.subtitle'),
-      description: t('hero.slide6.description'),
-      image: '/images/sus.jpg',
-      type: 'current',
-      posterStyle: true,
-      showBuyTicket: true,
-      ticketPrice: 27.00,
-      ticketName: t('hero.slide6.ticketName'),
-      ticketLink: 'https://buy.stripe.com/bJe7sDbtY64NcU60TweZ209',
-      buyTicketText: t('hero.slide6.buyTicket')
-    },
     // {
     //   id: 'productions',
     //   title: t('hero.slide1.title'),
