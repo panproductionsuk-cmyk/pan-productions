@@ -22,10 +22,20 @@ import {
 
 const Marketing = () => {
   const { t } = useLanguage();
-  const { productions: supabaseProductions, loading } = useMarketingProductions();
+  const { productions: supabaseProductions, loading: supabaseLoading, error: supabaseError } = useMarketingProductions();
   
-  // Use Supabase data if available, otherwise fall back to local data
-  const productions = supabaseProductions.length > 0 ? supabaseProductions : marketingProductions;
+  // Use Supabase data if available and has results, otherwise fall back to local data
+  const displayProductions = supabaseProductions && supabaseProductions.length > 0 
+    ? supabaseProductions 
+    : marketingProductions;
+
+  console.log('[v0] Marketing page load:', { 
+    supabaseLoading, 
+    supabaseError: supabaseError?.message, 
+    supabaseCount: supabaseProductions?.length, 
+    displayCount: displayProductions?.length,
+    willDisplay: displayProductions
+  });
 
   const [emblaRef] = useEmblaCarousel({ loop: true, align: 'start' });
   
@@ -126,68 +136,85 @@ const Marketing = () => {
             </p>
           </div>
 
-          <div className="overflow-hidden" ref={emblaRef}>
-            <div className="flex gap-6">
-              {productions.map((production, index) => {
-                const description = typeof production.description === 'string'
-                  ? production.description
-                  : production.description.EN;
-                const isVideo = production.image.endsWith('.mp4') || production.image.endsWith('.webm');
-                return (
-                <div key={index} className="flex-[0_0_100%] min-w-0 sm:flex-[0_0_50%] lg:flex-[0_0_33.333%]">
-                  <Link to={`/productions/${production.id}`}>
-                  <Card 
-                    className="group overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-300"
-                  >
-                    <div className="relative h-[500px] overflow-hidden">
-                      {/* Blurred background layer */}
-                      <div className="absolute inset-0">
-                        {isVideo ? (
-                          <video src={production.image} className="w-full h-full object-cover blur-2xl opacity-40 scale-110" muted loop playsInline autoPlay />
-                        ) : (
-                          <OptimizedImage
-                            src={production.image}
-                            alt=""
-                            className="w-full h-full object-cover blur-2xl opacity-40 scale-110"
-                            loading={index === 0 ? 'eager' : 'lazy'}
-                            width={800}
-                            onError={(e) => { e.currentTarget.src = '/images/hero-slide-2.jpg'; }}
-                          />
-                        )}
+          {supabaseError && (
+            <div className="mb-8 p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
+              <p className="text-red-600 font-medium">Error loading from database: {supabaseError.message}</p>
+              <p className="text-sm text-muted-foreground mt-2">Displaying local archive instead.</p>
+            </div>
+          )}
+
+          {supabaseLoading && displayProductions === marketingProductions && (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">Loading archive...</p>
+            </div>
+          )}
+
+          {displayProductions && displayProductions.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-muted-foreground">No productions in archive yet.</p>
+            </div>
+          ) : (
+            <div className="overflow-hidden" ref={emblaRef}>
+              <div className="flex gap-6">
+                {displayProductions?.map((production, index) => {
+                  const description = typeof production.description === 'string'
+                    ? production.description
+                    : production.description.EN;
+                  const isVideo = production.image.endsWith('.mp4') || production.image.endsWith('.webm');
+                  return (
+                  <div key={production.id} className="flex-[0_0_100%] min-w-0 sm:flex-[0_0_50%] lg:flex-[0_0_33.333%]">
+                    <Link to={`/productions/${production.id}`}>
+                    <Card 
+                      className="group overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-300"
+                    >
+                      <div className="relative h-[500px] overflow-hidden">
+                        {/* Blurred background layer */}
+                        <div className="absolute inset-0">
+                          {isVideo ? (
+                            <video src={production.image} className="w-full h-full object-cover blur-2xl opacity-40 scale-110" muted loop playsInline autoPlay />
+                          ) : (
+                            <OptimizedImage
+                              src={production.image}
+                              alt=""
+                              className="w-full h-full object-cover blur-2xl opacity-40 scale-110"
+                              loading={index === 0 ? 'eager' : 'lazy'}
+                              onError={(e) => { e.currentTarget.src = '/images/hero-slide-2.jpg'; }}
+                            />
+                          )}
+                        </div>
+                        
+                        {/* Main media layer */}
+                        <div className="absolute inset-0 flex items-center justify-center p-4">
+                          {isVideo ? (
+                            <video src={production.image} className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105" muted loop playsInline autoPlay />
+                          ) : (
+                            <OptimizedImage
+                              src={production.image}
+                              alt={production.title}
+                              className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
+                              loading={index === 0 ? 'eager' : 'lazy'}
+                              onError={(e) => { e.currentTarget.src = '/images/hero-slide-2.jpg'; }}
+                            />
+                          )}
+                        </div>
                       </div>
                       
-                      {/* Main media layer */}
-                      <div className="absolute inset-0 flex items-center justify-center p-4">
-                        {isVideo ? (
-                          <video src={production.image} className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105" muted loop playsInline autoPlay />
-                        ) : (
-                          <OptimizedImage
-                            src={production.image}
-                            alt={production.title}
-                            className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
-                            loading={index === 0 ? 'eager' : 'lazy'}
-                            width={800}
-                            onError={(e) => { e.currentTarget.src = '/images/hero-slide-2.jpg'; }}
-                          />
-                        )}
-                      </div>
-                    </div>
-                    
-                    <CardContent className="p-6">
-                      <h3 className="font-heading text-xl font-bold mb-2 text-foreground">
-                        {production.title}
-                      </h3>
-                      <p className="text-muted-foreground text-sm line-clamp-2">
-                        {description}
-                      </p>
-                    </CardContent>
-                  </Card>
-                  </Link>
-                </div>
-                );
-              })}
+                      <CardContent className="p-6">
+                        <h3 className="font-heading text-xl font-bold mb-2 text-foreground">
+                          {production.title}
+                        </h3>
+                        <p className="text-muted-foreground text-sm line-clamp-2">
+                          {description}
+                        </p>
+                      </CardContent>
+                    </Card>
+                    </Link>
+                  </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </section>
 
