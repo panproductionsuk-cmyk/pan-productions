@@ -15,29 +15,24 @@ export function useProductions(): UseProductionsReturn {
   useEffect(() => {
     async function fetchProductions() {
       try {
-        console.log('[v0] useProductions: checking supabase', { supabase: !!supabase })
         if (!supabase) {
-          console.log('[v0] useProductions: supabase not configured')
           setProductions([])
           setError(new Error('Supabase not configured'))
           setLoading(false)
           return
         }
 
-        console.log('[v0] useProductions: fetching from database')
         const { data, error: fetchError } = await supabase
           .from('productions')
           .select('*')
+          .eq('show_in_productions', true)
           .order('sort_date', { ascending: false, nullsFirst: false })
-
-        console.log('[v0] useProductions: fetch result', { data: data?.length, error: fetchError?.message })
 
         if (fetchError) throw fetchError
 
         setProductions(data || [])
         setError(null)
       } catch (err) {
-        console.error('[v0] useProductions: error', err)
         setError(err instanceof Error ? err : new Error('Failed to fetch productions'))
         setProductions([])
       } finally {

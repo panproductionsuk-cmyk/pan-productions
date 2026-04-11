@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { supabase } from '@/lib/supabase';
@@ -30,6 +30,7 @@ const productionSchema = z.object({
   duration: z.string().optional(),
   ticketPrice: z.string().optional(),
   ticketLink: z.string().url().optional(),
+  showInProductions: z.boolean().default(true),
   showInMarketing: z.boolean().default(false),
 });
 
@@ -43,11 +44,13 @@ interface AdminProductionFormProps {
 
 const AdminProductionForm = ({ productionId, onSuccess, onCancel }: AdminProductionFormProps) => {
   const [loading, setLoading] = useState(false);
-  const { register, handleSubmit, formState: { errors }, reset, watch } = useForm<ProductionFormData>({
+  const { register, handleSubmit, formState: { errors }, reset, control } = useForm<ProductionFormData>({
     resolver: zodResolver(productionSchema),
+    defaultValues: {
+      showInProductions: true,
+      showInMarketing: false,
+    },
   });
-
-  const showInMarketing = watch('showInMarketing');
 
   useEffect(() => {
     if (productionId) {
@@ -68,6 +71,7 @@ const AdminProductionForm = ({ productionId, onSuccess, onCancel }: AdminProduct
           duration: prod.duration,
           ticketPrice: prod.ticketPrice,
           ticketLink: prod.ticketLink,
+          showInProductions: true,
           showInMarketing: prod.showInMarketing || false,
         });
       }
@@ -96,6 +100,7 @@ const AdminProductionForm = ({ productionId, onSuccess, onCancel }: AdminProduct
         duration: data.duration,
         ticket_price: data.ticketPrice,
         ticket_link: data.ticketLink,
+        show_in_productions: data.showInProductions,
         show_in_marketing: data.showInMarketing,
       };
 
@@ -218,15 +223,50 @@ const AdminProductionForm = ({ productionId, onSuccess, onCancel }: AdminProduct
         />
       </div>
 
-      <div className="flex items-center gap-2">
-        <Checkbox
-          id="marketing"
-          {...register('showInMarketing')}
-          checked={showInMarketing}
-        />
-        <label htmlFor="marketing" className="text-sm font-medium text-foreground cursor-pointer">
-          Show in PR & Marketing Archive
-        </label>
+      <div className="flex flex-col gap-4 p-4 bg-muted rounded-lg">
+        <h3 className="font-semibold text-foreground">Visibility Settings</h3>
+        
+        <div className="flex items-center gap-3">
+          <Controller
+            name="showInProductions"
+            control={control}
+            render={({ field }) => (
+              <>
+                <Checkbox
+                  id="productions"
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+                <label htmlFor="productions" className="text-sm font-medium text-foreground cursor-pointer">
+                  Show in Productions page
+                </label>
+              </>
+            )}
+          />
+        </div>
+
+        <div className="flex items-center gap-3">
+          <Controller
+            name="showInMarketing"
+            control={control}
+            render={({ field }) => (
+              <>
+                <Checkbox
+                  id="marketing"
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                />
+                <label htmlFor="marketing" className="text-sm font-medium text-foreground cursor-pointer">
+                  Show in PR & Marketing Archive
+                </label>
+              </>
+            )}
+          />
+        </div>
+
+        <p className="text-xs text-muted-foreground">
+          Uncheck both to hide from all pages. At least one can be checked to control visibility independently.
+        </p>
       </div>
 
       <div className="flex gap-4 pt-4">

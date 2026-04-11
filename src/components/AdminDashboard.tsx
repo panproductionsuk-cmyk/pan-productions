@@ -15,12 +15,6 @@ const AdminDashboard = () => {
   const { productions, loading } = useProductions();
   const [editingId, setEditingId] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
-  const [refreshTrigger, setRefreshTrigger] = useState(0);
-
-  // Debug: log productions when they load
-  useEffect(() => {
-    console.log('[v0] AdminDashboard productions loaded:', productions.length, productions);
-  }, [productions]);
 
   const handleDelete = async (id: string) => {
     if (!supabase) {
