@@ -8,6 +8,7 @@ import useEmblaCarousel from 'embla-carousel-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { marketingProductions } from '@/data/productions';
 import { useMarketingProductions } from '@/hooks/useSupabaseProductions';
+import OptimizedImage from '@/components/OptimizedImage';
 import { 
   Target, 
   Megaphone, 
@@ -144,10 +145,12 @@ const Marketing = () => {
                         {isVideo ? (
                           <video src={production.image} className="w-full h-full object-cover blur-2xl opacity-40 scale-110" muted loop playsInline autoPlay />
                         ) : (
-                          <img 
-                            src={production.image} 
+                          <OptimizedImage
+                            src={production.image}
                             alt=""
                             className="w-full h-full object-cover blur-2xl opacity-40 scale-110"
+                            loading={index === 0 ? 'eager' : 'lazy'}
+                            width={800}
                             onError={(e) => { e.currentTarget.src = '/images/hero-slide-2.jpg'; }}
                           />
                         )}
@@ -158,10 +161,12 @@ const Marketing = () => {
                         {isVideo ? (
                           <video src={production.image} className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105" muted loop playsInline autoPlay />
                         ) : (
-                          <img 
-                            src={production.image} 
+                          <OptimizedImage
+                            src={production.image}
                             alt={production.title}
                             className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
+                            loading={index === 0 ? 'eager' : 'lazy'}
+                            width={800}
                             onError={(e) => { e.currentTarget.src = '/images/hero-slide-2.jpg'; }}
                           />
                         )}

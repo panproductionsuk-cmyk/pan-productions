@@ -1,5 +1,6 @@
 import React from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
+import OptimizedImage from '@/components/OptimizedImage';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
@@ -103,10 +104,12 @@ const ProductionDetails = () => {
               autoPlay
             />
           ) : (
-            <img
+            <OptimizedImage
               src={production.image}
               alt={production.title}
               className="w-full h-full object-cover"
+              loading="eager"
+              width={1200}
             />
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
@@ -241,10 +244,12 @@ const ProductionDetails = () => {
                     autoPlay
                   />
                 ) : (
-                  <img
+                  <OptimizedImage
                     src={production.image}
                     alt={production.title}
                     className="relative w-full h-full object-contain"
+                    loading="eager"
+                    width={800}
                   />
                 )}
               </div>
@@ -330,10 +335,12 @@ const ProductionDetails = () => {
                               autoPlay
                             />
                           ) : (
-                            <img
+                            <OptimizedImage
                               src={image}
                               alt={`${production.title} gallery ${index + 1}`}
                               className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                              loading="lazy"
+                              width={600}
                             />
                           )}
                         </div>

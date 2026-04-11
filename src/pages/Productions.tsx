@@ -7,6 +7,7 @@ import { Calendar, MapPin, Clock, Ticket, ArrowRight } from 'lucide-react';
 import SEO from '@/components/SEO';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { allProductions, type Production } from '@/data/productions';
+import OptimizedImage from '@/components/OptimizedImage';
 
 // Helper to safely get description
 const getDescription = (production: Production, language: string): string => {
@@ -27,9 +28,10 @@ const getSortDate = (production: Production): string => {
 };
 
 // ProductionCard Component
-const ProductionCard = ({ production, getStatusColor, t }: { production: Production; getStatusColor: (status: string) => string; t: (key: string) => string }) => {
+const ProductionCard = ({ production, getStatusColor, t, index }: { production: Production; getStatusColor: (status: string) => string; t: (key: string) => string; index: number }) => {
   const { language } = useLanguage();
   const isVideo = production.image?.endsWith('.mp4') || production.image?.endsWith('.webm');
+  const imageLoading = index === 0 ? 'eager' : 'lazy';
   
   const fullDescription = getDescription(production, language);
   const truncatedDescription = fullDescription.length > 150 
@@ -68,10 +70,12 @@ const ProductionCard = ({ production, getStatusColor, t }: { production: Product
                 style={{ backgroundImage: `url(${production.image})` }}
               />
               <div className="absolute inset-0 bg-black/20" />
-              <img
+              <OptimizedImage
                 src={production.image}
                 alt={production.title}
                 className="relative w-full h-full object-contain"
+                loading={imageLoading}
+                width={800}
               />
             </>
           )}
@@ -216,8 +220,8 @@ const Productions = () => {
 
       <div className="container mx-auto px-4 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {sortedProductions.map((production) => (
-            <ProductionCard key={production.id} production={production} getStatusColor={getStatusColor} t={t} />
+          {sortedProductions.map((production, index) => (
+            <ProductionCard key={production.id} production={production} getStatusColor={getStatusColor} t={t} index={index} />
           ))}
         </div>
 
