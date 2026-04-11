@@ -3,7 +3,6 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { supabase } from '@/lib/supabase';
-import { allProductions, type Production } from '@/data/productions';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -53,28 +52,43 @@ const AdminProductionForm = ({ productionId, onSuccess, onCancel }: AdminProduct
   });
 
   useEffect(() => {
-    if (productionId) {
-      // Find production from local data for editing
-      const prod = allProductions.find(p => p.id === productionId);
-      if (prod) {
-        reset({
-          title: prod.title,
-          titleEn: prod.titleEn,
-          author: prod.author,
-          status: prod.status as any,
-          category: prod.category as any,
-          descriptionEn: typeof prod.description === 'string' ? prod.description : prod.description.EN,
-          descriptionTr: typeof prod.description === 'object' ? prod.description.TR : '',
-          image: prod.image,
-          dates: prod.dates,
-          venue: prod.venue,
-          duration: prod.duration,
-          ticketPrice: prod.ticketPrice,
-          ticketLink: prod.ticketLink,
-          showInProductions: true,
-          showInMarketing: prod.showInMarketing || false,
-        });
-      }
+    if (productionId && supabase) {
+      // Fetch production from Supabase for editing
+      const fetchProduction = async () => {
+        const { data: prod, error } = await supabase
+          .from('productions')
+          .select('*')
+          .eq('id', productionId)
+          .single();
+
+        if (error) {
+          console.error('Error fetching production:', error);
+          toast.error('Failed to load production');
+          return;
+        }
+
+        if (prod) {
+          reset({
+            title: prod.title,
+            titleEn: prod.title_en || '',
+            author: prod.author || '',
+            status: prod.status as any,
+            category: prod.category as any,
+            descriptionEn: prod.description_en || '',
+            descriptionTr: prod.description_tr || '',
+            image: prod.image || '',
+            dates: prod.dates || '',
+            venue: prod.venue || '',
+            duration: prod.duration || '',
+            ticketPrice: prod.ticket_price || '',
+            ticketLink: prod.ticket_link || '',
+            showInProductions: prod.show_in_productions ?? true,
+            showInMarketing: prod.show_in_marketing ?? false,
+          });
+        }
+      };
+
+      fetchProduction();
     }
   }, [productionId, reset]);
 
