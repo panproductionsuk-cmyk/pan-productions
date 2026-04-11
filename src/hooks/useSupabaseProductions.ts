@@ -1,12 +1,54 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { supabase, type Production } from '@/lib/supabase'
 
 interface UseProductionsReturn {
   productions: Production[]
   loading: boolean
   error: Error | null
+  refetch?: () => void
 }
 
+// For admin - shows ALL productions regardless of visibility
+export function useAllProductions(): UseProductionsReturn & { refetch: () => void } {
+  const [productions, setProductions] = useState<Production[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<Error | null>(null)
+
+  const fetchProductions = useCallback(async () => {
+    try {
+      if (!supabase) {
+        setProductions([])
+        setError(new Error('Supabase not configured'))
+        setLoading(false)
+        return
+      }
+
+      setLoading(true)
+      const { data, error: fetchError } = await supabase
+        .from('productions')
+        .select('*')
+        .order('sort_date', { ascending: false, nullsFirst: false })
+
+      if (fetchError) throw fetchError
+
+      setProductions(data || [])
+      setError(null)
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('Failed to fetch productions'))
+      setProductions([])
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    fetchProductions()
+  }, [fetchProductions])
+
+  return { productions, loading, error, refetch: fetchProductions }
+}
+
+// For public pages - only shows productions with show_in_productions = true
 export function useProductions(): UseProductionsReturn {
   const [productions, setProductions] = useState<Production[]>([])
   const [loading, setLoading] = useState(true)
