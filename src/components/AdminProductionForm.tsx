@@ -215,6 +215,9 @@ const AdminProductionForm = ({ productionId, onSuccess, onCancel }: AdminProduct
         <div>
           <label className="text-sm font-medium text-foreground">Image URL</label>
           <Input {...register('image')} type="url" placeholder="https://..." className="mt-2" />
+          <p className="text-xs text-muted-foreground mt-2">
+            Direct image/video URL, or Google Drive share link (auto-converts)
+          </p>
         </div>
       </div>
 
