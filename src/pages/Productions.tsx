@@ -6,32 +6,44 @@ import { Badge } from '@/components/ui/badge';
 import { Calendar, MapPin, Clock, Ticket, ArrowRight } from 'lucide-react';
 import SEO from '@/components/SEO';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { allProductions, type Production } from '@/data/productions';
+import { useProductions } from '@/hooks/useSupabaseProductions';
 import OptimizedImage from '@/components/OptimizedImage';
 
-// Helper to safely get description
-const getDescription = (production: Production, language: string): string => {
+// Helper to safely get description - handles both Supabase (flat) and local (nested) formats
+const getDescription = (production: any, language: string): string => {
   try {
-    if (!production.description) return '';
+    if (!production.description && !(production as any).description_en) return '';
+    
+    // Supabase format (flat columns)
+    if ((production as any).description_en || (production as any).description_tr) {
+      return language === 'EN' 
+        ? ((production as any).description_en || '') 
+        : ((production as any).description_tr || (production as any).description_en || '');
+    }
+    
+    // Local data format (nested object)
     if (typeof production.description === 'string') {
       return production.description;
     }
-    return language === 'EN' ? (production.description.EN || '') : (production.description.TR || production.description.EN || '');
+    return language === 'EN' ? (production.description?.EN || '') : (production.description?.TR || production.description?.EN || '');
   } catch {
     return '';
   }
 };
 
-// Helper to safely get sortDate
-const getSortDate = (production: Production): string => {
-  return production.sortDate || '1900-01-01';
+// Helper to safely get sortDate - handles both Supabase (sort_date) and local (sortDate) formats
+const getSortDate = (production: any): string => {
+  return (production as any).sort_date || production.sortDate || '1900-01-01';
 };
 
-// ProductionCard Component
-const ProductionCard = ({ production, getStatusColor, t, index }: { production: Production; getStatusColor: (status: string) => string; t: (key: string) => string; index: number }) => {
+// ProductionCard Component - handles both Supabase and local data formats
+const ProductionCard = ({ production, getStatusColor, t, index }: { production: any; getStatusColor: (status: string) => string; t: (key: string) => string; index: number }) => {
   const { language } = useLanguage();
   const isVideo = production.image?.endsWith('.mp4') || production.image?.endsWith('.webm');
   const imageLoading = index === 0 ? 'eager' : 'lazy';
+  
+  // Handle both Supabase (ticket_link) and local (ticketLink) formats
+  const ticketLink = (production as any).ticket_link || production.ticketLink;
   
   const fullDescription = getDescription(production, language);
   const truncatedDescription = fullDescription.length > 150 
@@ -119,10 +131,10 @@ const ProductionCard = ({ production, getStatusColor, t, index }: { production: 
             className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
             variant={production.status === 'Past' ? 'outline' : 'default'}
             onClick={(e) => {
-              if (production.ticketLink && production.status !== 'Past') {
+              if (ticketLink && production.status !== 'Past') {
                 e.preventDefault();
                 e.stopPropagation();
-                window.open(production.ticketLink, '_blank');
+                window.open(ticketLink, '_blank');
               }
             }}
           >
@@ -138,6 +150,7 @@ const ProductionCard = ({ production, getStatusColor, t, index }: { production: 
 
 const Productions = () => {
   const { t } = useLanguage();
+  const { productions: supabaseProductions, loading, error } = useProductions();
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -147,23 +160,17 @@ const Productions = () => {
       case 'Upcoming':
         return 'bg-primary text-primary-foreground';
       case 'Past':
-        return 'bg-secondary text-secondary-foreground';
-      default:
         return 'bg-muted text-muted-foreground';
+      default:
+        return 'bg-secondary text-secondary-foreground';
     }
   };
 
-  // Sort productions: upcoming first (sorted by date asc), then past (sorted by date desc)
-  const sortedProductions = [...allProductions].sort((a, b) => {
-    const dateA = getSortDate(a);
-    const dateB = getSortDate(b);
-    const now = new Date().toISOString().split('T')[0];
-    const aUpcoming = dateA >= now;
-    const bUpcoming = dateB >= now;
-    if (aUpcoming && !bUpcoming) return -1;
-    if (!aUpcoming && bUpcoming) return 1;
-    if (aUpcoming && bUpcoming) return dateA.localeCompare(dateB);
-    return dateB.localeCompare(dateA);
+  // Sort by sort_date (Supabase) or sortDate (local)
+  const sortedProductions = [...(supabaseProductions || [])].sort((a, b) => {
+    const dateA = new Date(getSortDate(a)).getTime();
+    const dateB = new Date(getSortDate(b)).getTime();
+    return dateB - dateA;
   });
 
   const eventsSchema = {
@@ -219,11 +226,35 @@ const Productions = () => {
       </section>
 
       <div className="container mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {sortedProductions.map((production, index) => (
-            <ProductionCard key={production.id} production={production} getStatusColor={getStatusColor} t={t} index={index} />
-          ))}
-        </div>
+        <h1 className="text-5xl font-bold mb-4 text-foreground">
+          {t('pages.productions')}
+        </h1>
+        
+        {error && (
+          <div className="mb-8 p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
+            <p className="text-red-600 font-medium">Error loading productions: {error.message}</p>
+          </div>
+        )}
+        
+        {loading && (
+          <div className="text-center py-12">
+            <p className="text-muted-foreground">Loading productions...</p>
+          </div>
+        )}
+
+        {!loading && (!sortedProductions || sortedProductions.length === 0) && (
+          <div className="text-center py-12">
+            <p className="text-muted-foreground">No productions found.</p>
+          </div>
+        )}
+
+        {sortedProductions && sortedProductions.length > 0 && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+            {sortedProductions.map((production, index) => (
+              <ProductionCard key={production.id} production={production} getStatusColor={getStatusColor} t={t} index={index} />
+            ))}
+          </div>
+        )}
 
         {/* Call to Action */}
         <section className="mt-20 text-center">
