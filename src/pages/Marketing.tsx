@@ -41,7 +41,7 @@ const Marketing = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen relative z-10" style={{ backgroundColor: 'hsl(220, 18%, 18%)' }}>
       <SEO
         title="PR & Marketing Services | Pan Productions London"
         description="Professional PR and marketing services for theatre, music, and exhibitions. Strategic marketing, content creation, and digital campaigns by Pan Productions."

@@ -37,9 +37,9 @@ const App = () => (
           <Analytics />
           <BrowserRouter>
             <ScrollToTop />
-            <div className="flex min-h-screen flex-col">
+            <div className="flex min-h-screen flex-col relative z-10" style={{ backgroundColor: 'hsl(220, 18%, 18%)' }}>
               <Navigation />
-              <main className="flex-1">
+              <main className="flex-1" style={{ backgroundColor: 'hsl(220, 18%, 18%)' }}>
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/productions" element={<Productions />} />
