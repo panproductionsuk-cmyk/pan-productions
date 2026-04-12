@@ -1,5 +1,6 @@
 import React from 'react';
 import { convertGoogleDriveUrl } from '@/lib/googleDrive';
+import { isSupabaseStorageUrl } from '@/lib/storageUpload';
 
 interface OptimizedImageProps {
   src: string;
@@ -21,8 +22,8 @@ const OptimizedImage = ({
     return null;
   }
 
-  // Convert Google Drive links to direct URLs
-  const imageUrl = convertGoogleDriveUrl(src);
+  // Convert Google Drive links to direct URLs, but skip Supabase Storage URLs
+  const imageUrl = isSupabaseStorageUrl(src) ? src : convertGoogleDriveUrl(src);
 
   return (
     <img
