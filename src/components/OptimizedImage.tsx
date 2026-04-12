@@ -1,4 +1,5 @@
 import React from 'react';
+import { convertGoogleDriveUrl } from '@/lib/googleDrive';
 
 interface OptimizedImageProps {
   src: string;
@@ -20,9 +21,12 @@ const OptimizedImage = ({
     return null;
   }
 
+  // Convert Google Drive links to direct URLs
+  const imageUrl = convertGoogleDriveUrl(src);
+
   return (
     <img
-      src={src}
+      src={imageUrl}
       alt={alt}
       className={className}
       loading={loading}
