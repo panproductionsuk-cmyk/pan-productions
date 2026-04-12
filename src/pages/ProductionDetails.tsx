@@ -38,9 +38,10 @@ const ProductionDetails = () => {
   }
 
   const isVideo = production.image.endsWith('.mp4') || production.image.endsWith('.webm');
-  const description = typeof production.description === 'string' 
-    ? production.description 
-    : (language === 'EN' ? production.description.EN : production.description.TR);
+  // Handle both Supabase flat columns (description_en/description_tr) and local data nested object (description.EN/TR)
+  const description = language === 'EN'
+    ? ((production as any).description_en || (typeof production.description === 'string' ? production.description : production.description?.EN) || '')
+    : ((production as any).description_tr || (typeof production.description === 'object' ? production.description?.TR : '') || (production as any).description_en || '');
 
   const getStatusColor = (status: string) => {
     switch (status) {
