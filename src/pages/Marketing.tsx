@@ -114,9 +114,10 @@ const Marketing = () => {
           {!supabaseLoading && !supabaseError && displayProductions && displayProductions.length > 0 && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {displayProductions.map((production) => {
-                const description = typeof production.description === 'string'
-                  ? production.description
-                  : production.description.EN;
+                // Handle both Supabase flat columns (description_en) and local data nested object (description.EN)
+                const description = (production as any).description_en 
+                  || (typeof production.description === 'string' ? production.description : production.description?.EN)
+                  || '';
                 const isVideo = production.image?.endsWith('.mp4') || production.image?.endsWith('.webm');
                 return (
                 <Link key={production.id} to={`/productions/${production.id}`}>
