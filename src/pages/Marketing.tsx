@@ -17,10 +17,6 @@ const Marketing = () => {
     ? supabaseProductions 
     : marketingProductions;
 
-  const [emblaRef] = useEmblaCarousel({ loop: true, align: 'start' });
-  
-  // Services list removed as requested
-
   const achievements = [
     {
       number: "50+",
