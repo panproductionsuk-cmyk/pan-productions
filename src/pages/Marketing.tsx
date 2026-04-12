@@ -1,24 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import SEO from '@/components/SEO';
-import useEmblaCarousel from 'embla-carousel-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { marketingProductions } from '@/data/productions';
 import { useMarketingProductions } from '@/hooks/useSupabaseProductions';
 import OptimizedImage from '@/components/OptimizedImage';
-import { 
-  Target, 
-  Megaphone, 
-  Users, 
-  TrendingUp, 
-  Award, 
-  Camera,
-  Newspaper,
-  Globe
-} from 'lucide-react';
 
 const Marketing = () => {
   const { t } = useLanguage();
@@ -28,14 +16,6 @@ const Marketing = () => {
   const displayProductions = supabaseProductions && supabaseProductions.length > 0 
     ? supabaseProductions 
     : marketingProductions;
-
-  console.log('[v0] Marketing page load:', { 
-    supabaseLoading, 
-    supabaseError: supabaseError?.message, 
-    supabaseCount: supabaseProductions?.length, 
-    displayCount: displayProductions?.length,
-    willDisplay: displayProductions
-  });
 
   const [emblaRef] = useEmblaCarousel({ loop: true, align: 'start' });
   
@@ -149,70 +129,68 @@ const Marketing = () => {
             </div>
           )}
 
-          {displayProductions && displayProductions.length === 0 ? (
+          {!displayProductions || displayProductions.length === 0 ? (
             <div className="text-center py-12">
               <p className="text-muted-foreground">No productions in archive yet.</p>
             </div>
           ) : (
-            <div className="overflow-hidden" ref={emblaRef}>
-              <div className="flex gap-6">
-                {displayProductions?.map((production, index) => {
-                  const description = typeof production.description === 'string'
-                    ? production.description
-                    : production.description.EN;
-                  const isVideo = production.image.endsWith('.mp4') || production.image.endsWith('.webm');
-                  return (
-                  <div key={production.id} className="flex-[0_0_100%] min-w-0 sm:flex-[0_0_50%] lg:flex-[0_0_33.333%]">
-                    <Link to={`/productions/${production.id}`}>
-                    <Card 
-                      className="group overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-300"
-                    >
-                      <div className="relative h-[500px] overflow-hidden">
-                        {/* Blurred background layer */}
-                        <div className="absolute inset-0">
-                          {isVideo ? (
-                            <video src={production.image} className="w-full h-full object-cover blur-2xl opacity-40 scale-110" muted loop playsInline autoPlay />
-                          ) : (
-                            <OptimizedImage
-                              src={production.image}
-                              alt=""
-                              className="w-full h-full object-cover blur-2xl opacity-40 scale-110"
-                              loading={index === 0 ? 'eager' : 'lazy'}
-                              onError={(e) => { e.currentTarget.src = '/images/hero-slide-2.jpg'; }}
-                            />
-                          )}
-                        </div>
-                        
-                        {/* Main media layer */}
-                        <div className="absolute inset-0 flex items-center justify-center p-4">
-                          {isVideo ? (
-                            <video src={production.image} className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105" muted loop playsInline autoPlay />
-                          ) : (
-                            <OptimizedImage
-                              src={production.image}
-                              alt={production.title}
-                              className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
-                              loading={index === 0 ? 'eager' : 'lazy'}
-                              onError={(e) => { e.currentTarget.src = '/images/hero-slide-2.jpg'; }}
-                            />
-                          )}
-                        </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {displayProductions.map((production, index) => {
+                const description = typeof production.description === 'string'
+                  ? production.description
+                  : production.description.EN;
+                const isVideo = production.image?.endsWith('.mp4') || production.image?.endsWith('.webm');
+                return (
+                <div key={production.id}>
+                  <Link to={`/productions/${production.id}`}>
+                  <Card 
+                    className="group overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-300 h-full"
+                  >
+                    <div className="relative h-[500px] overflow-hidden bg-muted">
+                      {/* Blurred background layer */}
+                      <div className="absolute inset-0">
+                        {isVideo ? (
+                          <video src={production.image} className="w-full h-full object-cover blur-2xl opacity-40 scale-110" muted loop playsInline autoPlay />
+                        ) : (
+                          <OptimizedImage
+                            src={production.image}
+                            alt=""
+                            className="w-full h-full object-cover blur-2xl opacity-40 scale-110"
+                            loading={index === 0 ? 'eager' : 'lazy'}
+                            onError={(e) => { e.currentTarget.src = '/images/hero-slide-2.jpg'; }}
+                          />
+                        )}
                       </div>
                       
-                      <CardContent className="p-6">
-                        <h3 className="font-heading text-xl font-bold mb-2 text-foreground">
-                          {production.title}
-                        </h3>
-                        <p className="text-muted-foreground text-sm line-clamp-2">
-                          {description}
-                        </p>
-                      </CardContent>
-                    </Card>
-                    </Link>
-                  </div>
-                  );
-                })}
-              </div>
+                      {/* Main media layer */}
+                      <div className="absolute inset-0 flex items-center justify-center p-4">
+                        {isVideo ? (
+                          <video src={production.image} className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105" muted loop playsInline autoPlay />
+                        ) : (
+                          <OptimizedImage
+                            src={production.image}
+                            alt={production.title}
+                            className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
+                            loading={index === 0 ? 'eager' : 'lazy'}
+                            onError={(e) => { e.currentTarget.src = '/images/hero-slide-2.jpg'; }}
+                          />
+                        )}
+                      </div>
+                    </div>
+                    
+                    <CardContent className="p-6">
+                      <h3 className="font-heading text-xl font-bold mb-2 text-foreground">
+                        {production.title}
+                      </h3>
+                      <p className="text-muted-foreground text-sm line-clamp-2">
+                        {description}
+                      </p>
+                    </CardContent>
+                  </Card>
+                  </Link>
+                </div>
+                );
+              })}
             </div>
           )}
         </div>
