@@ -10,6 +10,10 @@ interface LanguageContextType {
 
 const translations = {
   EN: {
+    // SEO
+    'seo.productions.title': 'Productions | Pan Productions London',
+    'seo.productions.description': 'Discover our theatrical productions - from acclaimed plays to innovative performances. Experience world-class theatre with Pan Productions in London.',
+    
     // News Items
     'news.item1.title': 'The Importance of Being Earnest: Theatre Things Review',
     'news.item1.description': 'A fresh take on Wilde’s classic, praised for its creativity and relevance. “After so many traditional versions of the play, a fresh take is more than welcome.”',
@@ -411,6 +415,10 @@ const translations = {
     'footer.rights': 'All rights reserved.',
   },
   TR: {
+    // SEO
+    'seo.productions.title': 'Prodüksiyonlar | Pan Productions London',
+    'seo.productions.description': 'Tiyatro prodüksiyonlarımızı keşfedin - beğenilen oyunlardan yenilikçi performanslara. Pan Productions ile Londra\'da dünya standartında tiyatro deneyimi yaşayın.',
+    
     // News Items
     'news.item1.title': 'Ciddi Olmanın Önemi: Theatre Things İncelemesi',
     'news.item1.description': 'Wilde’ın klasiğine taze bir bakış, yaratıcılığı ve güncelliğiyle övgü aldı. “Pek çok geleneksel versiyondan sonra, taze bir bakış fazlasıyla hoş karşılanıyor.”',

@@ -8,6 +8,7 @@ import SEO from '@/components/SEO';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useProductions } from '@/hooks/useSupabaseProductions';
 import OptimizedImage from '@/components/OptimizedImage';
+import { convertGoogleDriveUrl } from '@/lib/googleDrive';
 
 // Helper to safely get description - handles both Supabase (flat) and local (nested) formats
 const getDescription = (production: any, language: string): string => {
@@ -45,6 +46,10 @@ const ProductionCard = ({ production, getStatusColor, t, index }: { production: 
   // Handle both Supabase (ticket_link) and local (ticketLink) formats
   const ticketLink = (production as any).ticket_link || production.ticketLink;
   
+  // Convert Google Drive URLs for CSS backgrounds
+  const imageUrl = convertGoogleDriveUrl(production.image || '');
+  console.log('[v0] Production image:', production.title, 'Original:', production.image, 'Converted:', imageUrl);
+  
   const fullDescription = getDescription(production, language);
   const truncatedDescription = fullDescription.length > 150 
     ? fullDescription.substring(0, 150) + '...' 
@@ -79,7 +84,7 @@ const ProductionCard = ({ production, getStatusColor, t, index }: { production: 
             <>
               <div 
                 className="absolute inset-0 bg-cover bg-center blur-xl scale-110"
-                style={{ backgroundImage: `url(${production.image})` }}
+                style={{ backgroundImage: `url(${imageUrl})` }}
               />
               <div className="absolute inset-0 bg-black/20" />
               <OptimizedImage
@@ -87,7 +92,6 @@ const ProductionCard = ({ production, getStatusColor, t, index }: { production: 
                 alt={production.title}
                 className="relative w-full h-full object-contain"
                 loading={imageLoading}
-                width={800}
               />
             </>
           )}
