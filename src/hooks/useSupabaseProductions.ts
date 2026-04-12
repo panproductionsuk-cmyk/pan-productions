@@ -154,11 +154,15 @@ export function useMarketingProductions(): UseProductionsReturn {
           .eq('show_in_marketing', true)
           .order('sort_date', { ascending: false, nullsFirst: false })
 
-        if (fetchError) throw fetchError
+        if (fetchError) {
+          console.error('[v0] useMarketingProductions Supabase error:', fetchError)
+          throw fetchError
+        }
 
         setProductions(data || [])
         setError(null)
       } catch (err) {
+        console.error('[v0] useMarketingProductions catch error:', err)
         setError(err instanceof Error ? err : new Error('Failed to fetch marketing productions'))
         setProductions([])
       } finally {
