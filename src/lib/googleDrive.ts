@@ -31,9 +31,9 @@ export function convertGoogleDriveUrl(url: string): string {
     return url;
   }
 
-  // Return direct URL that works in img/video tags
-  // export=view for images, export=download for videos (both work for either)
-  return `https://drive.google.com/uc?export=view&id=${fileId}`;
+  // Use the thumbnail URL format which is more reliable for embedding
+  // The =w2000 sets max width, you can adjust as needed
+  return `https://drive.google.com/thumbnail?id=${fileId}&sz=w2000`;
 }
 
 /**
