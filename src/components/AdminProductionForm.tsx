@@ -3,9 +3,11 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { supabase } from '@/lib/supabase';
+import { uploadProductionFile, isSupabaseStorageUrl } from '@/lib/storageUpload';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Upload, X } from 'lucide-react';
 import {
   Select,
   SelectContent,
@@ -43,13 +45,17 @@ interface AdminProductionFormProps {
 
 const AdminProductionForm = ({ productionId, onSuccess, onCancel }: AdminProductionFormProps) => {
   const [loading, setLoading] = useState(false);
-  const { register, handleSubmit, formState: { errors }, reset, control } = useForm<ProductionFormData>({
+  const [uploading, setUploading] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string>('');
+  const { register, handleSubmit, formState: { errors }, reset, control, watch, setValue } = useForm<ProductionFormData>({
     resolver: zodResolver(productionSchema),
     defaultValues: {
       showInProductions: true,
       showInMarketing: false,
     },
   });
+
+  const imageField = watch('image');
 
   useEffect(() => {
     if (productionId && supabase) {
@@ -85,12 +91,48 @@ const AdminProductionForm = ({ productionId, onSuccess, onCancel }: AdminProduct
             showInProductions: prod.show_in_productions ?? true,
             showInMarketing: prod.show_in_marketing ?? false,
           });
+          if (prod.image) {
+            setPreviewUrl(prod.image);
+          }
         }
       };
 
       fetchProduction();
     }
   }, [productionId, reset]);
+
+  // Update preview when image URL changes
+  useEffect(() => {
+    if (imageField && !imageField.endsWith('.mp4')) {
+      setPreviewUrl(imageField);
+    }
+  }, [imageField]);
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    try {
+      const url = await uploadProductionFile(file);
+      if (url) {
+        setValue('image', url);
+        setPreviewUrl(url);
+        toast.success('File uploaded successfully');
+      } else {
+        toast.error('Failed to upload file');
+      }
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  // Update preview when image URL changes
+  useEffect(() => {
+    if (imageField && !imageField.endsWith('.mp4')) {
+      setPreviewUrl(imageField);
+    }
+  }, [imageField]);
 
   const onSubmit = async (data: ProductionFormData) => {
     if (!supabase) {
@@ -213,11 +255,72 @@ const AdminProductionForm = ({ productionId, onSuccess, onCancel }: AdminProduct
         </div>
 
         <div>
-          <label className="text-sm font-medium text-foreground">Image URL</label>
-          <Input {...register('image')} type="url" placeholder="https://..." className="mt-2" />
-          <p className="text-xs text-muted-foreground mt-2">
-            Direct image/video URL, or Google Drive share link (auto-converts)
-          </p>
+          <label className="text-sm font-medium text-foreground">Image/Video</label>
+          
+          {/* File Upload Area */}
+          <div className="mt-2 relative">
+            <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-input rounded-lg cursor-pointer hover:bg-accent/50 transition">
+              <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                <Upload className="w-6 h-6 text-muted-foreground mb-2" />
+                <p className="text-sm text-muted-foreground">Click or drag image/video</p>
+                <p className="text-xs text-muted-foreground">JPG, PNG, WebP, MP4 (max 50MB)</p>
+              </div>
+              <input 
+                type="file" 
+                className="hidden" 
+                accept=".jpg,.jpeg,.png,.webp,.mp4"
+                onChange={handleFileUpload}
+                disabled={uploading}
+              />
+            </label>
+          </div>
+
+          {/* Preview */}
+          {previewUrl && (
+            <div className="mt-4 relative">
+              {previewUrl.endsWith('.mp4') ? (
+                <video 
+                  src={previewUrl} 
+                  className="max-h-48 rounded-lg" 
+                  controls 
+                />
+              ) : (
+                <img 
+                  src={previewUrl} 
+                  alt="Preview" 
+                  className="max-h-48 rounded-lg object-cover" 
+                />
+              )}
+              <button
+                type="button"
+                onClick={() => {
+                  setValue('image', '');
+                  setPreviewUrl('');
+                }}
+                className="absolute top-2 right-2 bg-destructive text-destructive-foreground rounded-full p-1 hover:bg-destructive/90"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          )}
+
+          {/* Manual URL Input */}
+          <div className="mt-3">
+            <label className="text-xs text-muted-foreground mb-1 block">Or paste URL manually</label>
+            <Input 
+              {...register('image')} 
+              type="url" 
+              placeholder="https://..." 
+              className="text-sm"
+            />
+            <p className="text-xs text-muted-foreground mt-1">
+              Supports Supabase Storage URLs, Google Drive links, or direct image/video URLs
+            </p>
+          </div>
+
+          {uploading && (
+            <p className="text-sm text-muted-foreground mt-2">Uploading...</p>
+          )}
         </div>
       </div>
 
