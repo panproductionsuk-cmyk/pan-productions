@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
-import { useProductions } from '@/hooks/useSupabaseProductions';
+import { useAllProductions } from '@/hooks/useSupabaseProductions';
 import { supabase } from '@/lib/supabase';
 import AdminProductionForm from './AdminProductionForm';
 import { Button } from '@/components/ui/button';
@@ -12,7 +12,7 @@ import { toast } from 'sonner';
 
 const AdminDashboard = () => {
   const { logout } = useAdminAuth();
-  const { productions, loading } = useProductions();
+  const { productions, loading, refetch } = useAllProductions();
   const [editingId, setEditingId] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
 
@@ -32,6 +32,7 @@ const AdminDashboard = () => {
 
       if (error) throw error;
       toast.success('Production deleted');
+      refetch();
     } catch (err) {
       console.error('Delete error:', err);
       toast.error('Failed to delete production');
@@ -79,6 +80,7 @@ const AdminDashboard = () => {
                   setShowForm(false);
                   setEditingId(null);
                   toast.success(editingId ? 'Production updated' : 'Production created');
+                  refetch();
                 }}
                 onCancel={() => {
                   setShowForm(false);
@@ -107,6 +109,7 @@ const AdminDashboard = () => {
                       <TableHead>Title</TableHead>
                       <TableHead>Status</TableHead>
                       <TableHead>Category</TableHead>
+                      <TableHead>Productions</TableHead>
                       <TableHead>Marketing</TableHead>
                       <TableHead>Dates</TableHead>
                       <TableHead>Actions</TableHead>
@@ -123,8 +126,13 @@ const AdminDashboard = () => {
                         </TableCell>
                         <TableCell className="capitalize">{prod.category}</TableCell>
                         <TableCell>
-                          <Badge variant={prod.showInMarketing ? 'default' : 'outline'}>
-                            {prod.showInMarketing ? 'Yes' : 'No'}
+                          <Badge variant={prod.show_in_productions ? 'default' : 'outline'}>
+                            {prod.show_in_productions ? 'Yes' : 'No'}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          <Badge variant={prod.show_in_marketing ? 'default' : 'outline'}>
+                            {prod.show_in_marketing ? 'Yes' : 'No'}
                           </Badge>
                         </TableCell>
                         <TableCell className="text-sm text-muted-foreground">{prod.dates}</TableCell>

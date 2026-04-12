@@ -32,6 +32,7 @@ export interface Production {
   ticket_price: string
   ticket_link?: string
   category: 'theatre' | 'music' | 'art' | 'film'
+  show_in_productions: boolean
   show_in_marketing: boolean
   created_at?: string
   updated_at?: string
