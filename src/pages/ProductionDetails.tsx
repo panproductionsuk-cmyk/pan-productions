@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import OptimizedImage from '@/components/OptimizedImage';
+import { convertGoogleDriveUrl } from '@/lib/googleDrive';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
@@ -38,6 +39,8 @@ const ProductionDetails = () => {
   }
 
   const isVideo = production.image.endsWith('.mp4') || production.image.endsWith('.webm');
+  // Handle both Supabase flat columns (ticket_link) and local data (ticketLink)
+  const ticketLink = (production as any).ticket_link || (production as any).ticketLink;
   // Handle both Supabase flat columns (description_en/description_tr) and local data nested object (description.EN/TR)
   const description = language === 'EN'
     ? ((production as any).description_en || (typeof production.description === 'string' ? production.description : production.description?.EN) || '')
@@ -196,11 +199,11 @@ const ProductionDetails = () => {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 mb-8">
-              {production.ticketLink && production.status !== 'Past' && (
+              {ticketLink && production.status !== 'Past' && (
                 <Button 
                   size="lg" 
                   className="flex-1"
-                  onClick={() => window.open(production.ticketLink, '_blank')}
+                  onClick={() => window.open(ticketLink, '_blank')}
                 >
                   <Ticket className="w-5 h-5 mr-2" />
                   {production.status === 'On Sale' ? t('productions.buyTickets') : t('productions.comingSoon')}
@@ -231,7 +234,7 @@ const ProductionDetails = () => {
                   ) : (
                     <div 
                       className="w-full h-full bg-cover bg-center blur-xl scale-110"
-                      style={{ backgroundImage: `url(${production.image})` }}
+                      style={{ backgroundImage: `url(${convertGoogleDriveUrl(production.image)})` }}
                     />
                   )}
                 </div>
