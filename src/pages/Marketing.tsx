@@ -130,61 +130,36 @@ const Marketing = () => {
               <p className="text-muted-foreground">No productions in archive yet.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {displayProductions.map((production, index) => {
+            <div className="space-y-8">
+              {displayProductions.map((production) => {
                 const description = typeof production.description === 'string'
                   ? production.description
                   : production.description.EN;
-                const isVideo = production.image?.endsWith('.mp4') || production.image?.endsWith('.webm');
                 return (
-                <div key={production.id}>
-                  <Link to={`/productions/${production.id}`}>
-                  <Card 
-                    className="group overflow-hidden cursor-pointer hover:shadow-xl transition-shadow duration-300 h-full"
-                  >
-                    <div className="relative h-[500px] overflow-hidden bg-muted">
-                      {/* Blurred background layer */}
-                      <div className="absolute inset-0">
-                        {isVideo ? (
-                          <video src={production.image} className="w-full h-full object-cover blur-2xl opacity-40 scale-110" muted loop playsInline autoPlay />
-                        ) : (
-                          <OptimizedImage
-                            src={production.image}
-                            alt=""
-                            className="w-full h-full object-cover blur-2xl opacity-40 scale-110"
-                            loading={index === 0 ? 'eager' : 'lazy'}
-                            onError={(e) => { e.currentTarget.src = '/images/hero-slide-2.jpg'; }}
-                          />
-                        )}
+                <Link key={production.id} to={`/productions/${production.id}`}>
+                  <Card className="overflow-hidden cursor-pointer hover:shadow-lg transition-shadow duration-300">
+                    <div className="flex flex-col sm:flex-row gap-6 p-6">
+                      <div className="flex-shrink-0 w-full sm:w-48 h-48 bg-muted rounded-lg overflow-hidden">
+                        <OptimizedImage
+                          src={production.image}
+                          alt={production.title}
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                          onError={(e) => { e.currentTarget.src = '/images/hero-slide-2.jpg'; }}
+                        />
                       </div>
-                      
-                      {/* Main media layer */}
-                      <div className="absolute inset-0 flex items-center justify-center p-4">
-                        {isVideo ? (
-                          <video src={production.image} className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105" muted loop playsInline autoPlay />
-                        ) : (
-                          <OptimizedImage
-                            src={production.image}
-                            alt={production.title}
-                            className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
-                            loading={index === 0 ? 'eager' : 'lazy'}
-                            onError={(e) => { e.currentTarget.src = '/images/hero-slide-2.jpg'; }}
-                          />
-                        )}
+                      <div className="flex-1">
+                        <h3 className="font-heading text-2xl font-bold mb-2 text-foreground">
+                          {production.title}
+                        </h3>
+                        <p className="text-muted-foreground mb-4">
+                          {description}
+                        </p>
+                        <Button variant="outline" size="sm">View Details →</Button>
                       </div>
                     </div>
-                    
-                    <CardContent className="p-6">
-                      <h3 className="font-heading text-xl font-bold mb-2 text-foreground">
-                        {production.title}
-                      </h3>
-                      <p className="text-muted-foreground text-sm line-clamp-2">
-                        {description}
-                      </p>
-                    </CardContent>
                   </Card>
-                  </Link>
-                </div>
+                </Link>
                 );
               })}
             </div>
