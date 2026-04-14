@@ -229,10 +229,6 @@ const Productions = () => {
       </section>
 
       <div className="container mx-auto px-4 py-16">
-        <h1 className="text-5xl font-bold mb-4 text-foreground">
-          {t('pages.productions')}
-        </h1>
-        
         {error && (
           <div className="mb-8 p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
             <p className="text-red-600 font-medium">Error loading productions: {error.message}</p>
