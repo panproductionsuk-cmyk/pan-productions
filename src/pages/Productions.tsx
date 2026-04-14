@@ -48,7 +48,6 @@ const ProductionCard = ({ production, getStatusColor, t, index }: { production: 
   
   // Convert Google Drive URLs for CSS backgrounds
   const imageUrl = convertGoogleDriveUrl(production.image || '');
-  console.log('[v0] Production image:', production.title, 'Original:', production.image, 'Converted:', imageUrl);
   
   const fullDescription = getDescription(production, language);
   const truncatedDescription = fullDescription.length > 150 
