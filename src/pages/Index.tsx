@@ -1,5 +1,4 @@
 import React from 'react';
-import HeroSection from '@/components/HeroSection';
 import NewsletterSection from '@/components/NewsletterSection';
 import PartnersCarousel from '@/components/PartnersCarousel';
 import SEO from '@/components/SEO';
@@ -85,9 +84,6 @@ const Index = () => {
         structuredData={organizationSchema}
       />
       
-      {/* Hero Section */}
-      <HeroSection />
-
       {/* Highlights Section */}
       <section className="py-24 relative">
         <div className="container mx-auto px-4">
