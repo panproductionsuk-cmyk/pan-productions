@@ -87,15 +87,7 @@ const Index = () => {
       {/* Highlights Section */}
       <section className="py-24 relative">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            {/* ...existing code... */}
-            <h2 className="font-heading text-5xl md:text-7xl font-bold mb-6 text-foreground tracking-tight">
-              {t('index.highlights.discoverTitle')}
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              {t('index.highlights.discoverDescription')}
-            </p>
-          </div>
+          
 
           <div className="grid lg:grid-cols-3 gap-6">
             {highlights.map((item, index) => (
