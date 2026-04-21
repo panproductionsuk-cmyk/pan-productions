@@ -170,8 +170,25 @@ const Productions = () => {
     }
   };
 
-  // Sort by sort_date (Supabase) or sortDate (local)
+  // Status priority: On Sale (0) > Current (1) > Upcoming (2) > Past (3)
+  const getStatusPriority = (status: string): number => {
+    switch (status) {
+      case 'On Sale': return 0;
+      case 'Current': return 1;
+      case 'Upcoming': return 2;
+      case 'Past': return 3;
+      default: return 4;
+    }
+  };
+
+  // Sort by status priority first, then by event_date/sort_date descending
   const sortedProductions = [...(supabaseProductions || [])].sort((a, b) => {
+    // First sort by status priority
+    const priorityA = getStatusPriority(a.status);
+    const priorityB = getStatusPriority(b.status);
+    if (priorityA !== priorityB) return priorityA - priorityB;
+    
+    // Then sort by date descending (newest first)
     const dateA = new Date(getSortDate(a)).getTime();
     const dateB = new Date(getSortDate(b)).getTime();
     return dateB - dateA;
