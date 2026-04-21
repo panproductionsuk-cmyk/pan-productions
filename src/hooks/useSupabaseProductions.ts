@@ -1,6 +1,32 @@
 import { useEffect, useState, useCallback } from 'react'
 import { supabase, type Production } from '@/lib/supabase'
 
+// Status priority: On Sale (0) > Current (1) > Upcoming (2) > Past (3)
+const getStatusPriority = (status: string): number => {
+  switch (status) {
+    case 'On Sale': return 0
+    case 'Current': return 1
+    case 'Upcoming': return 2
+    case 'Past': return 3
+    default: return 4
+  }
+}
+
+// Sort productions by status priority, then by event_date descending
+const sortProductionsWithOnSaleFirst = (productions: Production[]): Production[] => {
+  return [...productions].sort((a, b) => {
+    // First sort by status priority
+    const priorityA = getStatusPriority(a.status)
+    const priorityB = getStatusPriority(b.status)
+    if (priorityA !== priorityB) return priorityA - priorityB
+    
+    // Then sort by event_date descending (newest first)
+    const dateA = a.event_date ? new Date(a.event_date).getTime() : 0
+    const dateB = b.event_date ? new Date(b.event_date).getTime() : 0
+    return dateB - dateA
+  })
+}
+
 interface UseProductionsReturn {
   productions: Production[]
   loading: boolean
@@ -27,11 +53,12 @@ export function useAllProductions(): UseProductionsReturn & { refetch: () => voi
       const { data, error: fetchError } = await supabase
         .from('productions')
         .select('*')
-        .order('sort_date', { ascending: false, nullsFirst: false })
+        .order('event_date', { ascending: false, nullsFirst: false })
 
       if (fetchError) throw fetchError
 
-      setProductions(data || [])
+      // Sort with "On Sale" first, then by event_date
+      setProductions(sortProductionsWithOnSaleFirst(data || []))
       setError(null)
     } catch (err) {
       setError(err instanceof Error ? err : new Error('Failed to fetch productions'))
@@ -68,11 +95,12 @@ export function useProductions(): UseProductionsReturn {
           .from('productions')
           .select('*')
           .eq('show_in_productions', true)
-          .order('sort_date', { ascending: false, nullsFirst: false })
+          .order('event_date', { ascending: false, nullsFirst: false })
 
         if (fetchError) throw fetchError
 
-        setProductions(data || [])
+        // Sort with "On Sale" first, then by event_date
+        setProductions(sortProductionsWithOnSaleFirst(data || []))
         setError(null)
       } catch (err) {
         setError(err instanceof Error ? err : new Error('Failed to fetch productions'))
@@ -152,14 +180,15 @@ export function useMarketingProductions(): UseProductionsReturn {
           .from('productions')
           .select('*')
           .eq('show_in_marketing', true)
-          .order('sort_date', { ascending: false, nullsFirst: false })
+          .order('event_date', { ascending: false, nullsFirst: false })
 
         if (fetchError) {
           console.error('[v0] useMarketingProductions Supabase error:', fetchError)
           throw fetchError
         }
 
-        setProductions(data || [])
+        // Sort with "On Sale" first, then by event_date
+        setProductions(sortProductionsWithOnSaleFirst(data || []))
         setError(null)
       } catch (err) {
         console.error('[v0] useMarketingProductions catch error:', err)

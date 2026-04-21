@@ -27,7 +27,7 @@ const productionSchema = z.object({
   descriptionTr: z.string().optional(),
   image: z.string().url().optional(),
   dates: z.string().min(1, 'Dates required'),
-  sortDate: z.string().optional(),
+  eventDate: z.string().optional(),
   venue: z.string().min(1, 'Venue required'),
   duration: z.string().optional(),
   ticketPrice: z.string().optional(),
@@ -109,7 +109,7 @@ const AdminProductionForm = ({ productionId, onSuccess, onCancel }: AdminProduct
             descriptionTr: prod.description_tr || '',
             image: prod.image || '',
             dates: prod.dates || '',
-            sortDate: prod.sort_date || '',
+            eventDate: prod.event_date || '',
             venue: prod.venue || '',
             duration: prod.duration || '',
             ticketPrice: prod.ticket_price || '',
@@ -168,8 +168,8 @@ const AdminProductionForm = ({ productionId, onSuccess, onCancel }: AdminProduct
 
     setLoading(true);
     try {
-      // Auto-generate sort_date from dates field if not provided
-      const sortDate = data.sortDate || parseSortDate(data.dates);
+      // Auto-generate event_date from dates field if not provided
+      const eventDate = data.eventDate || parseSortDate(data.dates);
       
       const productionData = {
         title: data.title,
@@ -181,7 +181,7 @@ const AdminProductionForm = ({ productionId, onSuccess, onCancel }: AdminProduct
         description_tr: data.descriptionTr,
         image: data.image,
         dates: data.dates,
-        sort_date: sortDate,
+        event_date: eventDate,
         venue: data.venue,
         duration: data.duration,
         ticket_price: data.ticketPrice,
@@ -270,10 +270,10 @@ const AdminProductionForm = ({ productionId, onSuccess, onCancel }: AdminProduct
         </div>
 
         <div>
-          <label className="text-sm font-medium text-foreground">Sort Date (for ordering)</label>
-          <Input {...register('sortDate')} type="date" className="mt-2" />
+          <label className="text-sm font-medium text-foreground">Event Date (for sorting)</label>
+          <Input {...register('eventDate')} type="date" className="mt-2" />
           <p className="text-xs text-muted-foreground mt-1">
-            Auto-detected from Dates field. Override to control position in list.
+            The actual date of the first event. Used for sorting productions.
           </p>
         </div>
 

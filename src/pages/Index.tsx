@@ -1,27 +1,12 @@
 import React from 'react';
-import HeroSection from '@/components/HeroSection';
 import NewsletterSection from '@/components/NewsletterSection';
 import PartnersCarousel from '@/components/PartnersCarousel';
 import SEO from '@/components/SEO';
 import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-// testTicketPurchase redirect replaced with a direct Stripe hosted-payment link
 import { useLanguage } from '@/contexts/LanguageContext';
 import { 
   Theater, 
   GraduationCap, 
-  Newspaper,
-  Users,
-  Award,
-  Calendar,
-  Star,
-  PlayCircle,
-  TrendingUp,
-  Heart,
-  Clock,
-  MapPin,
   Megaphone
 } from 'lucide-react';
 
@@ -85,21 +70,10 @@ const Index = () => {
         structuredData={organizationSchema}
       />
       
-      {/* Hero Section */}
-      <HeroSection />
-
       {/* Highlights Section */}
       <section className="py-24 relative">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            {/* ...existing code... */}
-            <h2 className="font-heading text-5xl md:text-7xl font-bold mb-6 text-foreground tracking-tight">
-              {t('index.highlights.discoverTitle')}
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              {t('index.highlights.discoverDescription')}
-            </p>
-          </div>
+          
 
           <div className="grid lg:grid-cols-3 gap-6">
             {highlights.map((item, index) => (
@@ -142,214 +116,11 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Featured Productions Section */}
-      <section className="py-24 bg-gradient-to-br from-primary/5 via-background to-secondary/5">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="font-heading text-4xl md:text-6xl font-bold mb-6 text-foreground">
-              {t('index.featuredTitle')}
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              {t('index.featuredDescription')}
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            {[
-              {
-                title: t('index.featured.earnest.title'),
-                subtitle: t('index.featured.earnest.subtitle'),
-                status: t('index.featured.earnest.status'),
-                venue: language === 'EN' ? 'Tower Theatre' : 'Tower Theatre',
-                dates: language === 'EN' ? 'Various dates' : 'Çeşitli tarihler',
-                image: '/images/importance-of-being-earnest.jpg',
-                description: t('index.featured.earnest.description')
-              },
-              {
-                title: t('index.featured.workshop.title'),
-                subtitle: t('index.featured.workshop.subtitle'),
-                status: t('index.featured.workshop.status'),
-                venue: language === 'EN' ? 'Pan Academy' : 'Pan Akademi',
-                dates: language === 'EN' ? 'See workshop page' : 'Atölye sayfasına bakınız',
-                image: '/images/hero-slide-3.jpg',
-                description: t('index.featured.workshop.description')
-              },
-              {
-                title: language === 'EN' ? 'Ben Kolay Ölmem' : 'Ben Kolay Ölmem',
-                subtitle: language === 'EN' ? 'Ali Has' : 'Ali Has',
-                status: language === 'EN' ? 'Past Production' : 'Geçmiş Prodüksiyon',
-                venue: language === 'EN' ? 'Arcola Theatre' : 'Arcola Tiyatrosu',
-                dates: language === 'EN' ? '11-13 March 2019' : '11-13 Mart 2019',
-                image: '/images/ben-kolay-olmem.jpg',
-                description: language === 'EN'
-                  ? 'A story of Cemal Süreya and Ahmed Arif - two poets, two lives, one story.'
-                  : 'Bir Cemal Süreya ve Ahmed Arif hikayesi - iki şair, iki yaşam, bir hikaye.'
-              }
-            ].map((production, index) => (
-              <Card key={index} className="group overflow-hidden bg-card/50 border-border/60 hover:border-primary/40 transition-all">
-                <div className="relative h-80 overflow-hidden bg-muted flex items-center justify-center">
-                  {/* Blurred Background Image */}
-                  <div className="absolute inset-0">
-                    <img
-                      src={production.image}
-                      alt=""
-                      className="w-full h-full object-cover blur-xl scale-110 opacity-60"
-                    />
-                  </div>
-                  
-                  {/* Main Image */}
-                  <img 
-                    src={production.image} 
-                    alt={production.title}
-                    className="relative z-10 w-full h-full object-contain group-hover:scale-105 transition-transform duration-700"
-                  />
-                </div>
-                <CardContent className="p-8">
-                  <div className="flex items-center gap-4 mb-3 text-sm text-muted-foreground">
-                    <div className="flex items-center gap-1">
-                      <Calendar className="w-4 h-4 text-primary" />
-                      <span className="font-semibold text-foreground">{production.dates}</span>
-                    </div>
-                    <span>•</span>
-                    <span>{production.venue}</span>
-                  </div>
-                  <h3 className="font-heading text-2xl font-bold mb-2 text-foreground">
-                    {production.title}
-                  </h3>
-                  <p className="text-primary text-sm font-semibold mb-4">
-                    {production.subtitle}
-                  </p>
-                  <p className="text-muted-foreground mb-6 leading-relaxed">
-                    {production.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Link to="/productions">
-              <Button size="lg" className="px-8 bg-pink-500 text-white hover:bg-pink-600 transition-colors">
-                <Theater className="w-4 h-4 mr-2" />
-                View All Productions
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Workshops Section */}
-      <section className="py-24 bg-gradient-to-br from-card/30 to-background">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            {/* ...existing code... */}
-            <h2 className="font-heading text-4xl md:text-6xl font-bold mb-6 text-foreground">
-              {language === 'EN' ? 'Pan Academy Workshops' : 'Pan Akademi Atölyeleri'}
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              {language === 'EN' ? 'Develop your skills with our expert-led workshops and training programs' : 'Uzman eğitmenler tarafından verilen atölye ve eğitim programlarımızla becerilerinizi geliştirin'}
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            {[
-              {
-                title: language === 'EN' ? 'Theatre of the Oppressed' : 'Ezilenlerin Tiyatrosu',
-                instructor: 'Augusto Boal',
-                status: language === 'EN' ? 'Completed' : 'Tamamlandı',
-                venue: language === 'EN' ? 'Pan Academy, London' : 'Pan Akademi, Londra',
-                dates: language === 'EN' ? 'Full Day Workshop' : 'Tam Gün Atölye',
-                image: '/images/boal-workshop.jpg',
-                description: language === 'EN'
-                  ? "An intensive workshop exploring Augusto Boal's revolutionary Theatre of the Oppressed techniques."
-                  : 'Augusto Boal’ın Ezilenlerin Tiyatrosu tekniklerini irdeleyen yoğun bir atölye.'
-              },
-              {
-                title: language === 'EN' ? 'Mehmet Ergen Theatre Experience' : 'Mehmet Ergen ile Tiyatro Deneyimi',
-                instructor: 'Mehmet Ergen',
-                status: language === 'EN' ? 'Completed' : 'Tamamlandı',
-                venue: language === 'EN' ? 'Pan Academy, London' : 'Pan Akademi, Londra',
-                dates: language === 'EN' ? 'Weekend Intensive' : 'Hafta Sonu Yoğun Programı',
-                image: '/images/mehmet-ergen-workshop.jpg',
-                description: language === 'EN'
-                  ? 'A comprehensive theatre workshop with renowned director Mehmet Ergen.'
-                  : 'Ünlü yönetmen Mehmet Ergen ile kapsamlı bir tiyatro atölyesi.'
-              },
-              {
-                title: language === 'EN' ? 'Devised Theatre with Philip Arditti' : 'Philip Arditti ile Oyun Yapma Atölyesi',
-                instructor: 'Philip Arditti',
-                status: language === 'EN' ? 'Completed' : 'Tamamlandı',
-                venue: language === 'EN' ? 'Pan Academy, London' : 'Pan Akademi, Londra',
-                dates: language === 'EN' ? '3-Day Workshop' : '3 Günlük Atölye',
-                image: '/images/philip-arditti-workshop.jpg',
-                description: language === 'EN'
-                  ? 'Learn the art of devised theatre from acclaimed actor Philip Arditti.'
-                  : 'Ödüllü oyuncu Philip Arditti’den doğaçlama tiyatro ve oyun yapma teknikleri öğrenin.'
-              }
-            ].map((workshop, index) => (
-              <Card key={index} className="group overflow-hidden bg-card/50 border-border/60 hover:border-primary/40 transition-all">
-                <div className="relative h-80 overflow-hidden bg-muted flex items-center justify-center">
-                  {/* Blurred Background Image */}
-                  <div className="absolute inset-0">
-                    <img
-                      src={workshop.image}
-                      alt=""
-                      className="w-full h-full object-cover blur-xl scale-110 opacity-60"
-                    />
-                  </div>
-                  
-                  {/* Main Image */}
-                  <img 
-                    src={workshop.image} 
-                    alt={workshop.title}
-                    className="relative z-10 w-full h-full object-contain group-hover:scale-105 transition-transform duration-700"
-                  />
-                  
-                  <div className="absolute top-4 right-4 z-20">
-                    <Badge className="bg-muted text-muted-foreground">
-                      {workshop.status}
-                    </Badge>
-                  </div>
-                </div>
-                <CardContent className="p-8">
-                  <div className="flex items-center gap-4 mb-3 text-sm text-muted-foreground">
-                    <div className="flex items-center gap-1">
-                      <Calendar className="w-4 h-4 text-primary" />
-                      <span className="font-semibold text-foreground">{workshop.dates}</span>
-                    </div>
-                    <span>•</span>
-                    <span>{workshop.venue}</span>
-                  </div>
-                  <h3 className="font-heading text-2xl font-bold mb-2 text-foreground">
-                    {workshop.title}
-                  </h3>
-                  <p className="text-primary text-sm font-semibold mb-4">
-                    by {workshop.instructor}
-                  </p>
-                  <p className="text-muted-foreground mb-6 leading-relaxed">
-                    {workshop.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Link to="/academy/workshops">
-              <Button size="lg" className="px-8 bg-pink-500 text-white hover:bg-pink-600 transition-colors">
-                <GraduationCap className="w-4 h-4 mr-2" />
-                View All Workshops
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
+{/* Partners Carousel */}
+      <PartnersCarousel />
 
       {/* Newsletter Section */}
       <NewsletterSection />
-
-      {/* Partners Carousel */}
-      <PartnersCarousel />
     </div>
   );
 };

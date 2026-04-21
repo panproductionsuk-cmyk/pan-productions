@@ -26,6 +26,7 @@ export interface Production {
   image: string
   gallery?: string[]
   dates: string
+  event_date?: string
   sort_date?: string
   venue: string
   duration: string

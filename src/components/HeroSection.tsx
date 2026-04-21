@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight, Ticket, X, Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { buyTicket } from '@/lib/stripe';
+import { useProductions } from '@/hooks/useSupabaseProductions';
 
 interface Slide {
   id: string;
@@ -37,43 +38,69 @@ const HeroSection = () => {
   const [isProcessingTicket, setIsProcessingTicket] = useState(false);
   const [showTicketModal, setShowTicketModal] = useState(false);
   const { t, language } = useLanguage();
+  const { productions } = useProductions();
 
-  const slides: Slide[] = [
-    // {
-    //   id: 'productions',
-    //   title: t('hero.slide1.title'),
-    //   subtitle: t('hero.slide1.subtitle'),
-    //   description: t('hero.slide1.description'),
-    //   image: '/images/hero-slide-1.jpg',
-    //   ctaText: t('hero.slide1.cta'),
-    //   ctaLink: '/productions',
-    //   type: 'current'
-    // },
-    {
-      id: 'pr-marketing',
-      title: t('hero.slide2.title'),
-      subtitle: t('hero.slide2.subtitle'),
-      description: t('hero.slide2.description'),
-      image: '/images/hero-slide-2.jpg',
-      ctaText: t('hero.slide2.cta'),
-      ctaLink: '/marketing',
-      type: 'upcoming'
-    },
-    {
-      id: 'academy',
-      title: t('hero.slide3.title'),
-      subtitle: t('hero.slide3.subtitle'),
-      description: t('hero.slide3.description'),
-      image: '/images/hero-slide-3.jpg',
-      ctaText: t('hero.slide3.cta'),
-      ctaLink: '/academy/workshops',
-      type: 'past'
-    }
-  ];
+  // Get "On Sale" productions from Supabase
+  const onSaleProductions = useMemo(() => {
+    return productions.filter(p => p.status === 'On Sale');
+  }, [productions]);
+
+  // Build slides: On Sale productions first, then static slides
+  const slides: Slide[] = useMemo(() => {
+    // Convert On Sale productions to slides
+    const onSaleSlides: Slide[] = onSaleProductions.map(prod => ({
+      id: prod.id,
+      title: prod.title,
+      subtitle: language === 'TR' ? 'Biletler Satışta' : 'On Sale Now',
+      description: language === 'TR' ? (prod.description_tr || prod.description_en || '') : (prod.description_en || ''),
+      image: prod.image || '/images/hero-slide-1.jpg',
+      ctaText: language === 'TR' ? 'Bilet Al' : 'Get Tickets',
+      ctaLink: `/productions/${prod.id}`,
+      type: 'current' as const,
+      showBuyTicket: !!prod.ticket_link,
+      ticketLink: prod.ticket_link || undefined,
+      ticketPrice: prod.ticket_price ? parseFloat(prod.ticket_price.replace(/[^0-9.]/g, '')) : undefined,
+      posterStyle: true,
+    }));
+
+    // Static slides
+    const staticSlides: Slide[] = [
+      {
+        id: 'pr-marketing',
+        title: t('hero.slide2.title'),
+        subtitle: t('hero.slide2.subtitle'),
+        description: t('hero.slide2.description'),
+        image: '/images/hero-slide-2.jpg',
+        ctaText: t('hero.slide2.cta'),
+        ctaLink: '/marketing',
+        type: 'upcoming'
+      },
+      {
+        id: 'academy',
+        title: t('hero.slide3.title'),
+        subtitle: t('hero.slide3.subtitle'),
+        description: t('hero.slide3.description'),
+        image: '/images/hero-slide-3.jpg',
+        ctaText: t('hero.slide3.cta'),
+        ctaLink: '/academy/workshops',
+        type: 'past'
+      }
+    ];
+
+    return [...onSaleSlides, ...staticSlides];
+  }, [onSaleProductions, language, t]);
 
   const handleBuyTicket = () => {
     const slide = slides[currentSlide];
     if (!slide.showBuyTicket) return;
+    
+    // For dynamic slides with a direct ticket link, open it directly
+    if (slide.ticketLink) {
+      window.open(slide.ticketLink, '_blank', 'noopener,noreferrer');
+      return;
+    }
+    
+    // For hardcoded events (like Sus.), show the date selection modal
     setShowTicketModal(true);
   };
 
