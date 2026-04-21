@@ -43,8 +43,9 @@ const ProductionCard = ({ production, getStatusColor, t, index }: { production: 
   const isVideo = production.image?.endsWith('.mp4') || production.image?.endsWith('.webm');
   const imageLoading = index === 0 ? 'eager' : 'lazy';
   
-  // Handle both Supabase (ticket_link) and local (ticketLink) formats
+  // Handle both Supabase (ticket_link, ticket_price) and local (ticketLink, ticketPrice) formats
   const ticketLink = (production as any).ticket_link || production.ticketLink;
+  const ticketPrice = (production as any).ticket_price || production.ticketPrice;
   
   // Convert Google Drive URLs for CSS backgrounds
   const imageUrl = convertGoogleDriveUrl(production.image || '');
@@ -127,7 +128,7 @@ const ProductionCard = ({ production, getStatusColor, t, index }: { production: 
             </div>
             <div className="flex items-center gap-2">
               <Ticket className="w-4 h-4 text-primary" />
-              <span>{production.ticketPrice}</span>
+              <span>{ticketPrice}</span>
             </div>
           </div>
           <Button 

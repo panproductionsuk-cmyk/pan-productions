@@ -27,6 +27,7 @@ const productionSchema = z.object({
   descriptionTr: z.string().optional(),
   image: z.string().url().optional(),
   dates: z.string().min(1, 'Dates required'),
+  sortDate: z.string().optional(),
   venue: z.string().min(1, 'Venue required'),
   duration: z.string().optional(),
   ticketPrice: z.string().optional(),
@@ -34,6 +35,30 @@ const productionSchema = z.object({
   showInProductions: z.boolean().default(true),
   showInMarketing: z.boolean().default(false),
 });
+
+// Helper to parse date from dates string (e.g., "15 March 2024, 19:00" -> "2024-03-15")
+const parseSortDate = (dates: string): string => {
+  const today = new Date().toISOString().split('T')[0];
+  try {
+    // Try to extract a date from the string
+    const dateMatch = dates.match(/(\d{1,2})\s*(\w+)\s*(\d{4})/);
+    if (dateMatch) {
+      const [, day, month, year] = dateMatch;
+      const monthMap: Record<string, string> = {
+        'january': '01', 'february': '02', 'march': '03', 'april': '04',
+        'may': '05', 'june': '06', 'july': '07', 'august': '08',
+        'september': '09', 'october': '10', 'november': '11', 'december': '12',
+        'jan': '01', 'feb': '02', 'mar': '03', 'apr': '04',
+        'jun': '06', 'jul': '07', 'aug': '08', 'sep': '09', 'oct': '10', 'nov': '11', 'dec': '12'
+      };
+      const monthNum = monthMap[month.toLowerCase()] || '01';
+      return `${year}-${monthNum}-${day.padStart(2, '0')}`;
+    }
+    return today;
+  } catch {
+    return today;
+  }
+};
 
 type ProductionFormData = z.infer<typeof productionSchema>;
 
@@ -84,6 +109,7 @@ const AdminProductionForm = ({ productionId, onSuccess, onCancel }: AdminProduct
             descriptionTr: prod.description_tr || '',
             image: prod.image || '',
             dates: prod.dates || '',
+            sortDate: prod.sort_date || '',
             venue: prod.venue || '',
             duration: prod.duration || '',
             ticketPrice: prod.ticket_price || '',
@@ -142,6 +168,9 @@ const AdminProductionForm = ({ productionId, onSuccess, onCancel }: AdminProduct
 
     setLoading(true);
     try {
+      // Auto-generate sort_date from dates field if not provided
+      const sortDate = data.sortDate || parseSortDate(data.dates);
+      
       const productionData = {
         title: data.title,
         title_en: data.titleEn,
@@ -152,6 +181,7 @@ const AdminProductionForm = ({ productionId, onSuccess, onCancel }: AdminProduct
         description_tr: data.descriptionTr,
         image: data.image,
         dates: data.dates,
+        sort_date: sortDate,
         venue: data.venue,
         duration: data.duration,
         ticket_price: data.ticketPrice,
@@ -237,6 +267,14 @@ const AdminProductionForm = ({ productionId, onSuccess, onCancel }: AdminProduct
           <label className="text-sm font-medium text-foreground">Dates</label>
           <Input {...register('dates')} placeholder="e.g., 15 March 2024, 19:00" className="mt-2" />
           {errors.dates && <span className="text-sm text-destructive">{errors.dates.message}</span>}
+        </div>
+
+        <div>
+          <label className="text-sm font-medium text-foreground">Sort Date (for ordering)</label>
+          <Input {...register('sortDate')} type="date" className="mt-2" />
+          <p className="text-xs text-muted-foreground mt-1">
+            Auto-detected from Dates field. Override to control position in list.
+          </p>
         </div>
 
         <div>
