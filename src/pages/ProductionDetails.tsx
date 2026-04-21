@@ -39,8 +39,9 @@ const ProductionDetails = () => {
   }
 
   const isVideo = production.image.endsWith('.mp4') || production.image.endsWith('.webm');
-  // Handle both Supabase flat columns (ticket_link) and local data (ticketLink)
+  // Handle both Supabase flat columns (ticket_link, ticket_price) and local data (ticketLink, ticketPrice)
   const ticketLink = (production as any).ticket_link || (production as any).ticketLink;
+  const ticketPrice = (production as any).ticket_price || (production as any).ticketPrice;
   // Handle both Supabase flat columns (description_en/description_tr) and local data nested object (description.EN/TR)
   const description = language === 'EN'
     ? ((production as any).description_en || (typeof production.description === 'string' ? production.description : production.description?.EN) || '')
@@ -190,7 +191,7 @@ const ProductionDetails = () => {
                     </div>
                     <div>
                       <p className="text-sm text-muted-foreground">{language === 'EN' ? 'Tickets' : 'Bilet'}</p>
-                      <p className="font-medium">{production.ticketPrice}</p>
+                      <p className="font-medium">{ticketPrice}</p>
                     </div>
                   </div>
                 </div>
