@@ -116,11 +116,11 @@ const Index = () => {
         </div>
       </section>
 
-{/* Newsletter Section */}
-      <NewsletterSection />
-
-      {/* Partners Carousel */}
+{/* Partners Carousel */}
       <PartnersCarousel />
+
+      {/* Newsletter Section */}
+      <NewsletterSection />
     </div>
   );
 };
