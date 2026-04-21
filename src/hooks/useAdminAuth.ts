@@ -14,7 +14,7 @@ export const useAdminAuth = () => {
   const login = (password: string) => {
     // In production, this should verify against a backend
     // For now, using a simple client-side check
-    const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || 'admin123';
+    const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || 'Pan2016!';
     
     if (password === ADMIN_PASSWORD) {
       localStorage.setItem('admin_token', 'authenticated');
