@@ -27,7 +27,7 @@ export function useAllProductions(): UseProductionsReturn & { refetch: () => voi
       const { data, error: fetchError } = await supabase
         .from('productions')
         .select('*')
-        .order('sort_date', { ascending: false, nullsFirst: false })
+        .order('event_date', { ascending: false, nullsFirst: false })
 
       if (fetchError) throw fetchError
 
@@ -68,7 +68,7 @@ export function useProductions(): UseProductionsReturn {
           .from('productions')
           .select('*')
           .eq('show_in_productions', true)
-          .order('sort_date', { ascending: false, nullsFirst: false })
+          .order('event_date', { ascending: false, nullsFirst: false })
 
         if (fetchError) throw fetchError
 
@@ -152,7 +152,7 @@ export function useMarketingProductions(): UseProductionsReturn {
           .from('productions')
           .select('*')
           .eq('show_in_marketing', true)
-          .order('sort_date', { ascending: false, nullsFirst: false })
+          .order('event_date', { ascending: false, nullsFirst: false })
 
         if (fetchError) {
           console.error('[v0] useMarketingProductions Supabase error:', fetchError)

@@ -270,10 +270,10 @@ const AdminProductionForm = ({ productionId, onSuccess, onCancel }: AdminProduct
         </div>
 
         <div>
-          <label className="text-sm font-medium text-foreground">Sort Date (for ordering)</label>
-          <Input {...register('sortDate')} type="date" className="mt-2" />
+          <label className="text-sm font-medium text-foreground">Event Date (for sorting)</label>
+          <Input {...register('eventDate')} type="date" className="mt-2" />
           <p className="text-xs text-muted-foreground mt-1">
-            Auto-detected from Dates field. Override to control position in list.
+            The actual date of the first event. Used for sorting productions.
           </p>
         </div>
 
