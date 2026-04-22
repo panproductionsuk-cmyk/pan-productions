@@ -239,13 +239,9 @@ const Contact = () => {
                     variant="outline" 
                     className="w-full border-primary/50 hover:bg-primary/10"
                     onClick={() => {
-                      // Trigger the AlwaysBooked chat widget if available
-                      const chatButton = document.querySelector('[data-alwaysbooked-chat]') as HTMLElement;
-                      if (chatButton) {
-                        chatButton.click();
-                      } else {
-                        // Fallback - scroll to make widget visible
-                        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                      // Trigger the AlwaysBooked chat widget
+                      if (typeof (window as any).openAlwaysBookedChat === 'function') {
+                        (window as any).openAlwaysBookedChat();
                       }
                     }}
                   >
