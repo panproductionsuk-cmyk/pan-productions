@@ -219,36 +219,74 @@ const Contact = () => {
               </CardContent>
             </Card>
 
-            <Card className="bg-card/40 border-border/60">
-              <CardContent className="p-6">
-                <h3 className="text-xl font-semibold mb-4">{t('contact.title')}</h3>
-                <p className="text-sm text-muted-foreground mb-4">
-                  {t('contact.subtitle')}
-                </p>
+            <div className="space-y-6">
+              {/* Live Chat Card */}
+              <Card className="bg-primary/10 border-primary/30">
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center">
+                      <MessageCircle className="h-5 w-5 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-foreground">Live Chat</h3>
+                      <p className="text-xs text-muted-foreground">Get instant answers</p>
+                    </div>
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    Need a quick response? Use our live chat for instant support. Look for the chat icon in the bottom right corner of your screen.
+                  </p>
+                  <Button 
+                    variant="outline" 
+                    className="w-full border-primary/50 hover:bg-primary/10"
+                    onClick={() => {
+                      // Trigger the AlwaysBooked chat widget if available
+                      const chatButton = document.querySelector('[data-alwaysbooked-chat]') as HTMLElement;
+                      if (chatButton) {
+                        chatButton.click();
+                      } else {
+                        // Fallback - scroll to make widget visible
+                        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                      }
+                    }}
+                  >
+                    <MessageCircle className="mr-2 h-4 w-4" />
+                    Start Chat
+                  </Button>
+                </CardContent>
+              </Card>
 
-                <ul className="text-sm text-muted-foreground space-y-3">
-                  <li className="flex items-start gap-3">
-                    <MapPin className="h-4 w-4 mt-1 text-primary" />
-                    <span>
-                      Pan Productions<br />
-                      177 Whitecross Street<br />
-                      EC1Y 8QP
-                    </span>
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <WhatsAppIcon className="h-4 w-4 text-primary" />
-                    <a 
-                      href="https://wa.me/447961213849" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="hover:text-primary transition-colors"
-                    >
-                      +44 7961 213849
-                    </a>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
+              {/* Contact Info Card */}
+              <Card className="bg-card/40 border-border/60">
+                <CardContent className="p-6">
+                  <h3 className="text-xl font-semibold mb-4">{t('contact.title')}</h3>
+                  <p className="text-sm text-muted-foreground mb-4">
+                    {t('contact.subtitle')}
+                  </p>
+
+                  <ul className="text-sm text-muted-foreground space-y-3">
+                    <li className="flex items-start gap-3">
+                      <MapPin className="h-4 w-4 mt-1 text-primary" />
+                      <span>
+                        Pan Productions<br />
+                        177 Whitecross Street<br />
+                        EC1Y 8QP
+                      </span>
+                    </li>
+                    <li className="flex items-center gap-3">
+                      <WhatsAppIcon className="h-4 w-4 text-primary" />
+                      <a 
+                        href="https://wa.me/447961213849" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="hover:text-primary transition-colors"
+                      >
+                        +44 7961 213849
+                      </a>
+                    </li>
+                  </ul>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
 
