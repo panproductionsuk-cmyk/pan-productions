@@ -22,7 +22,7 @@ const Footer = () => {
   const quickLinks = [
     { label: t('nav.productions'), to: '/productions' },
     { label: t('nav.marketing'), to: '/marketing' },
-    { label: `${t('nav.academy')} - ${t('nav.workshops')}`, to: '/academy/workshops' },
+    { label: `${t('nav.academy')} - ${t('nav.workshops')}`, to: 'https://academy.panproductions.co.uk', isExternal: true },
     { label: t('nav.news'), to: '/news' },
     { label: t('nav.contact'), to: '/contact' },
   ];
@@ -73,12 +73,23 @@ const Footer = () => {
             <ul className="space-y-3 text-sm">
               {quickLinks.map((link) => (
                 <li key={link.label}>
-                  <Link
-                    to={link.to}
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    {link.label}
-                  </Link>
+                  {link.isExternal ? (
+                    <a
+                      href={link.to}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link
+                      to={link.to}
+                      className="text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
