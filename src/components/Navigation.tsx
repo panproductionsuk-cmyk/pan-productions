@@ -23,7 +23,7 @@ const Navigation = () => {
     { label: '', path: '/', icon: Home },
     { label: t('nav.productions'), path: '/productions' },
     { label: t('nav.marketing'), path: '/marketing' },
-    { label: t('nav.academy'), path: '/academy/workshops' },
+    { label: t('nav.academy'), path: 'https://academy.panproductions.co.uk/', external: true },
     { label: t('nav.about'), path: '/about' },
     { label: t('nav.news'), path: '/news' },
     { label: t('nav.contact'), path: '/contact' }
@@ -46,18 +46,36 @@ const Navigation = () => {
           <nav className="hidden lg:flex items-center space-x-0 flex-1 justify-center">
             {navItems.map((item) => {
               const isItemActive = isActive(item.path);
+              const linkClasses = cn(
+                'flex items-center space-x-1 px-2.5 py-2.5 uppercase font-semibold text-base tracking-[0.16em] rounded-md transition-colors font-heading',
+                isItemActive
+                  ? 'bg-primary text-primary-foreground shadow-sm'
+                  : 'hover:bg-muted/30 hover:text-primary'
+              );
+              const linkStyle = { color: isItemActive ? undefined : '#dae45f' };
+
+              if (item.external) {
+                return (
+                  <a
+                    key={item.label}
+                    href={item.path}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={linkClasses}
+                    style={linkStyle}
+                  >
+                    {item.icon && <item.icon className="h-5 w-5" />}
+                    {item.label && <span>{item.label}</span>}
+                  </a>
+                );
+              }
 
               return (
                 <Link 
                   key={item.label}
                   to={item.path}
-                  className={cn(
-                    'flex items-center space-x-1 px-2.5 py-2.5 uppercase font-semibold text-base tracking-[0.16em] rounded-md transition-colors font-heading',
-                    isItemActive
-                      ? 'bg-primary text-primary-foreground shadow-sm'
-                      : 'hover:bg-muted/30 hover:text-primary'
-                  )}
-                  style={{ color: isItemActive ? undefined : '#dae45f' }}
+                  className={linkClasses}
+                  style={linkStyle}
                 >
                   {item.icon && (
                     <item.icon
@@ -108,19 +126,38 @@ const Navigation = () => {
               <div className="flex flex-col space-y-4 mt-8">
                 {navItems.map((item) => {
                   const isItemActive = isActive(item.path);
+                  const mobileClasses = cn(
+                    'flex items-center space-x-2 uppercase font-semibold text-sm tracking-[0.16em] rounded-md px-3 py-2 transition-colors font-heading',
+                    isItemActive
+                      ? 'bg-primary text-primary-foreground'
+                      : 'hover:bg-muted/30 hover:text-primary'
+                  );
+                  const mobileStyle = { color: isItemActive ? undefined : '#dae45f' };
+
+                  if (item.external) {
+                    return (
+                      <a
+                        key={item.label}
+                        href={item.path}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => setIsOpen(false)}
+                        className={mobileClasses}
+                        style={mobileStyle}
+                      >
+                        {item.icon && <item.icon className="h-4 w-4" />}
+                        {item.label && <span>{item.label}</span>}
+                      </a>
+                    );
+                  }
 
                   return (
                     <Link
                       key={item.label}
                       to={item.path}
                       onClick={() => setIsOpen(false)}
-                      className={cn(
-                        'flex items-center space-x-2 uppercase font-semibold text-sm tracking-[0.16em] rounded-md px-3 py-2 transition-colors font-heading',
-                        isItemActive
-                          ? 'bg-primary text-primary-foreground'
-                          : 'hover:bg-muted/30 hover:text-primary'
-                      )}
-                      style={{ color: isItemActive ? undefined : '#dae45f' }}
+                      className={mobileClasses}
+                      style={mobileStyle}
                     >
                       {item.icon && (
                         <item.icon
