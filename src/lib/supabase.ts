@@ -1,9 +1,12 @@
 import { createClient } from '@supabase/supabase-js'
 
-// Vite uses VITE_ prefix, but Vercel/Supabase integration uses standard names
+// Vite uses VITE_ prefix, but Vercel/Supabase integration uses NEXT_PUBLIC_ prefix
 // Try both patterns to support local dev and production
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || import.meta.env.SUPABASE_URL
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || import.meta.env.SUPABASE_ANON_KEY
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || import.meta.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || import.meta.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+console.log('[v0] Supabase URL:', supabaseUrl ? 'Set' : 'NOT SET')
+console.log('[v0] Supabase Anon Key:', supabaseAnonKey ? 'Set' : 'NOT SET')
 
 let supabase: ReturnType<typeof createClient> | null = null
 
