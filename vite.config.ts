@@ -17,4 +17,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  preview: {
+    allowedHosts: ["sb-6a93s7ysptxr.vercel.run"],
+  },
 });
