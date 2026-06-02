@@ -6,7 +6,7 @@ import path from "path";
 export default defineConfig({
   server: {
     host: true,
-    allowedHosts: "all",
+    allowedHosts: [".vercel.run"],
   },
   plugins: [react()],
   resolve: {
@@ -15,6 +15,6 @@ export default defineConfig({
     },
   },
   preview: {
-    allowedHosts: "all",
+    allowedHosts: [".vercel.run"],
   },
 });
