@@ -43,6 +43,7 @@ export interface Partner {
   id: string
   name: string
   logo: string
+  weblink?: string | null
   sort_order: number
   visible: boolean
   created_at?: string

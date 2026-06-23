@@ -5,6 +5,7 @@ create table if not exists public.partners (
   id uuid primary key default gen_random_uuid(),
   name text not null,
   logo text not null,
+  weblink text,
   sort_order integer not null default 0,
   visible boolean not null default true,
   created_at timestamptz default now(),
@@ -28,6 +29,9 @@ create policy "Allow authenticated update" on public.partners
 drop policy if exists "Allow authenticated delete" on public.partners;
 create policy "Allow authenticated delete" on public.partners
   for delete to public using (true);
+
+-- weblink added after initial creation; safe to re-run
+alter table public.partners add column if not exists weblink text;
 
 create index if not exists partners_sort_order_idx on public.partners (sort_order);
 
