@@ -20,11 +20,54 @@ const FALLBACK_PARTNERS = [
   { name: 'Yum Yum Thai Cuisine', logo: '/images/partners/yumyum-thai.png' },
 ];
 
+interface CarouselPartner {
+  name: string;
+  logo: string;
+  weblink?: string | null;
+}
+
+const PartnerLogo = ({ partner }: { partner: CarouselPartner }) => {
+  const content = (
+    <>
+      <img
+        src={partner.logo}
+        alt={partner.name}
+        className="relative z-10 max-w-full max-h-full object-contain opacity-90 hover:opacity-100 transition-opacity filter grayscale hover:grayscale-0"
+      />
+      <img
+        src={partner.logo}
+        alt=""
+        className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-20 scale-150"
+        aria-hidden="true"
+      />
+    </>
+  );
+
+  const baseClass =
+    'flex-shrink-0 flex items-center justify-center relative w-24 h-24 bg-background/50 rounded-3xl border border-border/30 hover:border-primary/30 transition-colors overflow-hidden backdrop-blur-sm';
+
+  if (partner.weblink) {
+    return (
+      <a
+        href={partner.weblink}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={baseClass}
+        title={partner.name}
+      >
+        {content}
+      </a>
+    );
+  }
+
+  return <div className={baseClass}>{content}</div>;
+};
+
 const PartnersCarousel = () => {
   const [isOpen, setIsOpen] = useState(true);
   const { partners: dbPartners } = usePartners();
-  const partners = dbPartners.length > 0
-    ? dbPartners.map((p) => ({ name: p.name, logo: p.logo }))
+  const partners: CarouselPartner[] = dbPartners.length > 0
+    ? dbPartners.map((p) => ({ name: p.name, logo: p.logo, weblink: p.weblink }))
     : FALLBACK_PARTNERS;
 
   return (
@@ -68,41 +111,11 @@ const PartnersCarousel = () => {
               <div className="inline-flex items-center gap-6 md:gap-12 md:animate-scroll hover:pause">
               {/* First set of logos */}
               {partners.map((partner, index) => (
-                <div
-                  key={`first-${index}`}
-                  className="flex-shrink-0 flex items-center justify-center relative w-24 h-24 bg-background/50 rounded-3xl border border-border/30 hover:border-primary/30 transition-colors overflow-hidden backdrop-blur-sm"
-                >
-                  <img
-                    src={partner.logo}
-                    alt={partner.name}
-                    className="relative z-10 max-w-full max-h-full object-contain opacity-90 hover:opacity-100 transition-opacity filter grayscale hover:grayscale-0"
-                  />
-                  <img
-                    src={partner.logo}
-                    alt=""
-                    className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-20 scale-150"
-                    aria-hidden="true"
-                  />
-                </div>
+                <PartnerLogo key={`first-${index}`} partner={partner} />
               ))}
               {/* Duplicate set for seamless loop */}
               {partners.map((partner, index) => (
-                <div
-                  key={`second-${index}`}
-                  className="flex-shrink-0 flex items-center justify-center relative w-24 h-24 bg-background/50 rounded-3xl border border-border/30 hover:border-primary/30 transition-colors overflow-hidden backdrop-blur-sm"
-                >
-                  <img
-                    src={partner.logo}
-                    alt={partner.name}
-                    className="relative z-10 max-w-full max-h-full object-contain opacity-90 hover:opacity-100 transition-opacity filter grayscale hover:grayscale-0"
-                  />
-                  <img
-                    src={partner.logo}
-                    alt=""
-                    className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-20 scale-150"
-                    aria-hidden="true"
-                  />
-                </div>
+                <PartnerLogo key={`second-${index}`} partner={partner} />
               ))}
               </div>
             </div>

@@ -7,19 +7,21 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Trash2, Upload, Eye, EyeOff, Check, X, Plus } from 'lucide-react';
+import { Trash2, Upload, Eye, EyeOff, Check, X, Plus, Link as LinkIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
 const AdminPartnersManager = () => {
   const { partners, loading, refetch } = useAllPartners();
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editName, setEditName] = useState('');
+  const [editWeblink, setEditWeblink] = useState('');
   const [uploadingId, setUploadingId] = useState<string | null>(null);
 
   // New partner form state
   const [showAdd, setShowAdd] = useState(false);
   const [newName, setNewName] = useState('');
   const [newLogo, setNewLogo] = useState('');
+  const [newWeblink, setNewWeblink] = useState('');
   const [savingNew, setSavingNew] = useState(false);
   const [uploadingNew, setUploadingNew] = useState(false);
 
@@ -71,7 +73,14 @@ const AdminPartnersManager = () => {
     }
   };
 
-  const handleSaveName = async (partner: Partner) => {
+  const normalizeWeblink = (value: string): string | null => {
+    const trimmed = value.trim();
+    if (!trimmed) return null;
+    if (/^https?:\/\//i.test(trimmed)) return trimmed;
+    return `https://${trimmed}`;
+  };
+
+  const handleSaveRow = async (partner: Partner) => {
     if (!requireSupabase()) return;
     if (!editName.trim()) {
       toast.error('Name cannot be empty');
@@ -80,16 +89,21 @@ const AdminPartnersManager = () => {
     try {
       const { error } = await supabase!
         .from('partners')
-        .update({ name: editName.trim(), updated_at: new Date().toISOString() })
+        .update({
+          name: editName.trim(),
+          weblink: normalizeWeblink(editWeblink),
+          updated_at: new Date().toISOString(),
+        })
         .eq('id', partner.id);
       if (error) throw error;
-      toast.success('Name updated');
+      toast.success('Partner updated');
       setEditingId(null);
       setEditName('');
+      setEditWeblink('');
       refetch();
     } catch (err) {
-      console.error('Save name error:', err);
-      toast.error('Failed to update name');
+      console.error('Save row error:', err);
+      toast.error('Failed to update partner');
     }
   };
 
@@ -143,11 +157,18 @@ const AdminPartnersManager = () => {
         : 0;
       const { error } = await supabase!
         .from('partners')
-        .insert([{ name: newName.trim(), logo: newLogo, sort_order: nextOrder, visible: true }]);
+        .insert([{
+          name: newName.trim(),
+          logo: newLogo,
+          weblink: normalizeWeblink(newWeblink),
+          sort_order: nextOrder,
+          visible: true,
+        }]);
       if (error) throw error;
       toast.success('Partner added');
       setNewName('');
       setNewLogo('');
+      setNewWeblink('');
       setShowAdd(false);
       refetch();
     } catch (err) {
@@ -219,6 +240,15 @@ const AdminPartnersManager = () => {
                     </label>
                   </div>
                 </div>
+                <div className="md:col-span-2">
+                  <label className="text-sm font-medium text-foreground">Website (optional)</label>
+                  <Input
+                    value={newWeblink}
+                    onChange={(e) => setNewWeblink(e.target.value)}
+                    placeholder="https://example.com"
+                    className="mt-2"
+                  />
+                </div>
               </div>
               <div className="flex gap-3 mt-4">
                 <Button onClick={handleCreate} disabled={savingNew}>
@@ -230,6 +260,7 @@ const AdminPartnersManager = () => {
                     setShowAdd(false);
                     setNewName('');
                     setNewLogo('');
+                    setNewWeblink('');
                   }}
                 >
                   Cancel
@@ -249,6 +280,7 @@ const AdminPartnersManager = () => {
                   <TableRow>
                     <TableHead className="w-24">Logo</TableHead>
                     <TableHead>Name</TableHead>
+                    <TableHead>Website</TableHead>
                     <TableHead className="w-32">Visible</TableHead>
                     <TableHead className="w-40">Actions</TableHead>
                   </TableRow>
@@ -274,7 +306,7 @@ const AdminPartnersManager = () => {
                               className="max-w-xs"
                               autoFocus
                             />
-                            <Button size="sm" variant="outline" onClick={() => handleSaveName(partner)}>
+                            <Button size="sm" variant="outline" onClick={() => handleSaveRow(partner)}>
                               <Check className="w-4 h-4" />
                             </Button>
                             <Button
@@ -283,6 +315,7 @@ const AdminPartnersManager = () => {
                               onClick={() => {
                                 setEditingId(null);
                                 setEditName('');
+                                setEditWeblink('');
                               }}
                             >
                               <X className="w-4 h-4" />
@@ -295,9 +328,42 @@ const AdminPartnersManager = () => {
                             onClick={() => {
                               setEditingId(partner.id);
                               setEditName(partner.name);
+                              setEditWeblink(partner.weblink ?? '');
                             }}
                           >
                             {partner.name}
+                          </button>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        {editingId === partner.id ? (
+                          <Input
+                            value={editWeblink}
+                            onChange={(e) => setEditWeblink(e.target.value)}
+                            placeholder="https://example.com"
+                            className="max-w-xs"
+                          />
+                        ) : partner.weblink ? (
+                          <a
+                            href={partner.weblink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary hover:underline inline-flex items-center gap-1 text-sm break-all"
+                          >
+                            <LinkIcon className="w-3.5 h-3.5 flex-shrink-0" />
+                            {partner.weblink.replace(/^https?:\/\//, '')}
+                          </a>
+                        ) : (
+                          <button
+                            type="button"
+                            className="text-sm text-muted-foreground hover:text-foreground hover:underline"
+                            onClick={() => {
+                              setEditingId(partner.id);
+                              setEditName(partner.name);
+                              setEditWeblink('');
+                            }}
+                          >
+                            Add link
                           </button>
                         )}
                       </TableCell>
