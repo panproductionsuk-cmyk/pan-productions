@@ -1,66 +1,31 @@
 import React, { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
+import { usePartners } from '@/hooks/useSupabasePartners';
+
+// Fallback list used when Supabase is unavailable or has no partners yet.
+const FALLBACK_PARTNERS = [
+  { name: 'O2 Academy Islington', logo: '/images/partners/o2-academy-islington.png' },
+  { name: 'Islington Assembly Hall', logo: '/images/partners/islington-assembly-hall.png' },
+  { name: 'Arcola Theatre', logo: '/images/partners/arcola-theatre.png' },
+  { name: 'Acoustic Brasserie', logo: '/images/partners/acoustic-brasserie.png' },
+  { name: 'C.N.A Catering Logistics Limited', logo: '/images/partners/cna-catering.png' },
+  { name: 'Morgan Has Solicitors', logo: '/images/partners/morgan-has-solicitors.png' },
+  { name: 'FoodArt UK Limited', logo: '/images/partners/foodart-uk.png' },
+  { name: 'Gama', logo: '/images/partners/gama.png' },
+  { name: 'Hackney Showroom', logo: '/images/partners/hackney-showroom.png' },
+  { name: 'Union Chapel', logo: '/images/partners/union-chapel.png' },
+  { name: 'Millfield Theatre', logo: '/images/partners/millfield-theatre.png' },
+  { name: 'Sütdiyari', logo: '/images/partners/sutdiyari.png' },
+  { name: 'WAVA Design', logo: '/images/partners/wava-design.png' },
+  { name: 'Yum Yum Thai Cuisine', logo: '/images/partners/yumyum-thai.png' },
+];
 
 const PartnersCarousel = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const partners = [
-    {
-      name: 'O2 Academy Islington',
-      logo: '/images/partners/o2-academy-islington.png',
-    },
-    {
-      name: 'Islington Assembly Hall',
-      logo: '/images/partners/islington-assembly-hall.png',
-    },
-    {
-      name: 'Arcola Theatre',
-      logo: '/images/partners/arcola-theatre.png',
-    },
-    {
-      name: 'Acoustic Brasserie',
-      logo: '/images/partners/acoustic-brasserie.png',
-    },
-    {
-      name: 'C.N.A Catering Logistics Limited',
-      logo: '/images/partners/cna-catering.png',
-    },
-    {
-      name: 'Morgan Has Solicitors',
-      logo: '/images/partners/morgan-has-solicitors.png',
-    },
-    {
-      name: 'FoodArt UK Limited',
-      logo: '/images/partners/foodart-uk.png',
-    },
-    {
-      name: 'Gama',
-      logo: '/images/partners/gama.png',
-    },
-    {
-      name: 'Hackney Showroom',
-      logo: '/images/partners/hackney-showroom.png',
-    },
-    {
-      name: 'Union Chapel',
-      logo: '/images/partners/union-chapel.png',
-    },
-    {
-      name: 'Millfield Theatre',
-      logo: '/images/partners/millfield-theatre.png',
-    },
-    {
-      name: 'Sütdiyari',
-      logo: '/images/partners/sutdiyari.png',
-    },
-    {
-      name: 'WAVA Design',
-      logo: '/images/partners/wava-design.png',
-    },
-    {
-      name: 'Yum Yum Thai Cuisine',
-      logo: '/images/partners/yumyum-thai.png',
-    },
-  ];
+  const { partners: dbPartners } = usePartners();
+  const partners = dbPartners.length > 0
+    ? dbPartners.map((p) => ({ name: p.name, logo: p.logo }))
+    : FALLBACK_PARTNERS;
 
   return (
     <section className="py-10">
