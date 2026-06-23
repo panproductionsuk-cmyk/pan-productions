@@ -3,9 +3,11 @@ import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { useAllProductions } from '@/hooks/useSupabaseProductions';
 import { supabase } from '@/lib/supabase';
 import AdminProductionForm from './AdminProductionForm';
+import AdminPartnersManager from './AdminPartnersManager';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Trash2, Edit2, LogOut } from 'lucide-react';
 import { toast } from 'sonner';
@@ -49,8 +51,8 @@ const AdminDashboard = () => {
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Productions Manager</h1>
-            <p className="text-muted-foreground mt-1">Manage all productions and events</p>
+            <h1 className="text-3xl font-bold text-foreground">Admin Panel</h1>
+            <p className="text-muted-foreground mt-1">Manage productions and partner logos</p>
           </div>
           <Button variant="outline" size="sm" onClick={handleLogout}>
             <LogOut className="w-4 h-4 mr-2" />
@@ -58,6 +60,13 @@ const AdminDashboard = () => {
           </Button>
         </div>
 
+        <Tabs defaultValue="productions" className="w-full">
+          <TabsList className="mb-6">
+            <TabsTrigger value="productions">Productions</TabsTrigger>
+            <TabsTrigger value="partners">Partners &amp; Supporters</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="productions">
         {/* Add New Button */}
         {!showForm && !editingId && (
           <div className="mb-6">
@@ -162,6 +171,12 @@ const AdminDashboard = () => {
             )}
           </CardContent>
         </Card>
+          </TabsContent>
+
+          <TabsContent value="partners">
+            <AdminPartnersManager />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
