@@ -71,7 +71,7 @@ export const useAdminAuth = () => {
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/admin`,
+        redirectTo: 'https://panproductions.co.uk/admin',
       },
     });
   };
