@@ -4,6 +4,7 @@ import { useAllProductions } from '@/hooks/useSupabaseProductions';
 import { supabase } from '@/lib/supabase';
 import AdminProductionForm from './AdminProductionForm';
 import AdminPartnersManager from './AdminPartnersManager';
+import AdminTeamAccess from './AdminTeamAccess';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -13,7 +14,7 @@ import { Trash2, Edit2, LogOut } from 'lucide-react';
 import { toast } from 'sonner';
 
 const AdminDashboard = () => {
-  const { logout } = useAdminAuth();
+  const { logout, currentUserEmail } = useAdminAuth();
   const { productions, loading, refetch } = useAllProductions();
   const [editingId, setEditingId] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
@@ -64,6 +65,7 @@ const AdminDashboard = () => {
           <TabsList className="mb-6">
             <TabsTrigger value="productions">Productions</TabsTrigger>
             <TabsTrigger value="partners">Partners &amp; Supporters</TabsTrigger>
+            <TabsTrigger value="team">Team Access</TabsTrigger>
           </TabsList>
 
           <TabsContent value="productions">
@@ -175,6 +177,10 @@ const AdminDashboard = () => {
 
           <TabsContent value="partners">
             <AdminPartnersManager />
+          </TabsContent>
+
+          <TabsContent value="team">
+            <AdminTeamAccess currentUserEmail={currentUserEmail} />
           </TabsContent>
         </Tabs>
       </div>
